@@ -1,10 +1,10 @@
-package com.ssafy.travel.dao.hotplace;
+package local.dao;
 
 import java.sql.SQLException;
 
 import com.ssafy.travel.domain.hotplace.hotplaceReplyDTO;
 
-public interface hotplaceReply {
+public interface hotplaceReplyDao {
 
 	//답글 등록
 	void writehotpleReply(hotplaceReplyDTO hotplaceReply)throws SQLException;
