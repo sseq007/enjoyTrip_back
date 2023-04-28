@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/template/header.jsp" %>
-
+<%@ include file="/WEB-INF/views/template/header.jsp" %>
         <!-- [S] map modal-->
         <div
             class="modal fade"
@@ -154,4 +153,4 @@
 		<script type="text/javascript" src="${root }/assets/js/key.js"></script>
         <script type="text/javascript" src="${root }/assets/js/kakaoMap.js"></script>
 		<script type="text/javascript" src="${root }/assets/js/location.js"></script>
-<%@ include file="/template/footer.jsp" %>
+<%@ include file="/WEB-INF/views/template/footer.jsp" %>

@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="member.dto.MemberDto"%> 
-<% MemberDto memberDto = (MemberDto) request.getAttribute("user");  %> 
-<%@ include file="/template/header.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
+<%@ include file="/WEB-INF/views/template/header.jsp" %>
 
 <!-- [S] content -->
 <div class="container">
@@ -29,22 +28,22 @@
                     <hr class="mb-3 mt-0" align="left" style="border: solid 2px #ffb5a7; width: 30%; opacity: 100%" />
                     <div class="mb-3 mt-3">
                         <label for="name" class="form-label">이름:</label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" value="<%=memberDto.getUserName() %>" />
+                        <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" value="${member.userName }" />
                     </div>
                     <div class="mb-3">
                         <label for="pwd" class="form-label">Password:</label>
-                        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd" />
+                        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd" value="${member.userPw }" />
                     </div>
                     <div class="form-row align-items-center">
                         <div class="col-sm-10 my-1">
                             <label class="form-label" for="email id">Email:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="email id" placeholder="Enter email Id" value="<%=memberDto.getEmailId() %>" />
+                                <input type="text" class="form-control" id="email id" placeholder="Enter email Id" value="${member.emailId }" />
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">@</div>
                                 </div>
                                 <select id="domain" class="form-control">
-                                    <option selected><%=memberDto.getEmailDomain() %></option>
+                                    <option selected>${member.emailDomain }</option>
                                     <option value="naver">naver.com</option>
                                     <option value="google">gmail.com</option>
                                     <option value="daum">daum.net</option>
@@ -92,7 +91,7 @@
     		return;
     	}else{
     		let form = document.querySelector("#form-modify");
-    		form.setAttribute("action", "<%= root%>/user?action=update");
+    		form.setAttribute("action", "${root }/member/update");
     		form.submit();
     	}
     });
@@ -100,15 +99,15 @@
     	if(!document.querySelector("#pwdCheck").value){
     		alert("현재 비밀번호를 입력해 주세요");
     		return;
-    	}else if(document.querySelector("#pwdCheck").value != <%= memberDto.getUserPw()%>){
+    	}else if(document.querySelector("#pwdCheck").value != ${member.userPw}){
     		alert("현재 비밀번호와 다릅니다");
     		return;
     	}else{
     		let form = document.querySelector("#form-delete");
-    		form.setAttribute("action", "<%= root%>/user?action=resign");
+    		form.setAttribute("action", "${root }/member/delete");
     		form.submit();
     	}
     });
 </script>
 <!-- [E] content -->
-<%@ include file="/template/footer.jsp" %>
+<%@ include file="/WEB-INF/views/template/footer.jsp" %>

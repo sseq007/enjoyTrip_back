@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/template/header.jsp" %>
-
+<%@ include file="/WEB-INF/views/template/header.jsp" %>
 
         <!-- [S] content -->
         <div class="container">
@@ -27,12 +26,12 @@
     </div>
     <script>
       document.querySelector("#btn-index").addEventListener("click", function () {
-        location.href = "<%= root %>";
+        location.href = "${root }";
       });
     </script>
 
         </div>
 
         <!-- [E] content -->
-<%@ include file="/template/footer.jsp" %>
+<%@ include file="/WEB-INF/views/template/footer.jsp" %>
         

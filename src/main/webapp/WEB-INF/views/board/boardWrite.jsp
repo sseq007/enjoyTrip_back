@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-<%@ include file="/template/header.jsp" %>
-
+<%@ include file="/WEB-INF/views/template/header.jsp" %>
 <!-- [S] content -->
 <div class="container">
     <div>
@@ -37,10 +36,10 @@
         } else {
             let form = document.querySelector('#form-board-write');
             console.log(form);
-            form.setAttribute('action', '<%= root %>/board?action=write');
+            form.setAttribute('action', '${root }/board/sharetravel/write');
             form.submit();
         }
     });
 </script>
 
-<%@ include file="/template/footer.jsp" %>
+<%@ include file="/WEB-INF/views/template/footer.jsp" %>

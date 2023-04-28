@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.*, board.dto.BoardDto"%> 
-<%@ include file="/template/header.jsp" %>
-<!-- [S] content -->
+<%@ include file="/WEB-INF/views/template/header.jsp" %><!-- [S] content -->
 <div class="container">
     <div>
         <h2 style="font-family: 'Black Han Sans', sans-serif; opacity: 75%; font-size: 50px" class="m-0 mt-5">여행 정보 공유</h2>
@@ -16,9 +15,9 @@
                 <input type="hidden" name="action" value="list"/>
                 <input type="hidden" name="pgno" value="1"/>
                 <button id="btn-sortHit" class="btn btn-dark ms-1 me-1 w-50" type="button">
-                <a href="<%= root %>/board?action=sortHit" style="background-color: transparent; color: #fff; text-decoration-line: none">인기순 정렬</a></button>
+                <a href="${root }/board/sharetravel/sortHit" style="background-color: transparent; color: #fff; text-decoration-line: none">인기순 정렬</a></button>
                 <button id="btn-sortNum" class="btn btn-dark ms-1 me-1 w-50" type="button">
-                <a href="<%= root %>/board?action=sortNum" style="background-color: transparent; color: #fff; text-decoration-line: none">번호순 정렬</a></button>
+                <a href="${root }/board/sharetravel/sortNum" style="background-color: transparent; color: #fff; text-decoration-line: none">번호순 정렬</a></button>
                 <select
                   name="key"
                   id="key"
@@ -63,7 +62,7 @@
                 <tr class="text-center">
                     <th><%= boardDto.getArticleNo() %></th>
                     <th>
-                        <a href="<%= root %>/board?action=view&article_id=<%= boardDto.getArticleNo() %>" style="text-decoration-line: none; color: #000">
+                        <a href="${root}/board/sharetravel/view?article_id=${shareTravelBoard.articleNo}" style="text-decoration-line: none; color: #000">
 						<%= boardDto.getSubject() %>
 						</a>
                     </th>
@@ -132,4 +131,4 @@
     </script>
 
 <!-- [E] content -->
-<%@ include file="/template/footer.jsp" %>
+<%@ include file="/WEB-INF/views/template/footer.jsp" %>

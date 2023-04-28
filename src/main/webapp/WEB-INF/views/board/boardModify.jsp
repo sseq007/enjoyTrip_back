@@ -1,10 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="board.dto.BoardDto"%> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
 
-<%@ include file="/template/header.jsp" %>
-<%
-	BoardDto boardDto = (BoardDto) request.getAttribute("article"); 
-	System.out.println("HTML content : " + boardDto);
-%>
+<%@ include file="/WEB-INF/views/template/header.jsp" %>
+
 <!-- [S] content -->
 <div class="container">
     <div>
@@ -17,12 +14,12 @@
         <div class="mb-3">
             <label for="board-write-title" class="form-label">제목: </label>
             <input type="text" class="form-control" id="board-write-title" placeholder="제목을 입력하세요" name="board-write-title" 
-            value="<%= boardDto.getSubject() %>" />
+            value="${shareTravelBoard.subject}" />
         </div>
         <div class="mb-3">
             <label for="board-write-content" class="form-label">내용:</label>
             <textarea class="form-control" rows="5" id="board-write-content" name="board-write-content" placeholder="내용을 입력하세요">
-            <%= boardDto.getContent() %>
+            ${shareTravelBoard.content}
             </textarea>
         </div>
     </form>
@@ -45,10 +42,10 @@
         } else {
             let form = document.querySelector('#form-board-write');
             console.log(form);
-            form.setAttribute('action', '<%= root %>/board?action=modify&articleNo=<%= boardDto.getArticleNo() %>');
+            form.setAttribute('action', '${root }/board/sharetravle/update?articleNo=${shareTravelBoard.articleNo}');
             form.submit();
         }
     });
 </script>
 
-<%@ include file="/template/footer.jsp" %>
+<%@ include file="/WEB-INF/views/template/footer.jsp" %>

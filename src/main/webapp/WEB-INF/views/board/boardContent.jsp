@@ -1,7 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="board.dto.BoardDto"%> 
-<%@ include file="/template/header.jsp" %> 
-<% BoardDto boardDto = (BoardDto)
-request.getAttribute("article"); System.out.println("content : " + boardDto); %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<%@ include file="/WEB-INF/views/template/header.jsp" %>
 
 <!-- [S] content -->
 <div class="container">
@@ -12,33 +10,30 @@ request.getAttribute("article"); System.out.println("content : " + boardDto); %>
 
     <!-- 글 내용 -->
     <div class="container-lg">
-        <h3 style="font-family: 'Black Han Sans', sans-serif; opacity: 75%; font-size: 38px" class="m-0 mt-5"><%= boardDto.getSubject() %></h3>
+        <h3 style="font-family: 'Black Han Sans', sans-serif; opacity: 75%; font-size: 38px" class="m-0 mt-5">${shareTravelBoard.subject}</h3>
 
         <div class="row mb-5">
             <div class="col-lg-2">
-                <img src="<%= root %>/assets/img/img.jpg" style="width: 100%" alt="프로필이미지" />
+                <img src="${root }/assets/img/img.jpg" style="width: 100%" alt="프로필이미지" />
             </div>
             <div class="col-lg-10">
-                <h3>작성자 : <%= boardDto.getUserId() %></h3>
-                <p>작성일 : <%= boardDto.getRegisterTime() %></p>
-                <p>조회수 : <%= boardDto.getHit() %></p>
+                <h3>작성자 : ${shareTravelBoard.userId}</h3>
+                <p>작성일 : ${shareTravelBoard.registerTime}</p>
+                <p>조회수 : ${shareTravelBoard.hit}</p>
             </div>
         </div>
         <div>
-            <%= boardDto.getContent() %>
-            <p>배불러요</p>
-            <p style="display: none">우주 최강 악덕 업주 KJH..</p>
-            <p style="display: none">คʕ•ﻌ•ʔค</p>
+        	${shareTravelBoard.content}
         </div>
 
         <!-- button -->
         <div class="col text-center">
-            <button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= root %>/board?action=mvinfo'">글목록</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="location.href='${root }/board/sharetravel/list'">글목록</button>
             
             <%
 				if ("ok".equals(request.getAttribute("sameWriter"))) {
             %>
-            <button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= root %>/board?action=mvmodify&article_no=<%= boardDto.getArticleNo() %>'">글수정</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="location.href='${root }/board/sharetravel/update/article_no=${shareTravelBoard.articleNo}'">글수정</button>
             <button type="button" class="btn btn-outline-secondary" onclick="deleteConfirm()">글삭제</button>
             <%
             	}
@@ -52,11 +47,11 @@ request.getAttribute("article"); System.out.println("content : " + boardDto); %>
         var answer;
         answer = confirm('데이터를 삭제하시겠습니까?');
         if (answer == true) {
-            window.location = '<%= root %>/board?action=delete&articleNo=<%= boardDto.getArticleNo() %>';
+            window.location = '${root }/board/sharetravel/delete?articleNo=${shareTravelBoard.articleNo}';
         }
     }
 </script>
 
 <!-- [E] content -->
 
-<%@ include file="/template/footer.jsp" %>
+<%@ include file="/WEB-INF/views/template/footer.jsp" %>

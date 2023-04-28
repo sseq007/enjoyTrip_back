@@ -2,11 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="${pageContext.request.contextPath }"></c:set>
 
-<%
-String root = request.getContextPath();
-request.setAttribute("root", root);
-%>
 
 <!-- 로그인 기능 탑재 -->
 <!DOCTYPE html>
@@ -62,27 +59,27 @@ request.setAttribute("root", root);
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item py-2" style="opacity: 80%"><i
 						class="fi fi-rr-marker ps-3"></i> <a class="nav-link active ps-0"
-						aria-current="page" href="${root }/board?action=mvlocation"
+						aria-current="page" href="${root }/board/local"
 						style="display: inline"><p
 								style="font-family: 'Noto Sans KR', sans-serif; opacity: 70%; display: inline">지역별여행지</p></a>
 					</li>
 					<li class="nav-item py-2" style="opacity: 80%"><i
 						class="fi fi-rr-calendar ps-3"></i> <a
 						class="nav-link active ps-0" aria-current="page"
-						href="${root }/board?action=mvplan" style="display: inline"><p
+						href="${root }/board/travelplan" style="display: inline"><p
 								style="font-family: 'Noto Sans KR', sans-serif; opacity: 70%; display: inline">나의여행계획</p></a>
 					</li>
 
 					<li class="nav-item py-2" style="opacity: 80%"><i
 						class="fi fi-rr-heart ps-3"></i> <a class="nav-link active ps-0"
-						aria-current="page" href="${root }/board?action=mvhotple"
+						aria-current="page" href="${root }/board/hotplace"
 						style="display: inline"><p
 								style="font-family: 'Noto Sans KR', sans-serif; opacity: 70%; display: inline">핫플자랑하기</p></a>
 					</li>
 					<li class="nav-item py-2" style="opacity: 80%"><i
 						class="fi fi-rr-paper-plane ps-3"></i> <a
 						class="nav-link active ps-0" aria-current="page"
-						href="${root }/board?action=mvinfo&pgno=1&key=&word="
+						href="${root }/board/sharetravel?pgno=1&key=&word="
 						style="display: inline"><p
 								style="font-family: 'Noto Sans KR', sans-serif; opacity: 70%; display: inline">여행정보공유</p></a>
 					</li>
@@ -119,9 +116,9 @@ request.setAttribute("root", root);
 							</a>
 								<ul class="dropdown-menu">
 									<li><a class="dropdown-item"
-										href="${root }/user?action=logout">로그아웃</a></li>
+										href="${root }/member/logout">로그아웃</a></li>
 									<li><a class="dropdown-item"
-										href="${root }/user?action=mvMyPage">마이 페이지</a></li>
+										href="${root }/member/view">마이 페이지</a></li>
 								</ul></li>
 						</ul>
 					</div>
@@ -291,7 +288,7 @@ request.setAttribute("root", root);
                     return;
                 } else {
                     let form = document.querySelector('#login-form');
-                    form.setAttribute('action', '${root }/user');
+                    form.setAttribute('action', '${root }/member/login');
                     form.submit();
                 }
             });
@@ -303,8 +300,7 @@ request.setAttribute("root", root);
                 	return
                 }else{
                 	let form = document.querySelector('#join-form');
-                    form.setAttribute('action', '${root }/user?action=join');
-                    console.log('hleo');
+                    form.setAttribute('action', '${root }/member/register');
                     form.submit();
                 } 
             });

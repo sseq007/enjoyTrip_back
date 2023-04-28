@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ include file="/template/header.jsp" %>
-        <!-- [S] content -->
+<%@ include file="/WEB-INF/views/template/header.jsp" %>        <!-- [S] content -->
         <div class="container">
             <div>
                 <h2
@@ -100,4 +99,4 @@
 
         <!-- [E] content -->
 
-<%@ include file="/template/footer.jsp" %>
+<%@ include file="/WEB-INF/views/template/footer.jsp" %>
