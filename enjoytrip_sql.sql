@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`travelPlan` (
   `subject` VARCHAR(45) NOT NULL,
   `user_id` VARCHAR(16) NOT NULL,
   `register_time` TIMESTAMP NULL DEFAULT current_timestamp,
-  `star_count` INT NULL,
+  `star_count` double NULL,
   PRIMARY KEY (`articleNo`, `content_id`),
   INDEX `travelPlan_to_user_user_id_fk_idx` (`user_id` ASC) VISIBLE,
   INDEX `travelPaln_to_attraction_info_content_id_fk_idx` (`content_id` ASC) VISIBLE,

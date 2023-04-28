@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.*, board.dto.BoardDto"%> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
 <%@ include file="/WEB-INF/views/template/header.jsp" %><!-- [S] content -->
 <div class="container">
     <div>
@@ -48,36 +48,24 @@
                 </tr>
             </thead>
             <tbody>
-            <%
-            
-
-            System.out.println("start list");
-            List<BoardDto> list = (List<BoardDto>) request.getAttribute("articles");
-            
-            System.out.println(list);
-            System.out.println("end list 불러오기");
-   
-            for(BoardDto boardDto : list) {
-            %>
-                <tr class="text-center">
-                    <th><%= boardDto.getArticleNo() %></th>
+            <c:forEach items="${sharetravels }" var="board">
+            	<tr class="text-center">
+                    <th>${ board.ArticleNo() }</th>
                     <th>
                         <a href="${root}/board/sharetravel/view?article_id=${shareTravelBoard.articleNo}" style="text-decoration-line: none; color: #000">
-						<%= boardDto.getSubject() %>
+						${ board.subject() }
 						</a>
                     </th>
-                    <th><%= boardDto.getUserId() %></th>
-                    <th><%= boardDto.getHit() %></th>
-                    <th><%= boardDto.getRegisterTime() %></th>
+                    <th>${ board.userId() }</th>
+                    <th>${ board.hit() }</th>
+                    <th>${ board.registerTime() }</th>
                 </tr>
-            <%
-            }
-            %>
+            </c:forEach>
             </tbody>
         </table>
     </div>
     <button type="button" class="btn btn-outline-secondary" style="float: right">
-        <a href="<%= root %>/board?action=mvwrite" style="background-color: transparent; color: #000; text-decoration-line: none">글쓰기</a>
+        <a href="${root }/board/sharetravel/write" style="background-color: transparent; color: #000; text-decoration-line: none">글쓰기</a>
     </button>
     <div class="row">
     	${navigation.navigator} 
@@ -113,7 +101,7 @@
     <script>
       document.querySelector("#btn-search").addEventListener("click", function () {
     	  let form = document.querySelector("#form-search");
-          form.setAttribute("action", "${root }/board?action=mvinfo");
+          form.setAttribute("action", "${root }/board/sharetravel/search");
           form.submit();
       });
       
