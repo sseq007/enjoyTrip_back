@@ -84,7 +84,7 @@
 								style="font-family: 'Noto Sans KR', sans-serif; opacity: 70%; display: inline">여행정보공유</p></a>
 					</li>
 					<li class="nav-item py-2" style="opacity: 80%"><i
-						class="fi fi-rr-megaphone"></i> <a
+						class="fi fi-rr-megaphone ps-3"></i> <a
 						class="nav-link active ps-0" aria-current="page"
 						href="${root }/board/notice?pgno=1&key=&word="
 						style="display: inline"><p
