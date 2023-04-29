@@ -1,25 +1,29 @@
-package com.ssafy.tripApp.member.service;
+package com.ssafy.tripApp.member.mapper;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.ssafy.tripApp.member.dto.MemberDto;
 
-public interface MemberService {
+@Mapper
+public interface MemberMapper {
 
-	//회원가입
+	// 회원가입
 	void registerMember(MemberDto memberDto) throws SQLException;
-	//로그인
+	// 로그인
 	MemberDto login(Map<String, String> map) throws SQLException;
-	//회원수정
+	// 회원수정
 	void updateMember(MemberDto memberDto) throws SQLException;
-	//회원삭제
+	// 회원삭제
 	void deleteMember(String userId) throws SQLException;
-	//아이디체크
+	// 아이디체크
 	int idCheck(String userId) throws SQLException;
-	//회원리스트
+	// 회원리스트
 	List<MemberDto> listMember(Map<String, Object> map) throws SQLException;
-	//회원정보
+	// 회원정보
 	MemberDto viewMember(String userId) throws SQLException;
+
 }

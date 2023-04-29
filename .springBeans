@@ -9,7 +9,6 @@
 	<configs>
 	</configs>
 	<autoconfigs>
-		<config>java:com.ssafy.tirpApp.EnjoyTripSpringbootApplication</config>
 		<config>java:com.ssafy.tripApp.EnjoyTripSpringbootApplication</config>
 	</autoconfigs>
 	<configSets>
