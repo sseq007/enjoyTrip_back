@@ -21,7 +21,7 @@
 	<select id="idCheck" parameterType="String" resultType="int">
 		select count(user_id)
 		from user
-		where user_id = #{user_id}
+		where user_id = #{id}
 	</select>
 
 	<insert id="registerMember" parameterType="memberDto">

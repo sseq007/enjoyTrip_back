@@ -151,7 +151,7 @@
 
 				<!-- Modal Body -->
 				<div class="modal-body">
-					<form action="" id="login-form" class="was-validated" method="post">
+					<form action="" id="login-form" method="post">
 						<input type="hidden" name="action" value="login" />
 						<div class="mb-3 mt-3">
 							<label for="id" class="form-label">ID:</label>
@@ -169,16 +169,12 @@
 							}
 							%>
 							<input type="id" class="form-control" id="login-id"
-								name="login-id" placeholder="Enter ID" value="<%=c%>" required />
-							<div class="valid-feedback">Valid.</div>
-							<div class="invalid-feedback">Please fill out this field.</div>
+								name="login-id" placeholder="Enter ID" />
 						</div>
 						<div class="mb-3">
 							<label for="pw" class="form-label">Password:</label> <input
 								type="password" class="form-control" id="login-pw"
 								name="login-pw" placeholder="Enter password" required />
-							<div class="valid-feedback">Valid.</div>
-							<div class="invalid-feedback">Please fill out this field.</div>
 						</div>
 						<div class="form-check mb-3">
 							<label class="form-check-label"> <input
@@ -219,42 +215,45 @@
 
 				<!-- Modal Body -->
 				<div class="modal-body">
-					<form action="" class="was-validated" method="post" id="join-form">
+					<form action="" method="post" id="join-form" encType="multiplart/form-data">
 						<!-- <input type="hidden" name="action" value="join" /> -->
+						<div class="mb-3 mt-3" align="center">
+							<div class="selected">
+								<img src="${root }/assets/img/noimg.jpg" class="profile_image" style="border-radius: 40%; width: 40%; height: 40%">
+							</div>
+							<div>
+								<input type="file" id="profile" name="file" accept=".jpg, .png, .jpeg" value=""/>
+							</div>
+							
+							
+						</div>
 						<div class="mb-3 mt-3">
 							<label for="name" class="form-label">이름:</label> <input
 								type="text" class="form-control" id="name"
-								placeholder="Enter name" name="regi-name" required />
-							<div class="valid-feedback">Valid.</div>
-							<div class="invalid-feedback">Please fill out this field.</div>
+								placeholder="Enter name" name="regi-name"/>
 						</div>
 						<div class="mb-3">
 							<label for="id" class="form-label">ID:</label> <input type="text"
 								class="form-control" id="id" placeholder="Enter ID"
-								name="regi-id" required />
-							<div class="valid-feedback">Valid.</div>
-							<div class="invalid-feedback">Please fill out this field.</div>
+								name="regi-id"/>
 						</div>
+						<div id="idcheck-result"></div>
 						<div class="mb-3">
 							<label for="pw" class="form-label">Password:</label> <input
 								type="password" class="form-control" id="pw"
-								placeholder="Enter password" name="regi-pw" required />
-							<div class="valid-feedback">Valid.</div>
-							<div class="invalid-feedback">Please fill out this field.</div>
+								placeholder="Enter password" name="regi-pw" />
 						</div>
 						<div class="mb-3">
 							<label for="pwCheck" class="form-label">Password check:</label> <input
 								type="password" class="form-control" id="pwCheck"
-								placeholder="비밀번호 확인" name="regipw-check" required />
-							<div class="valid-feedback">Valid.</div>
-							<div class="invalid-feedback">Please fill out this field.</div>
+								placeholder="비밀번호 확인" name="regipw-check"/>
 						</div>
 						<div class="form-row align-items-center">
 							<div class="col-sm-10 my-1">
 								<label class="form-label" for="emailId">Email:</label>
 								<div class="input-group">
 									<input type="text" class="form-control" id="emailId"
-										name="regi-email-id" placeholder="이메일 아이디" required />
+										name="regi-email-id" placeholder="이메일 아이디"/>
 									<div class="input-group-prepend">
 										<div class="input-group-text">@</div>
 									</div>
@@ -264,8 +263,6 @@
 										<option value="naver">naver.com</option>
 										<option value="google">gmail.com</option>
 										<option value="daum">daum.net</option>
-										<div class="valid-feedback">Valid.</div>
-										<div class="invalid-feedback">Please check this field.</div>
 									</select>
 								</div>
 							</div>
@@ -284,6 +281,45 @@
 	<!-- [E] sign up modal-->
 
 	<div style="height: 77px"></div>
+	<script>
+	/* 회원가입 창에서 프로필 바꾸는 법 */
+	   	$("#profile").change(function(){
+	   		if(this.files && this.files[0]){
+	   			var reader = new FileReader;
+	   			reader.onload = function(data){
+	   				$(".selected img").attr("src", data.target.result);
+	   			}
+	   			reader.readAsDataURL(this.files[0]);
+	   		}
+	   	});
+	
+	let isUseId = false;
+	document.querySelector("#id").addEventListener("keyup", function(){
+		let id = this.value;
+		console.log(id);
+		let resultDiv = document.querySelector("#idcheck-result");
+		if(id.length < 6 || id.length > 16) {
+  		 	resultDiv.setAttribute("class", "mb-3 text-dark");
+  		 	resultDiv.textContent = "아이디는 6자 이상 16자 이하 입니다.";
+  		 	isUseId = false;
+  	 	} else {
+  		 	fetch("${root}/member/" + id)
+	   		.then(response => response.text())
+	   		.then(data => {
+	   			console.log(data);
+		 		if(data == 0) {
+		   			resultDiv.setAttribute("class", "mb-3 text-primary");
+	       			resultDiv.textContent = id + "는 사용할 수 있습니다.";
+	       			isUseId = true;
+		 		} else {
+		   			resultDiv.setAttribute("class", "mb-3 text-danger");
+ 		       		resultDiv.textContent = id + "는 사용할 수 없습니다.";
+ 		     		isUseId = false;
+		 		}
+  		   });
+  	 	}
+	});
+	</script>
 
 	<script type="text/javascript">
             document.querySelector('#btn-login').addEventListener('click', function () {
@@ -311,6 +347,8 @@
                     form.submit();
                 } 
             });
-        </script>
+            
+    </script>
+
 </body>
 </html>
