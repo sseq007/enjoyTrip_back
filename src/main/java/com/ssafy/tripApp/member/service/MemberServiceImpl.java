@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.tripApp.member.dto.MemberDto;
 import com.ssafy.tripApp.member.mapper.MemberMapper;
@@ -24,6 +25,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
+	@Transactional
 	public void registerMember(MemberDto memberDto) throws SQLException {
 		
 		memberMapper.registerMember(memberDto);

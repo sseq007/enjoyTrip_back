@@ -169,12 +169,12 @@
 							}
 							%>
 							<input type="id" class="form-control" id="login-id"
-								name="login-id" placeholder="Enter ID" />
+								name="userId" placeholder="Enter ID" />
 						</div>
 						<div class="mb-3">
 							<label for="pw" class="form-label">Password:</label> <input
 								type="password" class="form-control" id="login-pw"
-								name="login-pw" placeholder="Enter password" required />
+								name="userPw" placeholder="Enter password" required />
 						</div>
 						<div class="form-check mb-3">
 							<label class="form-check-label"> <input
@@ -215,11 +215,11 @@
 
 				<!-- Modal Body -->
 				<div class="modal-body">
-					<form action="" method="post" id="join-form" encType="multiplart/form-data">
+					<form action="" method="post" id="join-form" encType="multipart/form-data">
 						<!-- <input type="hidden" name="action" value="join" /> -->
 						<div class="mb-3 mt-3" align="center">
 							<div class="selected">
-								<img src="${root }/assets/img/noimg.jpg" class="profile_image" style="border-radius: 40%; width: 40%; height: 40%">
+								<img src="${root }/assets/img/noimg.jpg" class="profile_image" style="border-radius: 40%; width: 350px; height: 350px">
 							</div>
 							<div>
 								<input type="file" id="profile" name="file" accept=".jpg, .png, .jpeg" value=""/>
@@ -230,18 +230,18 @@
 						<div class="mb-3 mt-3">
 							<label for="name" class="form-label">이름:</label> <input
 								type="text" class="form-control" id="name"
-								placeholder="Enter name" name="regi-name"/>
+								placeholder="Enter name" name="userName"/>
 						</div>
 						<div class="mb-3">
 							<label for="id" class="form-label">ID:</label> <input type="text"
 								class="form-control" id="id" placeholder="Enter ID"
-								name="regi-id"/>
+								name="userId"/>
 						</div>
 						<div id="idcheck-result"></div>
 						<div class="mb-3">
 							<label for="pw" class="form-label">Password:</label> <input
 								type="password" class="form-control" id="pw"
-								placeholder="Enter password" name="regi-pw" />
+								placeholder="Enter password" name="userPw" />
 						</div>
 						<div class="mb-3">
 							<label for="pwCheck" class="form-label">Password check:</label> <input
@@ -253,11 +253,11 @@
 								<label class="form-label" for="emailId">Email:</label>
 								<div class="input-group">
 									<input type="text" class="form-control" id="emailId"
-										name="regi-email-id" placeholder="이메일 아이디"/>
+										name="emailId" placeholder="이메일 아이디"/>
 									<div class="input-group-prepend">
 										<div class="input-group-text">@</div>
 									</div>
-									<select id="emailDomain" name="regi-email-domain"
+									<select id="emailDomain" name="emailDomain"
 										class="form-control">
 										<option selected>도메인 선택</option>
 										<option value="naver">naver.com</option>
@@ -298,9 +298,9 @@
 		let id = this.value;
 		console.log(id);
 		let resultDiv = document.querySelector("#idcheck-result");
-		if(id.length < 6 || id.length > 16) {
+		if(id.length < 4 || id.length > 16) {
   		 	resultDiv.setAttribute("class", "mb-3 text-dark");
-  		 	resultDiv.textContent = "아이디는 6자 이상 16자 이하 입니다.";
+  		 	resultDiv.textContent = "아이디는 4자 이상 16자 이하 입니다.";
   		 	isUseId = false;
   	 	} else {
   		 	fetch("${root}/member/" + id)

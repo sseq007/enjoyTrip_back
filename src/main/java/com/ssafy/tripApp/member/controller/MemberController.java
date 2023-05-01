@@ -1,10 +1,16 @@
 package com.ssafy.tripApp.member.controller;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,22 +34,40 @@ import com.ssafy.tripApp.member.service.MemberService;
 public class MemberController {
 	
 	private final Logger logger = LoggerFactory.getLogger(MemberController.class);
-	private MemberService memberService;
 	
-	@Value("${file.path}")
-	private String uploadPath;
+	@Autowired
+	private MemberService memberService;
 	
 	@Autowired
 	private ServletContext servletContext;
 	
 	@GetMapping("/logout")
-	public String logout() {
+	public String logout(HttpSession session) {
+		session.invalidate();
 		return "redirect:/";
 	}
 	
-	@GetMapping("/login")
-	public String login() {
-		return "redirect:/";
+	@PostMapping("/login")
+	public ModelAndView login(@RequestParam Map<String, String> map, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		logger.debug("login map : {}", map);
+		
+		try {
+			MemberDto memberDto = memberService.login(map);
+			if(memberDto != null) {
+				session.setAttribute("userinfo", memberDto);
+				
+				mav.addObject("loginMember", memberDto);
+				mav.setViewName("redirect:/");
+			}else {
+				mav.addObject("msg", "아이디 또는 비밀번호 확인 후 다시 로그인하세요!");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			mav.setViewName("error/error");
+		}
+		
+		return mav;
 	}
 	
 	@GetMapping("/{id}")
@@ -51,6 +75,7 @@ public class MemberController {
 	public String idCheck(@PathVariable("id") String id) throws Exception{
 		logger.debug("idCheck id : {}", id);
 		int cnt = memberService.idCheck(id);
+		System.out.println(cnt);
 		return cnt + "";
 	}
 	
@@ -58,13 +83,25 @@ public class MemberController {
 	@PostMapping("/register")
 	public ModelAndView register(MemberDto memberDto, @RequestParam("file") MultipartFile file, ModelAndView mav) {
 		logger.debug("memberDto info: {}", memberDto);
-		String realPath = servletContext.getRealPath("/upload");
-
+		
 		try {
-			if(file != null) {
-				UUID uuid = UUID.randomUUID();
-				String imageFileName = uuid+"_"+file.getOriginalFilename();
-				System.out.println("프로필 파일 이름: " + imageFileName);
+			if(!file.isEmpty()) {
+				String realPath = servletContext.getRealPath("/upload");
+				String today = new SimpleDateFormat("yyMMdd").format(new Date());
+				String saveFolder = realPath + File.separator + today;
+				String saveFileName;
+				logger.debug("저장 폴더 : {}", saveFolder);
+				File folder = new File(saveFolder);
+				if (!folder.exists()) folder.mkdirs();
+				String origin = file.getOriginalFilename();
+				if(!origin.isEmpty()) {
+					saveFileName = UUID.randomUUID().toString()
+							+ origin.substring(origin.lastIndexOf('.'));
+					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", origin, saveFileName);
+					file.transferTo(new File(folder, saveFileName));
+					memberDto.setProfileImage(saveFileName);
+				}
+				memberDto.setProfileUrl(saveFolder);
 				
 			}
 			memberService.registerMember(memberDto);
@@ -78,7 +115,12 @@ public class MemberController {
 	}
 	
 	@GetMapping("/view")
-	public String view() {
-		return "/user/userPage";
+	public ModelAndView view(HttpSession session) throws SQLException {
+		ModelAndView mav = new ModelAndView();
+		String userId =  ((MemberDto) session.getAttribute("userinfo")).getUserId();
+		MemberDto memberDto = memberService.viewMember(userId);
+		mav.addObject("user", memberDto);
+		mav.setViewName("/user/userPage");
+		return mav;
 	}
 }

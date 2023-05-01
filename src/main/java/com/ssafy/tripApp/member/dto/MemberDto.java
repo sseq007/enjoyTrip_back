@@ -17,7 +17,7 @@ public class MemberDto {
 	private String emailId;
 	private String emailDomain;
 	private String joinDate;
-
-	
-
+	private int admin;
+	private String profileImage;
+	private String profileUrl;
 }
