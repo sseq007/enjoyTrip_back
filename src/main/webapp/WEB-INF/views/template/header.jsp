@@ -283,15 +283,15 @@
 	<div style="height: 77px"></div>
 	<script>
 	/* 회원가입 창에서 프로필 바꾸는 법 */
-	   	$("#profile").change(function(){
-	   		if(this.files && this.files[0]){
-	   			var reader = new FileReader;
-	   			reader.onload = function(data){
-	   				$(".selected img").attr("src", data.target.result);
-	   			}
-	   			reader.readAsDataURL(this.files[0]);
+	$("#profile").change(function(){
+	    if(this.files && this.files[0]){
+	   		var reader = new FileReader;
+	   		reader.onload = function(data){
+	   			$(".selected img").attr("src", data.target.result);
 	   		}
-	   	});
+	   		reader.readAsDataURL(this.files[0]);
+	   	}
+	});
 	
 	let isUseId = false;
 	document.querySelector("#id").addEventListener("keyup", function(){
@@ -318,6 +318,13 @@
 		 		}
   		   });
   	 	}
+	});
+	
+	$('.modal').on('hidden.bs.modal', function(e){
+		$(this).find('form')[0].reset();
+	});
+	$('#signUpModal').on('hidden.bs.modal', function(e){
+		$(".selected img").attr("src", "${root }/assets/img/noimg.jpg");
 	});
 	</script>
 
