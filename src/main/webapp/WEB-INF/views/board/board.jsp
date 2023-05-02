@@ -50,23 +50,25 @@
             <tbody>
             <c:forEach items="${sharetravels }" var="board">
             	<tr class="text-center">
-                    <th>${ board.ArticleNo() }</th>
+                    <th>${ board.articleNo}</th>
                     <th>
-                        <a href="${root}/board/sharetravel/view?article_id=${shareTravelBoard.articleNo}" style="text-decoration-line: none; color: #000">
-						${ board.subject() }
+                        <a href="${root}/board/sharetravel/view/${board.articleNo}" style="text-decoration-line: none; color: #000">
+						${ board.subject}
 						</a>
                     </th>
-                    <th>${ board.userId() }</th>
-                    <th>${ board.hit() }</th>
-                    <th>${ board.registerTime() }</th>
+                    <th>${ board.userId}</th>
+                    <th>${ board.hit}</th>
+                    <th>${ board.registerTime}</th>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
     </div>
+    <c:if test="${userinfo ne null}">
     <button type="button" class="btn btn-outline-secondary" style="float: right">
         <a href="${root }/board/sharetravel/write" style="background-color: transparent; color: #000; text-decoration-line: none">글쓰기</a>
     </button>
+    </c:if>
     <div class="row">
     	${navigation.navigator} 
     </div>

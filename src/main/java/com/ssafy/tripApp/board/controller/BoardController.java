@@ -23,10 +23,10 @@ public class BoardController {
 		return "/board/boardLocation";
 	}
 	
-	@GetMapping("/sharetravel")
-	public String sharetravel() {
-		return "/board/board";
-	}
+//	@GetMapping("/sharetravel")
+//	public String sharetravel() {
+//		return "/board/board";
+//	}
 	
 	@GetMapping("/travelplan")
 	public String travelplan() {

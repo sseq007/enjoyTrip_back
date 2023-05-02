@@ -36,7 +36,7 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public void deleteNotice(String aticleNo) throws SQLException {
+	public void deleteNotice(int aticleNo) throws SQLException {
 		noticeMapper.deleteNotice(aticleNo);
 		
 	}
@@ -57,5 +57,7 @@ public class NoticeServiceImpl implements NoticeService {
 		// TODO Auto-generated method stub
 		return noticeMapper.viewNotice(articleNo);
 	}
+
+	
 
 }

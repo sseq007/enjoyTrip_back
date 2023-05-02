@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ShareReplyDto {
+	int replyNo;
 	int articleNo;
 	int replyDepth;
 	String userId;
 	String content;
 	Timestamp registerTime;
+
 	
 	
 		

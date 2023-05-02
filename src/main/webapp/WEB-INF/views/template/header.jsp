@@ -46,7 +46,7 @@
 		<div class="container">
 			<!-- main logo -->
 			<a class="navbar-brand link-primary fw-bold fs-3"
-				href="${root }/index.jsp" style="width: 50px"> <img
+				href="/" style="width: 50px"> <img
 				style="width: 100%" src="${root }/assets/img/logo.png" alt="" />
 			</a>
 			<button class="navbar-toggler" type="button"
@@ -79,7 +79,7 @@
 					<li class="nav-item py-2" style="opacity: 80%"><i
 						class="fi fi-rr-paper-plane ps-3"></i> <a
 						class="nav-link active ps-0" aria-current="page"
-						href="${root }/board/sharetravel?pgno=1&key=&word="
+						href="${root }/board/sharetravel/list?pgno=1&key=&word="
 						style="display: inline"><p
 								style="font-family: 'Noto Sans KR', sans-serif; opacity: 70%; display: inline">여행정보공유</p></a>
 					</li>
@@ -208,7 +208,7 @@
 				<!-- Modal Header -->
 				<div class="modal-header">
 					<h4 class="modal-title">
-						<i class="fi fi-rr-lock ps-3 fs"> Sign Up</i>
+						<i class="fi fi-rr-lock ps-3 fs">Sign Up</i>
 					</h4>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>

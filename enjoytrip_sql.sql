@@ -125,7 +125,6 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`user` (
   `join_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `admin` TINYINT NULL DEFAULT NULL,
   `profile_image` VARCHAR(200) NULL,
-  `profile_url` VARCHAR(200) NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;

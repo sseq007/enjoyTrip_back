@@ -87,8 +87,7 @@ public class MemberController {
 		try {
 			if(!file.isEmpty()) {
 				String realPath = servletContext.getRealPath("/upload");
-				String today = new SimpleDateFormat("yyMMdd").format(new Date());
-				String saveFolder = realPath + File.separator + today;
+				String saveFolder = realPath;
 				String saveFileName;
 				logger.debug("저장 폴더 : {}", saveFolder);
 				File folder = new File(saveFolder);
@@ -96,7 +95,7 @@ public class MemberController {
 				String origin = file.getOriginalFilename();
 				if(!origin.isEmpty()) {
 					saveFileName = UUID.randomUUID().toString()
-							+ origin.substring(origin.lastIndexOf('.'));
+							+ origin;
 					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", origin, saveFileName);
 					file.transferTo(new File(folder, saveFileName));
 					memberDto.setProfileImage(saveFileName);
@@ -119,8 +118,53 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView();
 		String userId =  ((MemberDto) session.getAttribute("userinfo")).getUserId();
 		MemberDto memberDto = memberService.viewMember(userId);
+		//System.out.println(memberDto.getProfileImage());
 		mav.addObject("user", memberDto);
 		mav.setViewName("/user/userPage");
+		return mav;
+	}
+	
+	@GetMapping("/delete")
+	public ModelAndView delete(HttpSession session) throws SQLException {
+		ModelAndView mav = new ModelAndView();
+		String userId =  ((MemberDto) session.getAttribute("userinfo")).getUserId();
+		memberService.deleteMember(userId);
+		mav.setViewName("redirect:/");
+		session.invalidate();
+		return mav;
+	}
+	
+	@PostMapping("/update")
+	public ModelAndView update(MemberDto memberDto, @RequestParam("file") MultipartFile file, ModelAndView mav, HttpSession session) {
+		logger.debug("memberDto info: {}", memberDto);
+		
+		try {			
+			if(!file.isEmpty()) {
+				String saveFolder = servletContext.getRealPath("/upload");
+				String saveFileName;
+				logger.debug("저장 폴더 : {}", saveFolder);
+				File folder = new File(saveFolder);
+				if (!folder.exists()) folder.mkdirs();
+				String origin = file.getOriginalFilename();
+				if(!origin.isEmpty()) {
+					saveFileName = UUID.randomUUID().toString()
+							+ origin;
+					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", origin, saveFileName);
+					file.transferTo(new File(folder, saveFileName));
+					memberDto.setProfileImage(saveFileName);
+				}
+				memberDto.setProfileUrl(saveFolder);
+				
+			}
+			System.out.println(memberDto.toString());
+			memberService.updateMember(memberDto);
+			mav.addObject("updateUser", memberDto);
+			session.invalidate();
+			mav.setViewName("redirect:/");
+		}catch(Exception e){
+			e.printStackTrace();
+			mav.setViewName("error/error");
+		}
 		return mav;
 	}
 }

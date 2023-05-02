@@ -6,7 +6,7 @@
         <h2 style="font-family: 'Black Han Sans', sans-serif; opacity: 75%; font-size: 50px" class="m-0 mt-5">여행 정보 공유</h2>
         <hr class="mb-3 mt-0" align="left" style="border: solid 3px brown; width: 50%" />
     </div>
-    <form action="" id="form-board-write" method="post">
+    <form action="" method="post">
         <div class="mb-3">
             <label for="board-write-title" class="form-label">제목: </label>
             <input type="text" class="form-control" id="board-write-title" placeholder="제목을 입력하세요" name="board-write-title" />
@@ -25,21 +25,21 @@
 
 <!-- [E] content -->
 
-<script>
-    document.querySelector('#btn-board-write').addEventListener('click', function () {
-        if (!document.querySelector('#board-write-title').value) {
-            alert('제목 입력!!!');
-            return;
-        } else if (!document.querySelector('#board-write-content').value) {
-            alert('내용 입력!!!');
-            return;
-        } else {
-            let form = document.querySelector('#form-board-write');
-            console.log(form);
-            form.setAttribute('action', '${root }/board/sharetravel/write');
-            form.submit();
-        }
-    });
+ <script> 
+//      document.querySelector('#btn-board-write').addEventListener('click', function () {
+//          if (!document.querySelector('#board-write-title').value) {
+//              alert('제목 입력!!!');
+//              return;
+//          } else if (!document.querySelector('#board-write-content').value) {
+//              alert('내용 입력!!!');
+//              return;
+//          } else {
+//              let form = document.querySelector('#form-board-write');
+//              console.log(form);
+//              form.setAttribute('action', '${root }/board/sharetravel/write');
+//              form.submit();
+//          }
+//      });
 </script>
-
+<script src="/assets/js/sharetravel.js"></script>
 <%@ include file="/WEB-INF/views/template/footer.jsp" %>

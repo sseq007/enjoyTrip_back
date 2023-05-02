@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ssafy.tripApp.board.notice.mapper.NoticeMapper">
+<mapper namespace="com.ssafy.tripApp.board.Sharetravel.mapper.ShareReplyMapper">
 
-	<resultMap type="noticeDto" id="notice">
-		<result column="article_no" property="articleNo"/>
+	<resultMap type="sharereplyDto" id="sharereply">
+		<result column="replyNo" property="replyNo"/>
+		<result column="articleNo" property="articleNo"/>
 		<result column="user_id" property="userId"/>
-		<result column="subject" property="subject"/>
+		<result column="reply_depth" property="replyDepth"/>
 		<result column="content" property="content"/>
-		<result column="hit" property="hit"/>
 		<result column="register_time" property="registerTime"/>
 	</resultMap>
 	
@@ -23,46 +23,46 @@
 <!-- 		<result column="save_file" property="saveFile"/> -->
 <!-- 	</resultMap> -->
 
-	<insert id="writeNotice" parameterType="noticeDto">
-		insert into notice (user_id, subject, content, hit, register_time)
-		values (#{userId}, #{subject}, #{content}, 0, now())
+	<insert id="writeReply" parameterType="sharereplyDto">
+		insert into sharereply (articleNo, user_id, reply_depth,content, register_time)
+		values (#{articleNo}, #{userId}, 0,#{content}, now())
 <!-- 		<selectKey resultType="int" keyProperty="articleNo" order="AFTER"> -->
 <!-- 			select last_insert_id() -->
 <!-- 		</selectKey> -->
 		
 	</insert>
 	
-	<select id="listNotice" parameterType="map" resultMap="notice">
-		select article_no, user_id, subject, content, hit, register_time
-		from notice 
-		order by article_no desc
-<!-- 		<include refid="search"></include> -->
+	<select id="listReply" parameterType="int" resultMap="sharereply">
+		select replyNo, articleNo, user_id, reply_depth, content, register_time
+		from sharereply
+		where articleNo = #{articleNo}
+		order by replyNo desc
 	</select>
 	
 	
-	<select id="viewNotice" parameterType="int" resultMap="notice">
-		select article_no, user_id, subject, content, hit, register_time 
-		from notice
-		where article_no = #{articleNo}
-	</select>
+<!-- 	<select id="viewShare" parameterType="int" resultMap="share"> -->
+<!-- 		select articleNo, user_id, subject, content, hit, register_time  -->
+<!-- 		from sharetravel -->
+<!-- 		where articleNo = #{articleNo} -->
+<!-- 	</select> -->
 	
 	
-	<update id="updateHit" parameterType="int">
-		update notice
-		set hit = hit + 1
-		where article_no = #{articleNo}
-	</update>
+<!-- 	<update id="updateHit" parameterType="int"> -->
+<!-- 		update sharetravel -->
+<!-- 		set hit = hit + 1 -->
+<!-- 		where articleNo = #{articleNo} -->
+<!-- 	</update> -->
 	
-	<update id="modifyArticle" parameterType="noticeDto">
-		update notcie
-		set subject = #{subject}, content = #{content}
-		where article_no = #{articleNo}
-	</update>
+<!-- 	<update id="updateShare" parameterType="sharetravelDto"> -->
+<!-- 		update sharetravel -->
+<!-- 		set subject = #{subject}, content = #{content} -->
+<!-- 		where articleNo = #{articleNo} -->
+<!-- 	</update> -->
 	
 	
-	<delete id="deleteArticle" parameterType="int">
-		delete from notice
-		where article_no = #{articleNo}
+	<delete id="deleteReply" parameterType="int">
+		delete from sharereply
+		where replyNo = #{replyNo}
 	</delete>
 	
 <!-- 	<select id="fileInfoList" resultMap="file"> -->
