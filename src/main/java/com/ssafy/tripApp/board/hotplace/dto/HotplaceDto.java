@@ -18,8 +18,4 @@ public class HotplaceDto {
 	private String registerTime;
 	private int heart_count;
 	private int sido_code;
-	
-	
-	
-	
 }
