@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.tripApp.board.hotplace.mapper.HotplaceMapper">
+
+	<resultMap type="hotplaceDto" id="hotple">
+		<result column="articleNo" property="articleNo"/>
+		<result column="user_id" property="userId"/>
+		<result column="subject" property="subject"/>
+		<result column="content" property="content"/>
+		<result column="imageUrl" property="imageUrl"/>
+		<result column="imageName" property="imageName"/>
+		<result column="register_time" property="registerTime"/>
+		<result column="heart_count" property="heart_count"/>
+		<result column="sido_code" property="sido_code"/>
+	</resultMap>
+
+<select id="listHotple" resultMap="hotple">
+	select articleNo, user_id, subject, heart_count, register_time, imageUrl, imageName, sido_code
+	from hotplace
+	order by articleNo desc
+</select>
+
+<select id="viewHotple" parameterType="int" resultMap="hotple">
+	select articleNo, user_id, subject, content, register_time, heart_count, imageUrl, imageName, sido_code
+	from hotplace
+	where articleNo = #{articleNo}
+</select>
+
+<insert id="writeHotple" parameterType="hotplaceDto">
+	insert into hotplace(user_id, subject, content, imageUrl, imageName, sido_code)
+	values (#{userId}, #{subject}, #{content}, #{imageUrl}, #{imageName}, #{sido_code})
+</insert>
+
+<update id="updateHotple" parameterType="hotplaceDto">
+	update hotplace
+	set subject = #{subject}, content=#{content}, imageUrl=#{imageUrl}, imageName=#{imageName}, sido_code=#{sido_code}
+	where articleNo = #{articleNo}
+</update>
+
+<delete id="deleteHotple" parameterType="int">
+	delete from hotplace
+	where articleNo = #{articleNo}
+</delete>
+
+</mapper>

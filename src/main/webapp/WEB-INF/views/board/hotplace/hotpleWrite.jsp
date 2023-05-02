@@ -7,25 +7,91 @@
         <h2 style="font-family: 'Black Han Sans', sans-serif; opacity: 75%; font-size: 50px" class="m-0 mt-5">핫플 자랑하기</h2>
         <hr class="mb-3 mt-0" align="left" style="border: solid 3px brown; width: 50%" />
     </div>
-    <form action="" id="form-board-write" method="post">
-        <div class="mb-3">
-            <label for="board-write-title" class="form-label">제목: </label>
-            <input type="text" class="form-control" id="board-write-title" placeholder="제목을 입력하세요" name="board-write-title" />
-        </div>
-        <div class="mb-3">
-            <label for="board-write-content" class="form-label">내용:</label>
-            <textarea class="form-control" rows="5" id="board-write-content" name="board-write-content" placeholder="내용을 입력하세요"></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="board-write-picture" class="form-label">사진 업로드:</label>
-            <input type="file">
-        </div>
-    </form>
+    <div style="margin: auto; margin-top: 100px; margin-bottom: 100px; width: 50%; height: auto; border: 3px solid #ffb5a7; border-radius: 10px" class="text-center">
+        <nav class="navbar navbar-expand-sm" style="background-color: #ffb5a7; font-family: 'Black Han Sans', sans-serif; opacity: 75%; text-align: center; font-size: 20px">
+            <div class="collpase navbar-collapse justify-content-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item" style="margin-inline: 70px">
+                        핫플레이스 글 작성
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-    <div class="col text-center">
-        <button type="button" class="btn btn-outline-secondary" id="btn-board-write">글등록</button>
-        <button type="button" class="btn btn-outline-secondary">초기화</button>
+        <div id="modifyContents">
+            <form action="" style="text-align: left" id="form-write" method="POST" encType="multipart/form-data">
+                <div class="m-5">
+                    <div class="mb-3 mt-3" align="center">
+							<div class="hotpleImg mb-3 mt-3">
+								<img src="${root }/assets/img/noimg.jpg" class="hotple_image" style="border-radius: 5%; width: 100%; height: 100%;">
+							</div>
+							<div>
+								<label className="input-file-button" for="uploadHotplace" style="padding: 6px 25px; border-radius: 4px; border: solid 2px #ffb5a7; color: #663333 ">업로드</label>
+								<input type="file" id="uploadHotplace" name="file" accept=".jpg, .png, .jpeg" value="" style="display: none"/>
+							</div>
+							
+							
+					</div>
+                    <div class="mb-3 mt-3">
+                        <label for="subject" class="form-label" style="color: #663333">Subject:</label>
+                        <input type="text" class="form-control" id="subject" name="subject" style="width: 60%;"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label" style="color: #663333">Content:</label>
+                        <input type="text" class="form-control" id="content" name="content"/>
+                    </div>
+                    <div class="form-row align-items-center">
+                        <div class="col-sm-10 my-1">
+                            <label class="form-label" for="email id" style="color: #663333">Area:</label>
+                            <div class="input-group">
+                                <select id="search-area" class="form-control">
+                                    <option selected>지역 선택 안 함</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center">
+                        <button type="button" class="btn btn-outline-secondary m-0 mt-4 mb-3" id="btn-write">등록</button>
+                        <button type="button" class="btn btn-outline-secondary m-0 mt-4 mb-3" id="btn-cancle">취소</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+<script>
+	$("#uploadHotplace").change(function(){
+	    if(this.files && this.files[0]){
+	   		var reader = new FileReader;
+	   		reader.onload = function(data){
+	   			$(".hotpleImg img").attr("src", data.target.result);
+	   		}
+	   		reader.readAsDataURL(this.files[0]);
+	   	}
+	});
+	
+    document.querySelector("#btn-write").addEventListener("click", function(){
+    	if(!document.querySelector("#uploadHotplace").value){
+    		alert("사진을 등록해 주세요");
+    		return;
+    	}else if(!document.querySelector("#subject").value){
+    		alert("제목을 입력해 주세요");
+    		return
+    	}else{
+    		let form = document.querySelector("#form-write");
+    		form.setAttribute('action', '${root }/board/hotplace/write');
+    		form.submit();
+    	}
+    });
+    
+    document.querySelector("#btn-cancle").addEventListener("click", function(){
+    	location.href = '${root }/board/hotplace';
+    });
+    
+    
+</script>
+<script type="text/javascript" src="${root }/assets/js/key.js"></script>
+<script type="text/javascript" src="${root }/assets/js/selection.js"></script>
 <!-- [E] content -->
 <%@ include file="/WEB-INF/views/template/footer.jsp" %>

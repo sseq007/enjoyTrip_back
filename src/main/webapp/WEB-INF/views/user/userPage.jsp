@@ -91,7 +91,7 @@
                     <hr class="mb-3 mt-0" align="left" style="border: solid 2px #ffb5a7; width: 30%; opacity: 100%" />
                     <div class="mb-3">
                         <label for="pwdCheck" class="form-label">Password check:</label>
-                        <input type="password" class="form-control" id="de-pwdCheck" placeholder="비밀번호 확인" name="pwdCheck" />
+                        <input type="password" class="form-control" id="pwdCheck" placeholder="비밀번호 확인" name="pwdCheck" />
                     </div>
 
                     <div style="text-align: center">
@@ -141,14 +141,14 @@
     	}
     });
     document.querySelector("#btn-delete").addEventListener("click", function(){
-    	if(!document.querySelector("#de-pwdCheck").value){
+    	if(!document.querySelector("#pwdCheck").value){
     		alert("현재 비밀번호를 입력해 주세요");
     		return;
-    	}else if(document.querySelector("#de-pwdCheck").value != ${user.userPw}){
+    	 }else if(document.querySelector("#pwdCheck").value != "${user.userPw}"){
     		alert("현재 비밀번호와 다릅니다");
-    		return;
+    		return; 
     	}else{
-    		location.href = '${root }/member/delete';
+    	 	location.href = '${root }/member/delete';
     	}
     });
 </script>

@@ -72,7 +72,7 @@
 
 					<li class="nav-item py-2" style="opacity: 80%"><i
 						class="fi fi-rr-heart ps-3"></i> <a class="nav-link active ps-0"
-						aria-current="page" href="${root }/board/hotplace"
+						aria-current="page" href="${root }/board/hotplace/list"
 						style="display: inline"><p
 								style="font-family: 'Noto Sans KR', sans-serif; opacity: 70%; display: inline">핫플자랑하기</p></a>
 					</li>

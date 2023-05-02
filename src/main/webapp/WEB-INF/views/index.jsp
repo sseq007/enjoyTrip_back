@@ -299,7 +299,7 @@
                             <div class="card-img-overlay">
                                 <div id="img_margin"></div>
                                 <button
-                                    onclick="location.href='${root }/board/sharetravel'"
+                                    onclick="location.href='${root }/board/sharetravel/list'"
                                     id="trip_btn"
                                     class="mb-3"
                                 ></button>
@@ -319,7 +319,7 @@
                     >
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <a href="${root }/board/hotplace">
+                                <a href="${root }/board/hotplace/list">
                                     <img
                                         src="${root }/assets/img/main-content-right-bottom-1.png"
                                         class="d-block w-100"
@@ -328,7 +328,7 @@
                                 </a>
                             </div>
                             <div class="carousel-item">
-                                <a href="${root }/board/hotplace">
+                                <a href="${root }/board/hotplace/list">
                                     <img
                                         src="${root }/assets/img/main-content-right-bottom-2.png"
                                         class="d-block w-100"
@@ -337,7 +337,7 @@
                                 </a>
                             </div>
                             <div class="carousel-item">
-                                <a href="${root }/board/hotplace">
+                                <a href="${root }/board/hotplace/list">
                                     <img
                                         src="${root }/assets/img/main-content-right-bottom-3.png"
                                         class="d-block w-100"
@@ -347,7 +347,7 @@
                             </div>
 
                             <div class="carousel-item">
-                                <a href="${root }/board/hotplace">
+                                <a href="${root }/board/hotplace/list">
                                     <img
                                         src="${root }/assets/img/main-content-right-bottom-4.png"
                                         class="d-block w-100"
@@ -356,7 +356,7 @@
                                 </a>
                             </div>
                             <div class="carousel-item">
-                                <a href="${root }/board/hotplace">
+                                <a href="${root }/board/hotplace/list">
                                     <img
                                         src="${root }/assets/img/main-content-right-bottom-5.png"
                                         class="d-block w-100"

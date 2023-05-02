@@ -12,21 +12,24 @@
             </div>
             
             <div>
-	            <div>
-	           	 	<div><p style="font-family: 'Noto Sans KR', sans-serif; opacity: 75%">다녀왔던 여행지 중 좋았던 곳의 사진을 보여 주세요!</p></div>
-	           	 	<div><button type="button" class="btn btn-outline-secondary" style="float:right"  onclick="location.href='/board/hotplace/write'">글쓰기</button></div>
-	            </div>
-            <div style="text-align:center; width: 280px;  height: 280px; border-style: solid; border-color: brown; border-radius: 5%;">
-            	<div><p style="font-family: 'Noto Sans KR', sans-serif; opacity: 75%">김주하</p></div>
-            	<div><a><img alt="" src="${root }/assets/img/img.jpg" style=" width: 200px; height: 200px; border-radius: 20%;"></a></div>
+            	<div>
+	           	 <div><p style="font-family: 'Noto Sans KR', sans-serif; opacity: 75%">다녀왔던 여행지 중 좋았던 곳의 사진을 보여 주세요!</p></div>
+	           	 <div><button type="button" class="btn btn-outline-secondary mb-3" style="text-align:right; align-items: right"  onclick="location.href='/board/hotplace/write'">글쓰기</button></div>
+            	</div>
+            <div style="text-align:center; width: 280px;  height: 300px; border-style: solid; border-color: #ffb5a7; border-radius: 5%;" display="inline-block">
+            	<div style="width: 40%; margin-top: 5px; margin-left: 65px; ">
+	            	<div><img alt="" src="${root }/assets/img/noimg.jpg" style="width: 35%; height: 35%; border-radius: 60%; float: left"></div>
+	            	<div><p style="font-family: 'Noto Sans KR', sans-serif; opacity: 75%; float:right; padding-top:7px;">김주하</p></div>
+            	</div>
+            	<div><a><img alt="" src="${root }/assets/img/img.jpg" style=" width: 200px; height: 200px; border-radius: 20%; padding: 0"></a></div>
             	<div class="emoti">
-						<div calss="favorite">
+						<div calss="favorite" style="margin-bottom: 20px;">
  							<c:choose>
-								로그인 상태일 때 -> 하트 클릭되게 함
+								<%--로그인 상태일 때 -> 하트 클릭되게 함--%>
 								<c:when test="${not empty userinfo }">
 									<c:choose>
 										<c:when test="${empty card.check}">
-										빈 하트일 때
+										<%--빈 하트일 때--%>
 											<span> <a idx="0" href="javascript:"
 												class="heart-click heart_icon0"><svg 
 													xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
@@ -48,7 +51,7 @@
 										</c:otherwise>
 									</c:choose>
 								</c:when>
-								로그인 상태가 아닐 때 -> 하트 클릭 안 되게 함
+								<%-- 로그인 상태가 아닐 때 -> 하트 클릭 안 되게 함 --%>
 								<c:otherwise>
 									<span> <a href="javascript:" class="heart-notlogin">
 												<svg class="heart3"	xmlns="http://www.w3.org/2000/svg" 
@@ -66,7 +69,7 @@
             
             
             <c:forEach var="card" items="${list }">
-				<div style="width: 380px;  height: 380px;">
+				<div style="width: 280px;  height: 280px;">
 					<div>${card.userName }</div>
 					<a><img alt="" src="" style="width: 300px; height: 300px;"> </a>
 					<div class="emoti">

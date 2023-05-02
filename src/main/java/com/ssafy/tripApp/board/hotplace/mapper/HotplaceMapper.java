@@ -1,10 +1,13 @@
-package com.ssafy.tripApp.board.hotplace.service;
+package com.ssafy.tripApp.board.hotplace.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.ssafy.tripApp.board.hotplace.dto.HotplaceDto;
 
-public interface HotplaceService {
+@Mapper
+public interface HotplaceMapper {
 	// 핫플 게시글 리스트
 	List<HotplaceDto> listHotple() throws Exception;
 	// 핫플 게시글 하나 보기

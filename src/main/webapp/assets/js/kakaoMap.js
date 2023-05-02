@@ -76,7 +76,7 @@ function displayMarker() {
         var imageSize = new kakao.maps.Size(24, 24);
 
         // 마커 이미지 고르기
-        var imageSrc = `/img/marker_${positions[i].contenttypeid}.png`;
+        var imageSrc = `/assets/img/marker_${positions[i].contenttypeid}.png`;
 
         // 마커 이미지를 생성합니다
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);

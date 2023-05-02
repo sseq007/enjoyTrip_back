@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 public class HotplaceDto {
 
 	private int articleNo;
-	private String user_id;
+	private String userId;
 	private String subject;
 	private String content;
 	private String imageUrl;
-	private String hotple_name;
-	private String register_time;
+	private String imageName;
+	private String registerTime;
 	private int heart_count;
 	private int sido_code;
 	

@@ -8,16 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/board")
 public class BoardController {
 	
-	@GetMapping("/hotplace")
-	public String hotplace() {
-		return "/board/hotplace/boardHotple";
-	}
-	
-	@GetMapping("/hotplace/write")
-	public String hotplacewrite() {
-		return "/board/hotplace/hotpleWrite";
-	}
-	
 	@GetMapping("/local")
 	public String local() {
 		return "/board/boardLocation";
