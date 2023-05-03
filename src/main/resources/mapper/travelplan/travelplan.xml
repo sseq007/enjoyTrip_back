@@ -34,7 +34,7 @@
 	</insert>
 	
 	<select id="listPlan" resultMap="travelplan">
-		select content_id, start_date, end_date, subject,user_id, register_time,star_count
+		select articleNo,content_id, start_date, end_date, subject,user_id, register_time,star_count
 		from travelplan
 		order by articleNo desc
 	</select>

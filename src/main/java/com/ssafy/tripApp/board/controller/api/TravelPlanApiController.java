@@ -45,7 +45,6 @@ public class TravelPlanApiController {
 	@GetMapping(value ="/search/{word}")
 	public ResponseEntity<?> searchLocal(@PathVariable("word") String word) {
 		try {
-			System.out.println(word);
 			List<LocalDto> areaList = travelplanService.areaList(word);
 			return new ResponseEntity<List<LocalDto>>(areaList, HttpStatus.OK);
 			
@@ -54,8 +53,11 @@ public class TravelPlanApiController {
 		}
 	}
 	@PostMapping(value = "/write")
-	public ResponseEntity<?> travelplanRegister(@RequestBody TravelplanDto travelplanDto) {
+	public ResponseEntity<?> travelplanRegister(@RequestBody TravelplanDto travelplanDto,HttpSession session) {
 		try {
+//			MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
+//			travelplanDto.setUserId(memberDto.getUserId());
+			System.out.println(travelplanDto.toString());
 			travelplanService.writePlan(travelplanDto);
 			return new ResponseEntity<TravelplanDto>(travelplanDto, HttpStatus.OK);
 		} catch (Exception e) {
