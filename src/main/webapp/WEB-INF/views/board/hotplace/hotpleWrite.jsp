@@ -19,7 +19,7 @@
         </nav>
 
         <div id="modifyContents">
-            <form action="" style="text-align: left" id="form-write" method="POST" encType="multipart/form-data">
+            <form action="" style="text-align: left" id="form-write" method="post" encType="multipart/form-data">
                 <div class="m-5">
                     <div class="mb-3 mt-3" align="center">
 							<div class="hotpleImg mb-3 mt-3">
@@ -69,22 +69,7 @@
 	   		}
 	   		reader.readAsDataURL(this.files[0]);
 	   	}
-	});
-	
-    document.querySelector("#btn-write").addEventListener("click", function(){
-    	if(!document.querySelector("#uploadHotplace").value){
-    		alert("사진을 등록해 주세요");
-    		return;
-    	}else if(!document.querySelector("#subject").value){
-    		alert("제목을 입력해 주세요");
-    		return
-    	}else{
-    		let form = document.querySelector("#form-write");
-    		form.setAttribute('action', '${root }/board/hotplace/write');
-    		form.submit();
-    	}
-    });
-    
+	});    
     document.querySelector("#btn-cancle").addEventListener("click", function(){
     	location.href = '${root }/board/hotplace';
     });
@@ -93,5 +78,6 @@
 </script>
 <script type="text/javascript" src="${root }/assets/js/key.js"></script>
 <script type="text/javascript" src="${root }/assets/js/selection.js"></script>
+<script type="text/javascript" src="/assets/js/hotplace.js"></script>
 <!-- [E] content -->
 <%@ include file="/WEB-INF/views/template/footer.jsp" %>

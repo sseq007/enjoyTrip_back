@@ -32,8 +32,8 @@ public class HotplaceApiController {
 	@Autowired
 	private ServletContext servletContext;
 	
-	@PostMapping
-	public ResponseDto<Integer>write(@RequestBody HotplaceDto hotplaceDto, HttpSession session, @RequestParam("file") MultipartFile file){
+	@PostMapping("/write")
+	public ResponseDto<Integer>write(@RequestParam HotplaceDto hotplaceDto, HttpSession session, @RequestParam("file") MultipartFile file){
 		String userId =  ((MemberDto) session.getAttribute("userinfo")).getUserId();
 		System.out.println(userId);
 		hotplaceDto.setUserId(userId);

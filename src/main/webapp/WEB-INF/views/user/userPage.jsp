@@ -39,26 +39,27 @@
 								
 							</div>
 							<div>
-								<input type="file" id="updateProfile" name="file" accept=".jpg, .png, .jpeg" value=""/>
+								<label className="input-file-button" for="updateProfile" style="padding: 6px 25px; border-radius: 4px; border: solid 2px #ffb5a7; color: #663333 ">업로드</label>
+								<input type="file" id="updateProfile" name="file" accept=".jpg, .png, .jpeg" value="" style="display: none"/>
 							</div>
 							
 							
 					</div>
                     <div class="mb-3 mt-3">
-                        <label for="up-userId" class="form-label">id:</label>
+                        <label for="up-userId" class="form-label" style="color: #663333">id:</label>
                         <input type="text" class="form-control" id="up-userId" name="userId" value="${user.userId }" disabled="true"/>
                     </div>
                     <div class="mb-3 mt-3">
-                        <label for="up-userName" class="form-label">이름:</label>
+                        <label for="up-userName" class="form-label" style="color: #663333">이름:</label>
                         <input type="text" class="form-control" id="up-userName" name="userName" value="${user.userName }" />
                     </div>
                     <div class="mb-3">
-                        <label for="up-userPw" class="form-label">Password:</label>
+                        <label for="up-userPw" class="form-label" style="color: #663333">Password:</label>
                         <input type="password" class="form-control" id="up-userPw" name="userPw" value="${user.userPw }" />
                     </div>
                     <div class="form-row align-items-center">
                         <div class="col-sm-10 my-1">
-                            <label class="form-label" for="email id">Email:</label>
+                            <label class="form-label" for="email id" style="color: #663333">Email:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="up-emailId" name="emailId" value="${user.emailId }" />
                                 <div class="input-group-prepend">
@@ -74,7 +75,7 @@
                         </div>
                     </div>
                      <div class="mb-3 mt-3">
-                        <label for="joinDate" class="form-label">등록일자:</label>
+                        <label for="joinDate" class="form-label" style="color: #663333">등록일자:</label>
                         <input type="text" class="form-control" id="up-joinDate" name="joinDate" value="${user.joinDate }" disabled="true"/>
                     </div>
                     <div style="text-align: center">
@@ -90,7 +91,7 @@
                     <h2 style="font-family: 'Black Han Sans', sans-serif; opacity: 75%; font-size: 20px; text-align: left" class="m-0 mt-4">회원 탈퇴</h2>
                     <hr class="mb-3 mt-0" align="left" style="border: solid 2px #ffb5a7; width: 30%; opacity: 100%" />
                     <div class="mb-3">
-                        <label for="pwdCheck" class="form-label">Password check:</label>
+                        <label for="pwdCheck" class="form-label" style="color: #663333">Password check:</label>
                         <input type="password" class="form-control" id="pwdCheck" placeholder="비밀번호 확인" name="pwdCheck" />
                     </div>
 

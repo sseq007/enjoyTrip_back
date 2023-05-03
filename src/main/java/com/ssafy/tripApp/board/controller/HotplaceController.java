@@ -48,41 +48,6 @@ public class HotplaceController {
 	public String hotplacewrite() {
 		return "/board/hotplace/hotpleWrite";
 	}
-	
-	@PostMapping("/write")
-	public ModelAndView hotplacewrite(HotplaceDto hotplaceDto, @RequestParam("file") MultipartFile file, HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		String userId =  ((MemberDto) session.getAttribute("userinfo")).getUserId();
-		System.out.println(userId);
-		hotplaceDto.setUserId(userId);
-		try {
-			if(!file.isEmpty()) {
-				String realPath = servletContext.getRealPath("/upload");
-				String saveFolder = realPath;
-				String saveFileName;
-				logger.debug("저장 폴더 : {}", saveFolder);
-				File folder = new File(saveFolder);
-				if (!folder.exists()) folder.mkdirs();
-				String origin = file.getOriginalFilename();
-				if(!origin.isEmpty()) {
-					saveFileName = UUID.randomUUID().toString()
-							+ origin;
-					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", origin, saveFileName);
-					file.transferTo(new File(folder, saveFileName));
-					hotplaceDto.setImageName(saveFileName);
-				}
-				hotplaceDto.setImageUrl(saveFolder);
-				
-			}
-			hotplaceService.writeHotple(hotplaceDto);
-			mav.addObject("writeHotplace", hotplaceDto);
-			mav.setViewName("redirect:/board/hotplace/list");
-		}catch(Exception e){
-			e.printStackTrace();
-			mav.setViewName("error/error");
-		}
-		
-		return mav;
-	}
+
 
 }
