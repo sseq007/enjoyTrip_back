@@ -12,25 +12,23 @@ let index = {
 		    	}
 			});
 	},
-	write: function(){
-		let data = {
-			subject: $("#subject").val(),
-			content: $("#content").val(),
-			sido_code: $("#search-area").val(),
-		};
-		
-		var formData = new FormData($("#form-write")[0]);
+	write: function()		
+		var formData = new FormData(document.getElementById('form-write'));
+		formData.append("sido_code", $("#search-area").val());
 		
 		$.ajax({
 			type: "POST",
 			url: "/api/hotplace/write",
+			dataType: 'json',
 			data: formData,
 			contentType: false,
 			processData: false,
+			enctype: 'multipart/form-data',
+			async: false,
 		})
 		 .done(function(resp){
 		 	alert("글이 등록되었습니다");
-		 	location.href = "/board/hotplace/list";
+		 	location.href = "${root }/api/hotplace/list";
 		 })
 		 .fail(function (error){
 		 	alert(JSON.stringify(error));

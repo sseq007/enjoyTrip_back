@@ -19,7 +19,7 @@
         </nav>
 
         <div id="modifyContents">
-            <form action="" style="text-align: left" id="form-write" method="post" encType="multipart/form-data">
+            <form action="" style="text-align: left" id="form-write" name="form-write" method="post" encType="multipart/form-data">
                 <div class="m-5">
                     <div class="mb-3 mt-3" align="center">
 							<div class="hotpleImg mb-3 mt-3">
@@ -71,7 +71,7 @@
 	   	}
 	});    
     document.querySelector("#btn-cancle").addEventListener("click", function(){
-    	location.href = '${root }/board/hotplace';
+    	location.href = '${root }/board/hotplace/list';
     });
     
     

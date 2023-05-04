@@ -37,9 +37,10 @@ public class HotplaceController {
 	private ServletContext servletContext;
 	
 	@GetMapping("/list")
-	public ModelAndView list() {
+	public ModelAndView list() throws Exception {
 		ModelAndView mav = new ModelAndView();
-		List<HotplaceDto> list;
+		List<HotplaceDto> hotplaceList = hotplaceService.listHotple();
+		mav.addObject("hotplaceList", hotplaceList);
 		mav.setViewName("/board/hotplace/boardHotple");
 		return mav;
 	}
