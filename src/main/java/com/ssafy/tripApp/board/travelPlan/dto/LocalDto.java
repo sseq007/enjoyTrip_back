@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class LocalDto {
 
+	private int articleNo;
 	private String title;
 	private int contentId;
 	private String address;

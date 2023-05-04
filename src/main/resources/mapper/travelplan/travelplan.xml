@@ -4,13 +4,17 @@
 
 <mapper namespace="com.ssafy.tripApp.board.travelPlan.mapper.TravelPlanMapper">
 
-	<resultMap type="localDto" id="local">
+	<resultMap type="localDto" id="localDto">
+		<id column="articleNo" property="articleNo"/>
 		<result column="title" property="title"/>
 		<result column="content_id" property="contentId"/>
 		<result column="addr1" property="address"/>
 		<result column="first_image" property="image"/>
 	</resultMap>
+	
+	
 	<resultMap type="travelplanDto" id="travelplan">
+		<id column="articleNo" property="articleNo"/>
 		<result column="content_id" property="contentId"/>
 		<result column="start_date" property="startDate"/>
 		<result column="end_date" property="endDate"/>
@@ -18,10 +22,11 @@
 		<result column="user_id" property="userId"/>
 		<result column="register_time" property="registerTime"/>
 		<result column="star_count" property="starCount"/>
+		<collection property="localDto" ofType="localDto"  resultMap="localDto"></collection>
 	</resultMap>
 	
 
-	<select id="areaList" parameterType="string" resultMap="local">
+	<select id="areaList" parameterType="string" resultMap="localDto">
 		select title,content_id, addr1, first_image
 		from attraction_info
 		where title
@@ -30,20 +35,32 @@
 	<insert id="writePlan" parameterType="travelPlanDto">
 		insert into travelplan (content_id, start_date, end_date, subject,user_id, register_time,star_count)
 		values (#{contentId}, #{startDate}, #{endDate},#{subject} ,#{userId}, now(),#{starCount})
-
 	</insert>
 	
 	<select id="listPlan" resultMap="travelplan">
-		select articleNo,content_id, start_date, end_date, subject,user_id, register_time,star_count
-		from travelplan
-		order by articleNo desc
+	select a.articleNo,a.content_id, a.start_date, a.end_date, a.subject,a.user_id, b.title,b.addr1 , b.first_image,a.register_time,a.star_count
+	from travelplan a, attraction_info b
+	order by a.articleNo desc
 	</select>
 	
 	
 	<select id="viewPlan" parameterType="int" resultMap="travelplan">
-		select content_id, start_date, end_date, subject,user_id, register_time,star_count
-		from travelplan
-		where articleNo = #{articleNo}
+<!-- 		SELECT tp.articleNo, tp.content_id as contentId, tp.start_date as startDate, tp.end_date as endDate, tp.subject, tp.user_id as userId, tp.register_time as registerTime, tp.star_count as starCount -->
+<!-- 		FROM travelplan tp -->
+<!-- 		JOIN attraction_info ld ON tp.articleNo = #{articleNo} AND #{localDto.articleNo} = #{articleNo} -->
+<!-- 		GROUP BY tp.articleNo, tp.content_id; -->
+		
+		SELECT *
+  FROM travelplan
+  LEFT JOIN attraction_info ON travelplan.content_id = attraction_info.content_id
+  WHERE travelplan.articleNo = #{articleNo}
+	</select>
+	
+	<select id="localList"   parameterType="int"  resultMap="localDto">
+		select m.articleNo,b.title, b.content_id, b.addr1, b.first_image
+		from attraction_info b, travelplan m 
+		where m.articleNo = #{articleNo}
+		and m.contentId = 
 	</select>
 	
 	

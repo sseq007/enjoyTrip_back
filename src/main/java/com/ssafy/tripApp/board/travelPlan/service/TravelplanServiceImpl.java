@@ -57,4 +57,9 @@ public class TravelplanServiceImpl implements TravelplanService {
 		return travelplanMapper.areaList(word);
 	}
 
+	@Override
+	public List<LocalDto> localList(int articleNo) throws Exception {
+		return travelplanMapper.localList(articleNo);
+	}
+
 }

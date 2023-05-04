@@ -7,7 +7,7 @@ import com.ssafy.tripApp.board.travelPlan.dto.TravelplanDto;
 
 public interface TravelplanService {
 
-	//플랜쓰기
+		//플랜쓰기
 		public void writePlan(TravelplanDto travelPlanDto) throws Exception;
 		//플랜리스트
 		public List<TravelplanDto> listPlan() throws Exception;
@@ -18,4 +18,6 @@ public interface TravelplanService {
 		//플랜가져오기
 		public TravelplanDto viewPlan(int articleNo) throws Exception;
 		public List<LocalDto> areaList(String word) throws Exception;
+		
+		public List<LocalDto> localList(int articleNo) throws Exception;
 }

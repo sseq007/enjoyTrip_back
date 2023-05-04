@@ -20,5 +20,6 @@ public interface TravelPlanMapper {
 	//플랜가져오기
 	public TravelplanDto viewPlan(int articleNo) throws Exception;
 	public List<LocalDto> areaList(String word) throws Exception;
+	public List<LocalDto> localList(int articleNo) throws Exception;
 	
 }

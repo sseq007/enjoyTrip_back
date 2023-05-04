@@ -1,6 +1,7 @@
 package com.ssafy.tripApp.board.travelPlan.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.ssafy.tripApp.board.hotplace.dto.HotplaceReplyDto;
 
@@ -19,6 +20,7 @@ public class TravelplanDto {
 	Timestamp startDate;
 	Timestamp endDate;
 	Timestamp registerTime;
+	List<LocalDto> localDto;
 		
 	
 		

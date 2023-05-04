@@ -53,10 +53,9 @@ public class TravelPlanApiController {
 		}
 	}
 	@PostMapping(value = "/write")
-	public ResponseEntity<?> travelplanRegister(@RequestBody TravelplanDto travelplanDto,HttpSession session) {
+	public ResponseEntity<?> travelplanRegister(@RequestBody TravelplanDto travelplanDto) {
 		try {
-//			MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
-//			travelplanDto.setUserId(memberDto.getUserId());
+
 			System.out.println(travelplanDto.toString());
 			travelplanService.writePlan(travelplanDto);
 			return new ResponseEntity<TravelplanDto>(travelplanDto, HttpStatus.OK);
@@ -83,24 +82,28 @@ public class TravelPlanApiController {
 	@GetMapping(value = "/list/{articleNo}")
 	public ResponseEntity<?> travelplanInfo(@PathVariable("articleNo") int articleNo) {
 		try {
-			TravelplanDto viewPlan = travelplanService.viewPlan(articleNo);
-			if(viewPlan != null)
-				return new ResponseEntity<TravelplanDto>(viewPlan, HttpStatus.OK);
+			List<LocalDto> localList = travelplanService.localList(articleNo);
+//			TravelplanDto viewPlan = travelplanService.viewPlan(articleNo);
+//			System.out.println(viewPlan.toString());
+			if(localList != null)
+				return new ResponseEntity<List<LocalDto>>(localList, HttpStatus.OK);
 			else
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
-//	@DeleteMapping(value = "/user/{userid}")
-//	public ResponseEntity<?> travelplanDelete(@PathVariable("userid") String userId) {
-//		try {
-//			travelplanService.deletePlan(travelPlanDto);
-//			return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return exceptionHandling(e);
-//		}
-//	}
+	@DeleteMapping(value = "/delete/{articleNo}")
+	public ResponseEntity<?> travelplanDelete(@PathVariable("articleNo") int articleNo) {
+		try {
+			travelplanService.deletePlan(articleNo);
+			List<TravelplanDto> listPlan = travelplanService.listPlan();
+
+			return new ResponseEntity<List<TravelplanDto>>(listPlan, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
