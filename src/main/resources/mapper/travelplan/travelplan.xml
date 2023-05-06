@@ -5,7 +5,8 @@
 <mapper namespace="com.ssafy.tripApp.board.travelPlan.mapper.TravelPlanMapper">
 
 	<resultMap type="localDto" id="localDto">
-		<id column="articleNo" property="articleNo"/>
+		<id column="travelplan_id" property="travelplanId"/>
+		<result column="articleNo" property="articleNo"/>
 		<result column="title" property="title"/>
 		<result column="content_id" property="contentId"/>
 		<result column="addr1" property="address"/>
@@ -32,35 +33,48 @@
 		where title
 		like concat('%',#{word},'%')
 	</select>
+	
 	<insert id="writePlan" parameterType="travelPlanDto">
 		insert into travelplan (content_id, start_date, end_date, subject,user_id, register_time,star_count)
 		values (#{contentId}, #{startDate}, #{endDate},#{subject} ,#{userId}, now(),#{starCount})
-	</insert>
+		
+</insert>
+
+	<insert id="writeLocal" parameterType="java.util.List" >
+	    INSERT ignore INTO travelplaninfo (content_id, articleNo, title, addr1, first_image)
+    	VALUES 
+   			 <foreach collection="localDto" item="local" separator=",">
+    (#{local.contentId},#{local.articleNo} ,#{local.title}, #{local.address}, #{local.image})
+  </foreach>
+    
+</insert>
+
+
+
+
+		
 	
 	<select id="listPlan" resultMap="travelplan">
-	select a.articleNo,a.content_id, a.start_date, a.end_date, a.subject,a.user_id, b.title,b.addr1 , b.first_image,a.register_time,a.star_count
-	from travelplan a, attraction_info b
+	select a.articleNo,a.content_id, a.start_date, a.end_date, a.subject,a.user_id,a.register_time,a.star_count,b.travelplan_id,b.articleNo,b.content_id,b.title,b.addr1,b.first_image
+	from travelplan a , travelplaninfo b
+    where a.articleNo = b.articleNo
 	order by a.articleNo desc
 	</select>
 	
 	
 	<select id="viewPlan" parameterType="int" resultMap="travelplan">
-<!-- 		SELECT tp.articleNo, tp.content_id as contentId, tp.start_date as startDate, tp.end_date as endDate, tp.subject, tp.user_id as userId, tp.register_time as registerTime, tp.star_count as starCount -->
-<!-- 		FROM travelplan tp -->
-<!-- 		JOIN attraction_info ld ON tp.articleNo = #{articleNo} AND #{localDto.articleNo} = #{articleNo} -->
-<!-- 		GROUP BY tp.articleNo, tp.content_id; -->
-		
-		SELECT *
-  FROM travelplan
-  LEFT JOIN attraction_info ON travelplan.content_id = attraction_info.content_id
-  WHERE travelplan.articleNo = #{articleNo}
+
+		select a.articleNo,b.articleNo,a.content_id, a.start_date, a.end_date, a.subject,a.user_id, b.travelplan_id,b.title,b.addr1 , b.first_image,a.register_time,a.star_count
+	from travelplan a, travelplaninfo b
+	where b.articleNo= #{articleNo}
+	and a.articleNo = #{articleNo}
 	</select>
 	
 	<select id="localList"   parameterType="int"  resultMap="localDto">
 		select m.articleNo,b.title, b.content_id, b.addr1, b.first_image
 		from attraction_info b, travelplan m 
 		where m.articleNo = #{articleNo}
-		and m.contentId = 
+		and m.contentId = b.contentId
 	</select>
 	
 	
@@ -70,11 +84,19 @@
 <!-- 		where articleNo = #{articleNo} -->
 <!-- 	</update> -->
 	
-<!-- 	<update id="updatePlan" parameterType="travelplan"> -->
-<!-- 		update travelplan -->
-<!-- 		set subject = #{subject}, content = #{content} -->
-<!-- 		where articleNo = #{articleNo} -->
-<!-- 	</update> -->
+	<update id="updatePlan"  parameterType="travelPlanDto">
+		update travelplan
+		set start_date = #{startDate}, end_date = #{endDate},subject = #{subject},star_count= #{starCount}
+		where articleNo = #{articleNo}
+	</update>
+	
+	<update id="updateLocal"  parameterType="localDto">
+		update travelplaninfo
+   	 set content_id=#{contentId},title=#{title}, addr1= #{address}, first_image=#{image}
+   	 where articleNo = #{articleNo}
+   	 and travelplan_id= #{travelplanId}
+		
+	</update>
 	
 	
 	<delete id="deletePlan" parameterType="int">

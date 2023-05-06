@@ -24,7 +24,6 @@ public class TravelplanServiceImpl implements TravelplanService {
 
 	@Override
 	public void writePlan(TravelplanDto travelPlanDto) throws Exception {
-		
 		travelplanMapper.writePlan(travelPlanDto);
 	}
 
@@ -45,7 +44,7 @@ public class TravelplanServiceImpl implements TravelplanService {
 		travelplanMapper.deletePlan(articleNo);
 		
 	}
-
+ 
 	@Override
 	public TravelplanDto viewPlan(int articleNo) throws Exception {
 		return travelplanMapper.viewPlan(articleNo);
@@ -60,6 +59,23 @@ public class TravelplanServiceImpl implements TravelplanService {
 	@Override
 	public List<LocalDto> localList(int articleNo) throws Exception {
 		return travelplanMapper.localList(articleNo);
+	}
+
+	@Override
+	public void writeLocal(List<LocalDto> localDto) throws Exception {
+			System.out.println(localDto.toString());
+			travelplanMapper.writeLocal(localDto);
+			
+		
+	}
+
+	@Override
+	public void updateLocal(List<LocalDto> localDto) throws Exception {
+		
+		for (int i = 0; i < localDto.size(); i++) {
+			System.out.println(localDto.get(i).toString());
+			travelplanMapper.updateLocal(localDto.get(i));
+		}
 	}
 
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class LocalDto {
 
+	private int travelplanId;
 	private int articleNo;
 	private String title;
 	private int contentId;

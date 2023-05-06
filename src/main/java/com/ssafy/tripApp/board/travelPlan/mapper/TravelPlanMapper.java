@@ -15,6 +15,8 @@ public interface TravelPlanMapper {
 	public List<TravelplanDto> listPlan() throws Exception;
 	//플랜수정
 	public void updatePlan(TravelplanDto travelPlanDto) throws Exception;
+	
+	
 	//플랜삭제
 	public void deletePlan(int articleNo) throws Exception;
 	//플랜가져오기
@@ -22,4 +24,6 @@ public interface TravelPlanMapper {
 	public List<LocalDto> areaList(String word) throws Exception;
 	public List<LocalDto> localList(int articleNo) throws Exception;
 	
+	public void writeLocal(List<LocalDto> localDto)  throws Exception;
+	public void updateLocal(LocalDto localDto)  throws Exception;
 }

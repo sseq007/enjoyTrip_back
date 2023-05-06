@@ -10,11 +10,13 @@ import com.ssafy.tripApp.board.Sharetravel.mapper.ShareReplyMapper;
 
 import lombok.RequiredArgsConstructor;
 
+
 @Service
 public class ShareReplyServiceImpl implements ShareReplyService {
 
 	@Autowired
 	private ShareReplyMapper sharereplyMapper;
+	
 	@Override
 	public void writeReply(ShareReplyDto shareReplyDto) throws Exception {
 		

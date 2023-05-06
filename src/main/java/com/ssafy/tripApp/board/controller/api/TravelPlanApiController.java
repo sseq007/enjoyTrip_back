@@ -53,11 +53,15 @@ public class TravelPlanApiController {
 		}
 	}
 	@PostMapping(value = "/write")
-	public ResponseEntity<?> travelplanRegister(@RequestBody TravelplanDto travelplanDto) {
+	public ResponseEntity<?> travelplanRegister(@RequestBody TravelplanDto travelplanDto,HttpSession session) {
 		try {
-
-			System.out.println(travelplanDto.toString());
+			MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
+//			System.out.println(travelplanDto.toString());
+//			travelplanDto.setUserId(memberDto.getUserId());
+//			System.out.println(travelplanDto.getLocalDto().toString());
 			travelplanService.writePlan(travelplanDto);
+//			System.out.println(travelplanDto.getArticleNo());
+			travelplanService.writeLocal(travelplanDto.getLocalDto());
 			return new ResponseEntity<TravelplanDto>(travelplanDto, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
@@ -68,6 +72,7 @@ public class TravelPlanApiController {
 	public ResponseEntity<?> travelplanList() {
 		try {
 			List<TravelplanDto> listPlan = travelplanService.listPlan();
+//			System.out.println(listPlan.toString());
 			if(listPlan != null && !listPlan.isEmpty()) {
 				return new ResponseEntity<List<TravelplanDto>>(listPlan, HttpStatus.OK);
 //				return new ResponseEntity<List<MemberDto>>(HttpStatus.NOT_FOUND);
@@ -82,11 +87,11 @@ public class TravelPlanApiController {
 	@GetMapping(value = "/list/{articleNo}")
 	public ResponseEntity<?> travelplanInfo(@PathVariable("articleNo") int articleNo) {
 		try {
-			List<LocalDto> localList = travelplanService.localList(articleNo);
-//			TravelplanDto viewPlan = travelplanService.viewPlan(articleNo);
+//			List<LocalDto> localList = travelplanService.localList(articleNo);
+			TravelplanDto viewPlan = travelplanService.viewPlan(articleNo);
 //			System.out.println(viewPlan.toString());
-			if(localList != null)
-				return new ResponseEntity<List<LocalDto>>(localList, HttpStatus.OK);
+			if(viewPlan != null)
+				return new ResponseEntity<TravelplanDto>(viewPlan, HttpStatus.OK);
 			else
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
@@ -104,6 +109,25 @@ public class TravelPlanApiController {
 			return exceptionHandling(e);
 		}
 	}
+	@PutMapping(value = "/modify/{articleNo}")
+	public ResponseEntity<?> userModify(@RequestBody TravelplanDto travelplanDto,@PathVariable("articleNo") int articleNo) {
+		try {
+			TravelplanDto viewPlan = travelplanService.viewPlan(articleNo);
+			travelplanDto.setArticleNo(viewPlan.getArticleNo());
+			List<LocalDto> localDto = travelplanDto.getLocalDto();
+			for (int i = 0; i < localDto.size(); i++) {
+				travelplanDto.setLocalDto(localDto);
+			}
+			System.out.println(travelplanDto.toString());
+			travelplanService.updatePlan(travelplanDto);
+			travelplanService.updateLocal(travelplanDto.getLocalDto());
+			List<TravelplanDto> listPlan = travelplanService.listPlan();
+			return new ResponseEntity<List<TravelplanDto>>(listPlan, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

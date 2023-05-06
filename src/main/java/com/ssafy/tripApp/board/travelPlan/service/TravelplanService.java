@@ -20,4 +20,6 @@ public interface TravelplanService {
 		public List<LocalDto> areaList(String word) throws Exception;
 		
 		public List<LocalDto> localList(int articleNo) throws Exception;
+		public void writeLocal(List<LocalDto> localDto)  throws Exception;
+		public void updateLocal(List<LocalDto> localDto)  throws Exception;
 }
