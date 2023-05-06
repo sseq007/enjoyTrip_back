@@ -16,7 +16,6 @@
 	
 	<resultMap type="travelplanDto" id="travelplan">
 		<id column="articleNo" property="articleNo"/>
-		<result column="content_id" property="contentId"/>
 		<result column="start_date" property="startDate"/>
 		<result column="end_date" property="endDate"/>
 		<result column="subject" property="subject"/>
@@ -35,8 +34,8 @@
 	</select>
 	
 	<insert id="writePlan" parameterType="travelPlanDto">
-		insert into travelplan (content_id, start_date, end_date, subject,user_id, register_time,star_count)
-		values (#{contentId}, #{startDate}, #{endDate},#{subject} ,#{userId}, now(),#{starCount})
+		insert into travelplan (start_date, end_date, subject,user_id, register_time,star_count)
+		values (#{startDate}, #{endDate},#{subject} ,#{userId}, now(),#{starCount})
 		
 </insert>
 
@@ -55,7 +54,7 @@
 		
 	
 	<select id="listPlan" resultMap="travelplan">
-	select a.articleNo,a.content_id, a.start_date, a.end_date, a.subject,a.user_id,a.register_time,a.star_count,b.travelplan_id,b.articleNo,b.content_id,b.title,b.addr1,b.first_image
+	select a.articleNo, a.start_date, a.end_date, a.subject,a.user_id,a.register_time,a.star_count,b.travelplan_id,b.articleNo,b.content_id,b.title,b.addr1,b.first_image
 	from travelplan a , travelplaninfo b
     where a.articleNo = b.articleNo
 	order by a.articleNo desc
@@ -64,7 +63,7 @@
 	
 	<select id="viewPlan" parameterType="int" resultMap="travelplan">
 
-		select a.articleNo,b.articleNo,a.content_id, a.start_date, a.end_date, a.subject,a.user_id, b.travelplan_id,b.title,b.addr1 , b.first_image,a.register_time,a.star_count
+		select a.articleNo,b.articleNo, a.start_date, a.end_date, a.subject,a.user_id, b.travelplan_id,b.content_id,b.title,b.addr1 , b.first_image,a.register_time,a.star_count
 	from travelplan a, travelplaninfo b
 	where b.articleNo= #{articleNo}
 	and a.articleNo = #{articleNo}
@@ -74,7 +73,6 @@
 		select m.articleNo,b.title, b.content_id, b.addr1, b.first_image
 		from attraction_info b, travelplan m 
 		where m.articleNo = #{articleNo}
-		and m.contentId = b.contentId
 	</select>
 	
 	

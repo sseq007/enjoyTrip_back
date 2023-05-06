@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class TravelplanDto {
 	int articleNo;
-	int contentId;
+
 	String userId;
 	String subject;
 	double starCount;
