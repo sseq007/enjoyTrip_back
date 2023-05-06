@@ -1,6 +1,7 @@
 package com.ssafy.tripApp.board.controller.api;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +23,7 @@ import com.ssafy.tripApp.board.Sharetravel.dto.ShareReplyDto;
 import com.ssafy.tripApp.board.Sharetravel.dto.ShareTravelDto;
 import com.ssafy.tripApp.board.Sharetravel.service.ShareReplyService;
 import com.ssafy.tripApp.board.Sharetravel.service.ShareTravelService;
+import com.ssafy.tripApp.board.travelPlan.dto.TravelplanDto;
 import com.ssafy.tripApp.member.dto.MemberDto;
 
 import lombok.RequiredArgsConstructor;
@@ -38,7 +40,7 @@ public class ShareTravelApiController {
 	private final ShareReplyService sharereplyService;
 	
 	@PostMapping("/write")
-	public ResponseDto<Integer>write(@RequestBody ShareTravelDto sharetravelDto,HttpSession session){
+	public  ResponseEntity<?>write(@RequestBody ShareTravelDto sharetravelDto,HttpSession session){
 		
 		try {
 			MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
@@ -50,10 +52,10 @@ public class ShareTravelApiController {
 			e.printStackTrace();
 		}
 		
-		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+		return new ResponseEntity<ShareTravelDto>(sharetravelDto, HttpStatus.OK);
 	}
 	@PutMapping("/modify")
-	public ResponseDto<Integer> update(@RequestBody  ShareTravelDto sharetravelDto){
+	public ResponseEntity<?> update(@RequestBody  ShareTravelDto sharetravelDto){
 		try {
 			System.out.println(sharetravelDto.toString());
 			shareService.updateShare(sharetravelDto);
@@ -61,23 +63,24 @@ public class ShareTravelApiController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+		return new ResponseEntity<ShareTravelDto>(sharetravelDto, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public ResponseDto<Integer> deleteById(@PathVariable int id){
+	public ResponseEntity<?> deleteById(@PathVariable int id){
 		
 		try {
 			shareService.deleteShare(id);
+			List<ShareTravelDto> listShare = shareService.listShare(null);
+			return new ResponseEntity<List<ShareTravelDto>>(listShare, HttpStatus.OK);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return exceptionHandling(e);
 		}
-		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
 	}
 	
 	@PostMapping("/{boardId}/reply")
-	public ResponseDto<Integer> replySave(@RequestBody ShareReplyDto sharereplyDto,Model model,HttpSession session) {
+	public ResponseEntity<?> replySave(@RequestBody ShareReplyDto sharereplyDto,Model model,HttpSession session) {
 	
 		try {
 			MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
@@ -89,18 +92,24 @@ public class ShareTravelApiController {
 			e.printStackTrace();
 		}
 
-		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+		return new ResponseEntity<ShareReplyDto>(sharereplyDto, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{boardId}/reply/{replyId}")
-	public ResponseDto<Integer> replyDelete(@PathVariable int replyId){
+	public ResponseEntity<?> replyDelete(@PathVariable int replyId,@PathVariable int boardId){
 		
 		try {
 			sharereplyService.deleteReply(replyId);
+			List<ShareReplyDto> listReply = sharereplyService.listReply(boardId);
+			return new ResponseEntity<List<ShareReplyDto>>(listReply, HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return exceptionHandling(e);
 		}
-		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+	}
+	
+	private ResponseEntity<String> exceptionHandling(Exception e) {
+		e.printStackTrace();
+		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
