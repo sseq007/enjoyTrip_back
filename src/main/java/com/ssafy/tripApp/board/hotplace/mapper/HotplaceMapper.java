@@ -14,5 +14,5 @@ public interface HotplaceMapper {
 	HotplaceDto viewHotple(int articleNo) throws Exception;
 	void writeHotple(HotplaceDto hotplaceDto) throws Exception;
 	void updateHotple(HotplaceDto hotplaceDto) throws Exception;
-	void deleteHotple(HotplaceDto hotplaceDto) throws Exception;
+	void deleteHotple(int articleNo) throws Exception;
 }

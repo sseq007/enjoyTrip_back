@@ -12,7 +12,7 @@ let index = {
 		    	}
 			});
 	},
-	write: function()		
+	write: function()	{	
 		var formData = new FormData(document.getElementById('form-write'));
 		formData.append("sido_code", $("#search-area").val());
 		

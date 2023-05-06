@@ -12,7 +12,7 @@ public interface HotplaceDao {
 	//핫플 수정
 	void modifyHotplace(HotplaceDto hotplaceDto)throws SQLException;
 	//핫플 삭제
-	void deleteHotplace(HotplaceDto hotplaceDto)throws SQLException;
+	void deleteHotplace(int articleNo)throws SQLException;
 	//핫플 목록
 	List<HotplaceDto> listhotplace() throws SQLException;
 	//핫플 목록 가져오기

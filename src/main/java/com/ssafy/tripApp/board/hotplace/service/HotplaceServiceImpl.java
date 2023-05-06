@@ -40,8 +40,8 @@ public class HotplaceServiceImpl implements HotplaceService{
 	}
 
 	@Override
-	public void deleteHotple(HotplaceDto hotplaceDto) throws Exception {
-		hotplaceMapper.deleteHotple(hotplaceDto);
+	public void deleteHotple(int articleNo) throws Exception {
+		hotplaceMapper.deleteHotple(articleNo);
 	}
 	
 	
