@@ -55,9 +55,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public List<MemberDto> listMember(Map<String, Object> map) throws SQLException {
+	public List<MemberDto> listMember() throws SQLException {
 		
-		return memberMapper.listMember(map);
+		return memberMapper.listMember();
 	}
 
 	@Override

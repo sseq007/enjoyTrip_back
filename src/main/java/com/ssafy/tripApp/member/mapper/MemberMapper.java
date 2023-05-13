@@ -22,7 +22,7 @@ public interface MemberMapper {
 	// 아이디체크
 	int idCheck(String userId) throws SQLException;
 	// 회원리스트
-	List<MemberDto> listMember(Map<String, Object> map) throws SQLException;
+	List<MemberDto> listMember() throws SQLException;
 	// 회원정보
 	MemberDto viewMember(String userId) throws SQLException;
 
