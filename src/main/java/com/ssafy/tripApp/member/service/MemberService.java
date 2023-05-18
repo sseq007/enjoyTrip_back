@@ -22,4 +22,7 @@ public interface MemberService {
 	List<MemberDto> listMember() throws SQLException;
 	//회원정보
 	MemberDto viewMember(String userId) throws SQLException;
+	void saveRefreshToken(String userId, String refreshToken) throws Exception;
+	Object getRefreshToken(String userId) throws Exception;
+	void deleteRefreshToken(String userId) throws Exception;
 }

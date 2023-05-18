@@ -25,5 +25,8 @@ public interface MemberMapper {
 	List<MemberDto> listMember() throws SQLException;
 	// 회원정보
 	MemberDto viewMember(String userId) throws SQLException;
+	void saveRefreshToken(Map<String, String> map) throws SQLException;
+	Object getRefreshToken(String userId) throws SQLException;
+	void deleteRefreshToken(Map<String, String> map) throws SQLException;
 
 }
