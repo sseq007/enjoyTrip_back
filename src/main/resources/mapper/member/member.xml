@@ -43,7 +43,7 @@
 	</select>
 
 	<select id="viewMember" parameterType="string" resultMap="memberAll">
-		select user_id, user_name, user_pw, email_id, email_domain, join_date, profile_image
+		select *
 		from user
 		where user_id = #{userId}
 	</select>
