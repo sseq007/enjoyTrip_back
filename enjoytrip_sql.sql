@@ -364,6 +364,10 @@ ENGINE = InnoDB;
 
 insert into user (user_id, user_name, user_pw, email_id, email_domain, admin)
 values ('ssafy', '관리자', '1234', 'ssafy', 'naver.com', 1);
+
+alter table `enjoytrip`.`user`
+add column `token` varchar(1000) null default null after `join_date`;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

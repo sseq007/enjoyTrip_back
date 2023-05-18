@@ -124,7 +124,6 @@ public class MemberApiController {
 	public ResponseEntity<?> view(
 			@PathVariable @ApiParam(value ="인증할 회원의 아이디", required = true) String id,
 			HttpServletRequest request){
-		System.out.println(id);
 		logger.debug("userId: {}", id);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
@@ -166,35 +165,53 @@ public class MemberApiController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody MemberDto memberDto){
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		try {
 			memberService.registerMember(memberDto);
-			return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);	
+			resultMap.put("userInfo", memberDto);
+			resultMap.put("message", SUCCESS);
+			status = HttpStatus.ACCEPTED;
 		}catch(Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("멤버 등록 실패: {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
+		
+		return new ResponseEntity<Map<String,Object>>(resultMap, status);
 	}
 	
 	@PutMapping("/modify")
 	public ResponseEntity<?> update(@RequestBody MemberDto memberDto){
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		try {
 			memberService.updateMember(memberDto);
+			resultMap.put("userInfo", memberDto);
+			resultMap.put("message", SUCCESS);
+			status = HttpStatus.ACCEPTED;
 		}catch(Exception e) {
-			e.printStackTrace();
+			logger.error("정보 수정 실패: {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		
-		return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);	
+		return new ResponseEntity<Map<String,Object>>(resultMap, status);
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public  ResponseEntity<?> delete(@PathVariable String id){
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		try {
 			memberService.deleteMember(id);
-			List<MemberDto> list = memberService.listMember();
-			return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
+			resultMap.put("message", SUCCESS);
+			status = HttpStatus.ACCEPTED;
 		}catch(Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("멤버 삭제 실패: {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
+		return new ResponseEntity<Map<String,Object>>(resultMap, status);
 	}
 }
