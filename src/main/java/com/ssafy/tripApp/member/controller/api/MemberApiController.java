@@ -124,7 +124,8 @@ public class MemberApiController {
 	public ResponseEntity<?> view(
 			@PathVariable @ApiParam(value ="인증할 회원의 아이디", required = true) String id,
 			HttpServletRequest request){
-//		logger.debug("userId: {}", id);
+		System.out.println(id);
+		logger.debug("userId: {}", id);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		if(jwtService.checkToken(request.getHeader("access-token"))) {
@@ -135,7 +136,6 @@ public class MemberApiController {
 				resultMap.put("userInfo", memberDto);
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
-				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);			
 			}catch(Exception e) {
 				logger.error("정보 조회 실패: {}", e);
 				resultMap.put("message", e.getMessage());
