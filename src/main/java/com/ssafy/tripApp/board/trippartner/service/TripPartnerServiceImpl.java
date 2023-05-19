@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.tripApp.board.Sharetravel.dto.ShareTravelDto;
 import com.ssafy.tripApp.board.Sharetravel.mapper.ShareTravelMapper;
+import com.ssafy.tripApp.board.trippartner.dto.KeywordOneDto;
+import com.ssafy.tripApp.board.trippartner.dto.KeywordTwoDto;
 import com.ssafy.tripApp.board.trippartner.dto.TripPartnerDto;
 import com.ssafy.tripApp.board.trippartner.mapper.TripPartnerMapper;
 
@@ -17,7 +19,7 @@ public class TripPartnerServiceImpl implements TripPartnerService {
 
 	@Autowired
 	private TripPartnerMapper trippartnerMapper;
-	
+
 	@Override
 	public void updateHit(int articleNo) throws SQLException {
 
@@ -44,15 +46,48 @@ public class TripPartnerServiceImpl implements TripPartnerService {
 	public void updatePartner(TripPartnerDto trippartnerDto) throws SQLException {
 		// TODO Auto-generated method stub
 		trippartnerMapper.updatePartner(trippartnerDto);
-		
+
 	}
 
 	@Override
-	public void deletePartner(int aticleNo) throws SQLException {
+	public void deletePartner(int articleNo) throws SQLException {
 
-		trippartnerMapper.deletePartner(aticleNo);
+		trippartnerMapper.deletePartner(articleNo);
 	}
 
-	
+	@Override
+	public void writeKeywordOne(List<KeywordOneDto> keywordoneDto) throws SQLException {
+
+		for (int i = 0; i < keywordoneDto.size(); i++) {
+
+			trippartnerMapper.writeKeywordOne(keywordoneDto.get(i));
+		}
+	}
+
+	@Override
+	public void writeKeywordTwo(List<KeywordTwoDto> keywordtwoDto) throws SQLException {
+
+		for (int i = 0; i < keywordtwoDto.size(); i++) {
+
+			trippartnerMapper.writeKeywordTwo(keywordtwoDto.get(i));
+		}
+	}
+
+	@Override
+	public int getarticleNo() throws SQLException {
+
+		return trippartnerMapper.getarticleNo();
+	}
+
+	@Override
+	public List<TripPartnerDto> listKeywordOne(int articleNo) throws SQLException {
+		return trippartnerMapper.listKeywordOne(articleNo);
+	}
+
+	@Override
+	public List<TripPartnerDto> listKeywordTwo(int articleNo) throws SQLException {
+		// TODO Auto-generated method stub
+		return trippartnerMapper.listKeywordTwo(articleNo);
+	}
 
 }

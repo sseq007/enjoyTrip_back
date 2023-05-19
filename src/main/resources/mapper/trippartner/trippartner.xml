@@ -18,6 +18,19 @@
 		<result column="partner_object" property="partnerObject"/>
 		<result column="start_date" property="startDate"/>
 		<result column="end_date" property="endDate"/>
+<!-- 		<collection property="partnerkeyword" ofType="partnerkeywordDto"  resultMap="partnerkeywordDto"></collection> -->
+	</resultMap>
+	
+	<resultMap id="intResultMap" type="int">
+    <id property="articleNo" column="articleNo"/>
+	</resultMap>
+	<resultMap type="keywordoneDto" id="keywordoneDto">
+		<result column="articleNo" property="articleNo"/>
+		<result column="keywordOne" property="label"/>
+	</resultMap>
+	<resultMap type="keywordtwoDto" id="keywordtwoDto">
+		<result column="articleNo" property="articleNo"/>
+		<result column="keywordTwo" property="label"/>
 	</resultMap>
 	
 <!-- 	<resultMap type="boardDto" id="viewArticle" extends="article"> -->
@@ -33,12 +46,39 @@
 	<insert id="writePartner" parameterType="trippartnerDto">
 		insert into trippartner (user_id,location,subject, content, hit, partner_image,partner_url,partner_count,partner_object,start_date,end_date)
 		values (#{userId},#{location}, #{subject}, #{content}, 0,#{partnerImage},#{partnerUrl},#{partnerCount},#{partnerObject},#{startDate},#{endDate})
-<!-- 		<selectKey resultType="int" keyProperty="articleNo" order="AFTER"> -->
-<!-- 			select last_insert_id() -->
-<!-- 		</selectKey> -->
-		
+		<selectKey resultType="int" keyProperty="articleNo" order="AFTER">
+			select last_insert_id()
+		</selectKey>
 	</insert>
 	
+	<insert id="writeKeywordOne" parameterType="keywordoneDto" >
+	    INSERT INTO keywordone ( articleNo, keywordOne)
+    	VALUES  (#{articleNo} ,#{label})
+  </insert>
+	<insert id="writeKeywordTwo" parameterType="keywordtwoDto" >
+	    INSERT INTO keywordtwo ( articleNo,keywordTwo)
+    	VALUES  (#{articleNo} ,#{label})
+  </insert>
+  
+  <select id="getarticleNo" resultMap="intResultMap">
+    select articleNo
+    from trippartner
+    order by articleNo desc
+    limit 1;
+</select>
+  <select id="listKeywordOne"  parameterType="Integer" resultMap="keywordoneDto">
+		select articleNo, keywordOne
+		from keywordone
+		where articleNo = #{articleNo}
+	</select>
+	
+	 <select id="listKeywordTwo"  parameterType="Integer" resultMap="keywordtwoDto">
+		select articleNo, keywordTwo
+		from keywordtwo
+		where articleNo = #{articleNo}
+	</select>
+  
+  
 	<select id="listPartner" parameterType="map" resultMap="partner">
 		select articleNo, user_id, location,subject, content, hit, register_time,partner_image,partner_url,partner_count,partner_object,start_date,end_date
 		from trippartner

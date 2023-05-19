@@ -1,6 +1,7 @@
 package com.ssafy.tripApp.board.trippartner.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class TripPartnerDto {
 	private String partnerObject;
 	private String startDate;
 	private String endDate;
+//	private List<PartnerKeywordDto> partnerkeyword;
 	
 	
 }
