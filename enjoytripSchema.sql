@@ -125,11 +125,15 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`user` (
   `email_id` VARCHAR(45) NULL DEFAULT NULL,
   `email_domain` VARCHAR(45) NULL DEFAULT NULL,
   `join_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `token` VARCHAR(1000) NULL DEFAULT NULL,
   `admin` TINYINT NULL DEFAULT NULL,
   `profile_image` VARCHAR(200) NULL DEFAULT NULL,
   `profile_url` VARCHAR(200) NULL DEFAULT NULL,
-  PRIMARY KEY (`user_id`))
+  `nickname` VARCHAR(100) NOT NULL,
+  `birth` DATE NOT NULL,
+  `gender` VARCHAR(45) NOT NULL,
+  `reliability` DOUBLE NOT NULL DEFAULT 40.0,
+  PRIMARY KEY (`user_id`),
+  UNIQUE INDEX `nickname_UNIQUE` (`nickname` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -155,7 +159,8 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`hotplace` (
     REFERENCES `enjoytrip`.`attraction_info` (`sido_code`),
   CONSTRAINT `hotplace_to_user_user_id_fk`
     FOREIGN KEY (`user_id`)
-    REFERENCES `enjoytrip`.`user` (`user_id`))
+    REFERENCES `enjoytrip`.`user` (`user_id`)
+    ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -175,7 +180,8 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`heartcomment` (
     REFERENCES `enjoytrip`.`hotplace` (`articleNo`),
   CONSTRAINT `heartComment_to_user_user_id_fk`
     FOREIGN KEY (`user_id`)
-    REFERENCES `enjoytrip`.`user` (`user_id`))
+    REFERENCES `enjoytrip`.`user` (`user_id`)
+    ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -198,6 +204,84 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`hotplacereply` (
     REFERENCES `enjoytrip`.`hotplace` (`articleNo`),
   CONSTRAINT `reply_to_user_user_id_fk`
     FOREIGN KEY (`user_id`)
+    REFERENCES `enjoytrip`.`user` (`user_id`)
+    ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `enjoytrip`.`trippartner`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `enjoytrip`.`trippartner` (
+  `articleNo` INT NOT NULL AUTO_INCREMENT,
+  `user_id` VARCHAR(45) NOT NULL,
+  `location` VARCHAR(45) NOT NULL,
+  `subject` VARCHAR(45) NOT NULL,
+  `content` VARCHAR(45) NOT NULL,
+  `hit` INT NULL DEFAULT NULL,
+  `register_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `partner_image` VARCHAR(100) NULL DEFAULT NULL,
+  `partner_url` VARCHAR(200) NULL DEFAULT NULL,
+  `partner_count` VARCHAR(45) NOT NULL,
+  `partner_object` VARCHAR(45) NOT NULL,
+  `start_date` VARCHAR(45) NOT NULL,
+  `end_date` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`articleNo`),
+  INDEX `tripPartner_to_user_user_id_fk_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `tripPartner_to_user_user_id_fk`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `enjoytrip`.`user` (`user_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `enjoytrip`.`keywordone`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `enjoytrip`.`keywordone` (
+  `articleNo` INT NOT NULL,
+  `keywordOne` VARCHAR(45) NULL DEFAULT NULL,
+  INDEX `partnerkeyWord_to_trippartner_articleNo_fk_idx` (`articleNo` ASC) VISIBLE,
+  CONSTRAINT `partnerkeyWord_to_trippartner_articleNo_fk`
+    FOREIGN KEY (`articleNo`)
+    REFERENCES `enjoytrip`.`trippartner` (`articleNo`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `enjoytrip`.`keywordtwo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `enjoytrip`.`keywordtwo` (
+  `articleNo` INT NOT NULL,
+  `keywordTwo` VARCHAR(45) NULL DEFAULT NULL,
+  INDEX `keyWordtwo_to_trippartner_articleNo_fk_idx` (`articleNo` ASC) VISIBLE,
+  CONSTRAINT `keyWordtwo_to_trippartner_articleNo_fk`
+    FOREIGN KEY (`articleNo`)
+    REFERENCES `enjoytrip`.`trippartner` (`articleNo`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `enjoytrip`.`note`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `enjoytrip`.`note` (
+  `noteNo` INT NOT NULL AUTO_INCREMENT,
+  `fromuser_id` VARCHAR(45) NOT NULL,
+  `touser_id` VARCHAR(45) NOT NULL,
+  `content` VARCHAR(45) NOT NULL,
+  `isRead` TINYINT NULL DEFAULT NULL,
+  `register_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`noteNo`),
+  INDEX `note_to_trippartner_user_id_fk_idx` (`touser_id` ASC) VISIBLE,
+  INDEX `note_to_user_user_id_fk_idx` (`fromuser_id` ASC) VISIBLE,
+  CONSTRAINT `note_to_trippartner_user_id_fk`
+    FOREIGN KEY (`touser_id`)
+    REFERENCES `enjoytrip`.`trippartner` (`user_id`),
+  CONSTRAINT `note_to_user_user_id_fk`
+    FOREIGN KEY (`fromuser_id`)
     REFERENCES `enjoytrip`.`user` (`user_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
@@ -217,48 +301,8 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`notice` (
   INDEX `notice_to_user_user_id_fk_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `notice_to_user_user_id_fk`
     FOREIGN KEY (`user_id`)
-    REFERENCES `enjoytrip`.`user` (`user_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `enjoytrip`.`trippartner`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `enjoytrip`.`trippartner` (
-  `articleNo` INT NOT NULL AUTO_INCREMENT,
-  `user_id` VARCHAR(45) NOT NULL,
-  `location` VARCHAR(45) NOT NULL,
-  `subject` VARCHAR(100) NOT NULL,
-  `content` VARCHAR(300) NOT NULL,
-  `hit` INT NULL DEFAULT NULL,
-  `register_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `partner_image` VARCHAR(200) NULL DEFAULT NULL,
-  `partner_url` VARCHAR(200) NULL DEFAULT NULL,
-  `partner_count` VARCHAR(45) NOT NULL,
-  `partner_object` VARCHAR(45) NOT NULL,
-  `start_date` VARCHAR(45) NOT NULL,
-  `end_date` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`articleNo`),
-  INDEX `trippartner_to_user_user_id_fk_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `trippartner_to_user_user_id_fk`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `enjoytrip`.`user` (`user_id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 8
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `enjoytrip`.`keywordone`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `enjoytrip`.`keywordone` (
-  `articleNo` INT NOT NULL,
-  `keywordOne` VARCHAR(45) NULL DEFAULT NULL,
-  INDEX `partnerkeyWord_to_trippartner_articleNo_fk_idx` (`articleNo` ASC) VISIBLE,
-  CONSTRAINT `partnerkeyWord_to_trippartner_articleNo_fk`
-    FOREIGN KEY (`articleNo`)
-    REFERENCES `enjoytrip`.`trippartner` (`articleNo`))
+    REFERENCES `enjoytrip`.`user` (`user_id`)
+    ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -277,9 +321,9 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`sharetravel` (
   INDEX `shareTravel_to_user_user_id_fk_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `shareTravel_to_user_user_id_fk`
     FOREIGN KEY (`user_id`)
-    REFERENCES `enjoytrip`.`user` (`user_id`))
+    REFERENCES `enjoytrip`.`user` (`user_id`)
+    ON DELETE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -302,7 +346,8 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`sharereply` (
     ON DELETE CASCADE,
   CONSTRAINT `shareReply_to_user_user_id_fk`
     FOREIGN KEY (`user_id`)
-    REFERENCES `enjoytrip`.`user` (`user_id`))
+    REFERENCES `enjoytrip`.`user` (`user_id`)
+    ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -312,19 +357,14 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `enjoytrip`.`travelplan` (
   `articleNo` INT NOT NULL AUTO_INCREMENT,
-  `content_id` INT NOT NULL,
   `start_date` TIMESTAMP NULL DEFAULT NULL,
   `end_date` TIMESTAMP NULL DEFAULT NULL,
   `subject` VARCHAR(45) NOT NULL,
   `user_id` VARCHAR(16) NOT NULL,
   `register_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `star_count` DOUBLE NULL DEFAULT NULL,
-  PRIMARY KEY (`articleNo`, `content_id`),
+  PRIMARY KEY (`articleNo`),
   INDEX `travelPlan_to_user_user_id_fk_idx` (`user_id` ASC) VISIBLE,
-  INDEX `travelPaln_to_attraction_info_content_id_fk_idx` (`content_id` ASC) VISIBLE,
-  CONSTRAINT `travelPaln_to_attraction_info_content_id_fk`
-    FOREIGN KEY (`content_id`)
-    REFERENCES `enjoytrip`.`attraction_info` (`content_id`),
   CONSTRAINT `travelPlan_to_user_user_id_fk`
     FOREIGN KEY (`user_id`)
     REFERENCES `enjoytrip`.`user` (`user_id`))
@@ -353,44 +393,27 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `enjoytrip`.`keywordtwo`
+-- Table `enjoytrip`.`travelplaninfo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `enjoytrip`.`keywordtwo` (
+CREATE TABLE IF NOT EXISTS `enjoytrip`.`travelplaninfo` (
+  `travelplan_id` INT NOT NULL AUTO_INCREMENT,
   `articleNo` INT NOT NULL,
-  `keywordTwo` VARCHAR(45) NULL,
-  INDEX `keyWordtwo_to_trippartner_articleNo_fk_idx` (`articleNo` ASC) VISIBLE,
-  CONSTRAINT `keyWordtwo_to_trippartner_articleNo_fk`
+  `content_id` INT NULL DEFAULT NULL,
+  `title` VARCHAR(100) NULL DEFAULT NULL,
+  `addr1` VARCHAR(100) NULL DEFAULT NULL,
+  `first_image` VARCHAR(200) NULL DEFAULT NULL,
+  PRIMARY KEY (`travelplan_id`),
+  INDEX `travelplan_to_travelplaninfo_fk_articleNo_idx` (`articleNo` ASC) VISIBLE,
+  CONSTRAINT `travelplan_to_travelplaninfo_fk_articleNo`
     FOREIGN KEY (`articleNo`)
-    REFERENCES `enjoytrip`.`trippartner` (`articleNo`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `enjoytrip`.`travelplan` (`articleNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
-
--- -----------------------------------------------------
--- Table `enjoytrip`.`note`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `enjoytrip`.`note` (
-  `noteNo` INT NOT NULL AUTO_INCREMENT,
-  `fromuser_id` VARCHAR(45) NOT NULL,
-  `touser_id` VARCHAR(45) NOT NULL,
-  `content` VARCHAR(45) NOT NULL,
-  `isRead` TINYINT NULL,
-  `register_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`noteNo`),
-  INDEX `note_to_trippartner_user_id_fk_idx` (`touser_id` ASC) VISIBLE,
-  INDEX `note_to_user_user_id_fk_idx` (`fromuser_id` ASC) VISIBLE,
-  CONSTRAINT `note_to_trippartner_user_id_fk`
-    FOREIGN KEY (`touser_id`)
-    REFERENCES `enjoytrip`.`trippartner` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `note_to_user_user_id_fk`
-    FOREIGN KEY (`fromuser_id`)
-    REFERENCES `enjoytrip`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+insert into user (user_id, user_name, user_pw, email_id, email_domain, admin,nickname,birth,gender,reliability)
+values ('ssafy', '관리자', '1234', 'ssafy', 'naver.com', 1,'관리자',now(),'남성',40.0);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
