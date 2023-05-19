@@ -1,14 +1,18 @@
 package com.ssafy.tripApp.member.controller.api;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNullApi;
@@ -20,7 +24,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.tripApp.member.controller.MemberController;
 import com.ssafy.tripApp.member.dto.MemberDto;
@@ -40,6 +46,9 @@ public class MemberApiController {
 	public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
+	
+	@Value("${file.path}")
+	private String uploadPath;
 	
 	@Autowired
 	private JwtServiceImpl jwtService;
@@ -164,10 +173,28 @@ public class MemberApiController {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@RequestBody MemberDto memberDto){
+	public ResponseEntity<?> register(MemberDto memberDto, @RequestParam("file") MultipartFile file){
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		try {
+			if(!file.isEmpty()) {
+				String realPath = uploadPath;
+				System.out.println(realPath);
+				String saveFolder = realPath;
+				String saveFileName;
+				logger.debug("저장 폴더 : {}", saveFolder);
+				File folder = new File(saveFolder);
+				if (!folder.exists()) folder.mkdirs();
+				String origin = file.getOriginalFilename();
+				if(!origin.isEmpty()) {
+					saveFileName = UUID.randomUUID().toString()
+							+ origin;
+					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", origin, saveFileName);
+					file.transferTo(new File(folder, saveFileName));
+					memberDto.setProfileImage(saveFileName);
+				}
+				memberDto.setProfileUrl(saveFolder);
+			}
 			memberService.registerMember(memberDto);
 			resultMap.put("userInfo", memberDto);
 			resultMap.put("message", SUCCESS);
@@ -182,10 +209,29 @@ public class MemberApiController {
 	}
 	
 	@PutMapping("/modify")
-	public ResponseEntity<?> update(@RequestBody MemberDto memberDto){
+	public ResponseEntity<?> update(/*@RequestBody*/ MemberDto memberDto, @RequestParam("file") MultipartFile file){
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		System.out.println(memberDto);
 		try {
+			if(!file.isEmpty()) {
+				String realPath = uploadPath;
+				System.out.println(realPath);
+				String saveFolder = realPath;
+				String saveFileName;
+				logger.debug("저장 폴더 : {}", saveFolder);
+				File folder = new File(saveFolder);
+				if (!folder.exists()) folder.mkdirs();
+				String origin = file.getOriginalFilename();
+				if(!origin.isEmpty()) {
+					saveFileName = UUID.randomUUID().toString()
+							+ origin;
+					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", origin, saveFileName);
+					file.transferTo(new File(folder, saveFileName));
+					memberDto.setProfileImage(saveFileName);
+				}
+				memberDto.setProfileUrl(saveFolder);
+			}
 			memberService.updateMember(memberDto);
 			resultMap.put("userInfo", memberDto);
 			resultMap.put("message", SUCCESS);
