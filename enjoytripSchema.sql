@@ -232,9 +232,9 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`trippartner` (
   CONSTRAINT `tripPartner_to_user_user_id_fk`
     FOREIGN KEY (`user_id`)
     REFERENCES `enjoytrip`.`user` (`user_id`))
+    
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
-
 
 -- -----------------------------------------------------
 -- Table `enjoytrip`.`keywordone`
@@ -325,6 +325,7 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`sharetravel` (
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
+;
 
 
 -- -----------------------------------------------------
@@ -414,7 +415,8 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 insert into user (user_id, user_name, user_pw, email_id, email_domain, admin,nickname,birth,gender,reliability)
 values ('ssafy', '관리자', '1234', 'ssafy', 'naver.com', 1,'관리자',now(),'남성',40.0);
-
+alter table `enjoytrip`.`user`
+add column `token` varchar(1000) null default null after `join_date`;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -56,6 +57,9 @@ public class TripPartnerApiController {
 	@Autowired
 	private ServletContext servletContext;
 	
+	@Value("${file.path}")
+	private String uploadPath;
+	
 	@GetMapping("/list")
 	public ResponseEntity<?> list(@RequestParam Map<String, String> map) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -71,7 +75,8 @@ public class TripPartnerApiController {
 		TripPartnerDto trippartnerDto = new TripPartnerDto();
 		try {
 			if(!file.isEmpty()) {
-				String realPath = "C:/junho/enjoy_trip_vue/src/assets/img/partnerimg";
+//				String realPath = "C:/ssafy/vue.js/enjoy_trip_vue/src/assets/img/partnerimg";
+				String realPath = uploadPath;
 				String saveFolder = realPath;
 				String saveFileName;
 				logger.debug("저장 폴더 : {}", saveFolder);

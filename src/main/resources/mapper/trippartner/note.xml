@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.tripApp.board.trippartner.mapper.NoteMapper">
+
+	<resultMap type="noteDto" id="note">
+		<result column="noteNo" property="noteNo"/>
+		<result column="fromuser_id" property="fromuserId"/>
+		<result column="touser_id" property="touserId"/>
+		<result column="content" property="content"/>
+		<result column="isRead" property="isRead"/>
+		<result column="register_time" property="registerTime"/>
+	</resultMap>
+	
+
+	<insert id="writeNote" parameterType="noteDto">
+		insert into note (fromuser_id,touser_id,content,isRead)
+		values (#{fromuserId},#{touserId}, #{content}, false)
+	</insert>
+  
+  
+  
+	<select id="listNote" parameterType="map" resultMap="note">
+		select *
+		from note
+		order by noteNo desc
+<!-- 		<include refid="search"></include> -->
+	</select>
+	
+	
+	<select id="viewNote" parameterType="int" resultMap="note">
+		select *
+		from note
+		where noteNo = #{noteNo}
+	</select>
+		
+	
+	
+	<delete id="deleteNote" parameterType="int">
+		delete from note
+		where noteNo = #{noteNo}
+	</delete>
+
+</mapper>
