@@ -38,6 +38,7 @@ import com.ssafy.tripApp.board.Sharetravel.service.ShareTravelService;
 import com.ssafy.tripApp.board.travelPlan.dto.TravelplanDto;
 import com.ssafy.tripApp.board.trippartner.dto.KeyWordDto;
 import com.ssafy.tripApp.board.trippartner.dto.KeywordOneDto;
+import com.ssafy.tripApp.board.trippartner.dto.NoteDto;
 import com.ssafy.tripApp.board.trippartner.dto.TripPartnerDto;
 import com.ssafy.tripApp.board.trippartner.service.TripPartnerService;
 import com.ssafy.tripApp.member.controller.MemberController;
@@ -70,8 +71,68 @@ public class TripPartnerApiController {
 		mav.addObject("word", map.get("word"));
 		return new ResponseEntity<List<TripPartnerDto>>(listPartner, HttpStatus.OK);
 	}
+	@GetMapping("/listnewon")
+	public ResponseEntity<?> listnewOn(@RequestParam Map<String, String> map) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		List<TripPartnerDto> listPartner = trippartnerService.listPartnernewOn(map);
+//		System.out.println(listShare.toString());
+		mav.addObject("pgno", map.get("pgno"));
+		mav.addObject("key", map.get("key"));
+		mav.addObject("word", map.get("word"));
+		return new ResponseEntity<List<TripPartnerDto>>(listPartner, HttpStatus.OK);
+	}
+	@GetMapping("/listnewoff")
+	public ResponseEntity<?> listnewOff(@RequestParam Map<String, String> map) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		List<TripPartnerDto> listPartner = trippartnerService.listPartnernewOff(map);
+//		System.out.println(listShare.toString());
+		mav.addObject("pgno", map.get("pgno"));
+		mav.addObject("key", map.get("key"));
+		mav.addObject("word", map.get("word"));
+		return new ResponseEntity<List<TripPartnerDto>>(listPartner, HttpStatus.OK);
+	}
+	@GetMapping("/listhiton")
+	public ResponseEntity<?> listhitOn(@RequestParam Map<String, String> map) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		List<TripPartnerDto> listPartnerHit = trippartnerService.listPartnerHit(map);
+//		System.out.println(listShare.toString());
+		mav.addObject("pgno", map.get("pgno"));
+		mav.addObject("key", map.get("key"));
+		mav.addObject("word", map.get("word"));
+		return new ResponseEntity<List<TripPartnerDto>>(listPartnerHit, HttpStatus.OK);
+	}
+	@GetMapping("/listhitoff")
+	public ResponseEntity<?> listhitOff(@RequestParam Map<String, String> map) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		List<TripPartnerDto> listPartnerHit = trippartnerService.listPartnerhitOff(map);
+//		System.out.println(listShare.toString());
+		mav.addObject("pgno", map.get("pgno"));
+		mav.addObject("key", map.get("key"));
+		mav.addObject("word", map.get("word"));
+		return new ResponseEntity<List<TripPartnerDto>>(listPartnerHit, HttpStatus.OK);
+	}
+	@GetMapping("/liston")
+	public ResponseEntity<?> listOn(@RequestParam Map<String, String> map) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		List<TripPartnerDto> listPartnerOn = trippartnerService.listPartnerOn(map);
+//		System.out.println(listShare.toString());
+		mav.addObject("pgno", map.get("pgno"));
+		mav.addObject("key", map.get("key"));
+		mav.addObject("word", map.get("word"));
+		return new ResponseEntity<List<TripPartnerDto>>(listPartnerOn, HttpStatus.OK);
+	}
+	@GetMapping("/listoff")
+	public ResponseEntity<?> listOff(@RequestParam Map<String, String> map) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		List<TripPartnerDto> listPartnerOff = trippartnerService.listPartnerOff(map);
+//		System.out.println(listShare.toString());
+		mav.addObject("pgno", map.get("pgno"));
+		mav.addObject("key", map.get("key"));
+		mav.addObject("word", map.get("word"));
+		return new ResponseEntity<List<TripPartnerDto>>(listPartnerOff, HttpStatus.OK);
+	}
 	@PostMapping("/write")
-	public ResponseEntity<?>write(@RequestParam("userId")String userId, @RequestParam("subject")String subject,@RequestParam("content")String content,@RequestParam("partnerObject")String partnerObject,@RequestParam("partnerCount")String partnerCount,@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,@RequestParam("file") MultipartFile file){
+	public ResponseEntity<?>write(@RequestParam("userId")String userId,@RequestParam("location")String location, @RequestParam("subject")String subject,@RequestParam("content")String content,@RequestParam("partnerObject")String partnerObject,@RequestParam("partnerCount")String partnerCount,@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,@RequestParam("file") MultipartFile file){
 		TripPartnerDto trippartnerDto = new TripPartnerDto();
 		try {
 			if(!file.isEmpty()) {
@@ -90,7 +151,7 @@ public class TripPartnerApiController {
 					file.transferTo(new File(folder, saveFileName));
 					trippartnerDto.setPartnerImage(saveFileName);
 				}
-				trippartnerDto.setLocation("서울");
+				trippartnerDto.setLocation(location);
 				trippartnerDto.setPartnerUrl(saveFolder);
 				trippartnerDto.setUserId(userId);
 				trippartnerDto.setSubject(subject);
@@ -104,7 +165,7 @@ public class TripPartnerApiController {
 			trippartnerService.writePartner(trippartnerDto);
 //			MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
 //			sharetravelDto.setUserId(memberDto.getUserId());
-			System.out.println(trippartnerDto.toString());
+//			System.out.println(trippartnerDto.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -112,7 +173,28 @@ public class TripPartnerApiController {
 		
 		return new ResponseEntity<TripPartnerDto>(trippartnerDto, HttpStatus.OK);
 	}
-	
+	@PutMapping("/updateisendOn")
+	public ResponseEntity<?> updateIsEndOn(@RequestBody TripPartnerDto trippartnerDto){
+		try {
+//			System.out.println(trippartnerDto);
+			trippartnerService.updateisEndOn(trippartnerDto);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<TripPartnerDto>(trippartnerDto, HttpStatus.OK);
+	}
+	@PutMapping("/updateisendOff")
+	public ResponseEntity<?> updateIsEndOff(@RequestBody TripPartnerDto trippartnerDto){
+		try {
+//			System.out.println(trippartnerDto);
+			trippartnerService.updateisEndOff(trippartnerDto);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<TripPartnerDto>(trippartnerDto, HttpStatus.OK);
+	}
 	
 	@PostMapping("/write/keyword")
 public ResponseEntity<?>write(@RequestBody KeyWordDto keywordDto){	
@@ -188,6 +270,7 @@ public ResponseEntity<?>write(@RequestBody KeyWordDto keywordDto){
 			TripPartnerDto viewPartner = trippartnerService.viewPartner(articleNo);
 //			List<ShareReplyDto> listReply = sharereplyService.listReply(articleNo);
 //			System.out.println(listReply.toString());
+//			System.out.println(viewPartner.toString());
 			trippartnerService.updateHit(articleNo);
 		
 			return new ResponseEntity<TripPartnerDto>(viewPartner, HttpStatus.OK);

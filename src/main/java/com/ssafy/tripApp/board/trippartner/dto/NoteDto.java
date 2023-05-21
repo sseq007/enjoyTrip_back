@@ -12,11 +12,14 @@ import lombok.NoArgsConstructor;
 public class NoteDto {
 	
 	private int noteNo;
+	private int articleNo;
 	private String fromuserId;
 	private String touserId;
 	private String Content;
 	private boolean isRead;
 	private Timestamp registerTime;
+	private String profileImage;
+	private String profileUrl;
 	
 	
 }

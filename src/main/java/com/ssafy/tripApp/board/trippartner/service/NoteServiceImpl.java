@@ -29,8 +29,8 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public void deletePartner(int noteNo) throws SQLException {
-		noteMapper.deletePartner(noteNo);
+	public void deleteNote(int noteNo) throws SQLException {
+		noteMapper.deleteNote(noteNo);
 		
 	}
 
@@ -44,6 +44,24 @@ public class NoteServiceImpl implements NoteService {
 	public NoteDto viewNote(int noteNo) throws SQLException {
 		// TODO Auto-generated method stub
 		return noteMapper.viewNote(noteNo);
+	}
+
+	@Override
+	public void updateisRead(NoteDto noteDto) throws SQLException {
+
+		noteMapper.updateisRead(noteDto);
+	}
+
+	@Override
+	public int isReadCount(String userid) throws SQLException {
+		// TODO Auto-generated method stub
+		return noteMapper.isReadCount(userid);
+	}
+
+	@Override
+	public int sendCount(int articleNo) throws SQLException {
+		// TODO Auto-generated method stub
+		return noteMapper.sendCount(articleNo);
 	}
 
 

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssafy.tripApp.board.ResponseDto;
+import com.ssafy.tripApp.board.Sharetravel.dto.ShareTravelDto;
 import com.ssafy.tripApp.board.trippartner.dto.NoteDto;
 import com.ssafy.tripApp.board.trippartner.service.NoteService;
 
@@ -72,12 +73,45 @@ public class NoteApiController {
 			return exceptionHandling(e);
 		}
 	}
+	@PutMapping("/updateisread")
+	public ResponseEntity<?> updateIsRead(@RequestBody NoteDto noteDto){
+		try {
+			System.out.println(noteDto);
+			noteService.updateisRead(noteDto);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<NoteDto>(noteDto, HttpStatus.OK);
+	}
+	@GetMapping("/countisread/{userId}")
+	public ResponseEntity<?> countisRead(@PathVariable String userId,Model model) {
+		try {
+			int readCount = noteService.isReadCount(userId);
+			return new ResponseEntity<Integer>( readCount, HttpStatus.OK);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return exceptionHandling(e);
+		}
+	}
+	@GetMapping("/countsend/{articleNo}")
+	public ResponseEntity<?> countsend(@PathVariable int  articleNo,Model model) {
+		try {
+			int sendCount = noteService.sendCount(articleNo);
+			return new ResponseEntity<Integer>( sendCount, HttpStatus.OK);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return exceptionHandling(e);
+		}
+	}
 	
 	@DeleteMapping("/delete/{id}")
 	public  ResponseEntity<?> deleteById(@PathVariable int id){
 		
 		try {
-			noteService.deletePartner(id);
+			noteService.deleteNote(id);
 			return  new ResponseEntity<String>("쪽지삭제완료", HttpStatus.OK);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

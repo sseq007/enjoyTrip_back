@@ -25,6 +25,9 @@ public class TripPartnerDto {
 	private String partnerObject;
 	private String startDate;
 	private String endDate;
+	private boolean end;
+	private String profileImage;
+	private String profileUrl;
 //	private List<PartnerKeywordDto> partnerkeyword;
 	
 	

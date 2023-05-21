@@ -29,4 +29,17 @@ public interface TripPartnerService {
 		
 		List<TripPartnerDto> listKeywordOne(int articleNo) throws SQLException;
 		List<TripPartnerDto> listKeywordTwo(int articleNo) throws SQLException;
+		void updateisEndOn(TripPartnerDto trippartnerDto) throws SQLException;
+		void updateisEndOff(TripPartnerDto trippartnerDto) throws SQLException;
+//		모집순(모집중)
+		List<TripPartnerDto> listPartnerOn(Map<String, String> param) throws SQLException;
+//		모집순(모집종료)
+		List<TripPartnerDto> listPartnerOff(Map<String, String> param) throws SQLException;
+	//인기순
+		List<TripPartnerDto> listPartnerHit(Map<String, String> param) throws SQLException;
+		List<TripPartnerDto> listPartnerhitOff(Map<String, String> param) throws SQLException;
+		
+		List<TripPartnerDto> listPartnernewOn(Map<String, String> param) throws SQLException;
+		
+		List<TripPartnerDto> listPartnernewOff(Map<String, String> param) throws SQLException;
 }

@@ -6,25 +6,30 @@
 
 	<resultMap type="noteDto" id="note">
 		<result column="noteNo" property="noteNo"/>
+		<result column="articleNo" property="articleNo"/>
 		<result column="fromuser_id" property="fromuserId"/>
 		<result column="touser_id" property="touserId"/>
 		<result column="content" property="content"/>
 		<result column="isRead" property="isRead"/>
 		<result column="register_time" property="registerTime"/>
+		<result column="profile_image" property="profileImage"/>
+		<result column="profile_url" property="profileUrl"/>
 	</resultMap>
-	
-
+	<resultMap type="java.lang.Integer" id="isreadCount"></resultMap>
+	<resultMap type="java.lang.Integer" id="sendCount"></resultMap>
 	<insert id="writeNote" parameterType="noteDto">
-		insert into note (fromuser_id,touser_id,content,isRead)
-		values (#{fromuserId},#{touserId}, #{content}, false)
+		insert into note (articleNo,fromuser_id,touser_id,content,isRead,profile_image,profile_url)
+		values (#{articleNo},#{fromuserId},#{touserId}, #{content}, false,#{profileImage},#{profileUrl})
 	</insert>
   
   
   
-	<select id="listNote" parameterType="map" resultMap="note">
+	<select id="listNote" parameterType="string" resultMap="note">
 		select *
 		from note
+		where touser_id=#{fromuserId}
 		order by noteNo desc
+		
 <!-- 		<include refid="search"></include> -->
 	</select>
 	
@@ -34,7 +39,26 @@
 		from note
 		where noteNo = #{noteNo}
 	</select>
+	
+		<update id="updateisRead" parameterType="noteDto">
+		update note
+		set isRead = true
+		where noteNo = #{noteNo}
+	</update>
+	
+	<select id="isReadCount" parameterType="string"  resultMap="isreadCount">
+		select count(*)
+		from note
+		where touser_id = #{touserId}
+		and isRead = false
+	</select>
+	
+	<select id="sendCount" parameterType="int"  resultMap="sendCount">
+		select count(distinct fromuser_id)
+		from note
+		where articleNo = #{articleNo}
 		
+	</select>
 	
 	
 	<delete id="deleteNote" parameterType="int">

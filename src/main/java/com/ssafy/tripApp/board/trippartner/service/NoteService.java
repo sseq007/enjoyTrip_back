@@ -15,10 +15,12 @@ public interface NoteService {
 	// 쪽지쓰기
 		void writeNote(NoteDto noteDto) throws SQLException;
 		// 동행찾기삭제
-		void deletePartner(int noteNo) throws SQLException;
+		void deleteNote(int noteNo) throws SQLException;
 		// 동행찾기리스트
 		List<NoteDto> listNote(String userid) throws SQLException;
 		// 동행찾기가져오기
 		NoteDto viewNote(int noteNo) throws SQLException;
-		
+		void updateisRead(NoteDto noteDto) throws SQLException;
+		int isReadCount(String userid) throws SQLException;
+		int sendCount(int articleNo) throws SQLException;
 }

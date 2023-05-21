@@ -90,4 +90,52 @@ public class TripPartnerServiceImpl implements TripPartnerService {
 		return trippartnerMapper.listKeywordTwo(articleNo);
 	}
 
+	@Override
+	public void updateisEndOn(TripPartnerDto trippartnerDto) throws SQLException {
+
+		trippartnerMapper.updateisEndOn(trippartnerDto);
+	}
+
+	@Override
+	public void updateisEndOff(TripPartnerDto trippartnerDto) throws SQLException {
+		
+		trippartnerMapper.updateisEndOff(trippartnerDto);
+	}
+
+	@Override
+	public List<TripPartnerDto> listPartnerOn(Map<String, String> param) throws SQLException {
+		// TODO Auto-generated method stub
+		return trippartnerMapper.listPartnerOn(param);
+	}
+
+	@Override
+	public List<TripPartnerDto> listPartnerOff(Map<String, String> param) throws SQLException {
+		// TODO Auto-generated method stub
+		return trippartnerMapper.listPartnerOff(param);
+	}
+
+	@Override
+	public List<TripPartnerDto> listPartnerHit(Map<String, String> param) throws SQLException {
+		// TODO Auto-generated method stub
+		return trippartnerMapper.listPartnerHit(param);
+	}
+
+	@Override
+	public List<TripPartnerDto> listPartnerhitOff(Map<String, String> param) throws SQLException {
+		// TODO Auto-generated method stub
+		return trippartnerMapper.listPartnerhitOff(param);
+	}
+
+	@Override
+	public List<TripPartnerDto> listPartnernewOn(Map<String, String> param) throws SQLException {
+		// TODO Auto-generated method stub
+		return trippartnerMapper.listPartnernewOn(param);
+	}
+
+	@Override
+	public List<TripPartnerDto> listPartnernewOff(Map<String, String> param) throws SQLException {
+		// TODO Auto-generated method stub
+		return trippartnerMapper.listPartnernewOff(param);
+	}
+
 }

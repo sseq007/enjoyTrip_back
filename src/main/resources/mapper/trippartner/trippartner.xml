@@ -18,6 +18,9 @@
 		<result column="partner_object" property="partnerObject"/>
 		<result column="start_date" property="startDate"/>
 		<result column="end_date" property="endDate"/>
+		<result column="isend" property="end"/>
+		<result column="profile_image" property="profileImage"/>
+		<result column="profile_url" property="profileUrl"/>
 <!-- 		<collection property="partnerkeyword" ofType="partnerkeywordDto"  resultMap="partnerkeywordDto"></collection> -->
 	</resultMap>
 	
@@ -44,12 +47,22 @@
 <!-- 	</resultMap> -->
 
 	<insert id="writePartner" parameterType="trippartnerDto">
-		insert into trippartner (user_id,location,subject, content, hit, partner_image,partner_url,partner_count,partner_object,start_date,end_date)
-		values (#{userId},#{location}, #{subject}, #{content}, 0,#{partnerImage},#{partnerUrl},#{partnerCount},#{partnerObject},#{startDate},#{endDate})
+		insert into trippartner (user_id,location,subject, content, hit, partner_image,partner_url,partner_count,partner_object,start_date,end_date,isend,profile_image,profile_url)
+		values (#{userId},#{location}, #{subject}, #{content}, 0,#{partnerImage},#{partnerUrl},#{partnerCount},#{partnerObject},#{startDate},#{endDate},true,#{profileImage},#{profileUrl})
 		<selectKey resultType="int" keyProperty="articleNo" order="AFTER">
 			select last_insert_id()
 		</selectKey>
 	</insert>
+	<update id="updateisEndOn" parameterType="noteDto">
+		update trippartner
+		set isend = true
+		where articleNo = #{articleNo}
+	</update>
+	<update id="updateisEndOff" parameterType="noteDto">
+		update trippartner
+		set isend = false
+		where articleNo = #{articleNo}
+	</update>
 	
 	<insert id="writeKeywordOne" parameterType="keywordoneDto" >
 	    INSERT INTO keywordone ( articleNo, keywordOne)
@@ -80,15 +93,57 @@
   
   
 	<select id="listPartner" parameterType="map" resultMap="partner">
-		select articleNo, user_id, location,subject, content, hit, register_time,partner_image,partner_url,partner_count,partner_object,start_date,end_date
+		select *
 		from trippartner
+		order by articleNo desc
+<!-- 		<include refid="search"></include> -->
+	</select>
+	<select id="listPartnerOn" parameterType="map" resultMap="partner">
+		select *
+		from trippartner
+		where isend=true
+		order by articleNo desc
+<!-- 		<include refid="search"></include> -->
+	</select>
+	<select id="listPartnerOff" parameterType="map" resultMap="partner">
+		select *
+		from trippartner
+		where isend = false
+		order by articleNo desc
+<!-- 		<include refid="search"></include> -->
+	</select>
+	<select id="listPartnerHit" parameterType="map" resultMap="partner">
+		select *
+		from trippartner
+		where isend=true
+		order by hit desc
+<!-- 		<include refid="search"></include> -->
+	</select>
+	<select id="listPartnerhitOff" parameterType="map" resultMap="partner">
+		select *
+		from trippartner
+		where isend=false
+		order by hit desc
+<!-- 		<include refid="search"></include> -->
+	</select>
+	<select id="listPartnernewOn" parameterType="map" resultMap="partner">
+		select *
+		from trippartner
+		where isend=true
+		order by articleNo desc
+<!-- 		<include refid="search"></include> -->
+	</select>
+	<select id="listPartnernewOff" parameterType="map" resultMap="partner">
+		select *
+		from trippartner
+		where isend=false
 		order by articleNo desc
 <!-- 		<include refid="search"></include> -->
 	</select>
 	
 	
 	<select id="viewPartner" parameterType="int" resultMap="partner">
-		select articleNo, user_id, location,subject, content, hit, register_time ,partner_image,partner_url,partner_count,partner_object,start_date,end_date
+		select articleNo, user_id, location,subject, content, hit, register_time ,partner_image,partner_url,partner_count,partner_object,start_date,end_date,isend
 		from trippartner
 		where articleNo = #{articleNo}
 	</select>
