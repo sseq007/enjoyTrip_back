@@ -14,6 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema enjoytrip
 -- -----------------------------------------------------
+DROP SCHEMA `enjoytrip`;
 CREATE SCHEMA IF NOT EXISTS `enjoytrip` DEFAULT CHARACTER SET utf8mb3 ;
 USE `enjoytrip` ;
 
@@ -125,18 +126,18 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`user` (
   `email_id` VARCHAR(45) NULL DEFAULT NULL,
   `email_domain` VARCHAR(45) NULL DEFAULT NULL,
   `join_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `admin` TINYINT NULL DEFAULT NULL,
+  `admin` TINYINT NULL DEFAULT 0,
   `profile_image` VARCHAR(200) NULL DEFAULT NULL,
   `profile_url` VARCHAR(200) NULL DEFAULT NULL,
   `nickname` VARCHAR(100) NOT NULL,
-  `birth` DATE NOT NULL,
+  `birth` VARCHAR(20) NOT NULL,
+  `age` VARCHAR(10) NULL DEFAULT (YEAR(CURDATE()) - YEAR(birth) + 1),
   `gender` VARCHAR(45) NOT NULL,
-  `reliability` DOUBLE NOT NULL DEFAULT 40.0,
+  `reliability` DOUBLE NULL DEFAULT 40.0,
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `nickname_UNIQUE` (`nickname` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
-
 
 -- -----------------------------------------------------
 -- Table `enjoytrip`.`hotplace`
@@ -413,8 +414,8 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`travelplaninfo` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
-insert into user (user_id, user_name, user_pw, email_id, email_domain, admin,nickname,birth,gender,reliability)
-values ('ssafy', '관리자', '1234', 'ssafy', 'naver.com', 1,'관리자',now(),'남성',40.0);
+insert into user (user_id, user_name, user_pw, email_id, email_domain, admin,nickname,birth,gender)
+values ('ssafy', '관리자', '1234', 'ssafy', 'naver.com', 1,'관리자',date(now()),'male');
 alter table `enjoytrip`.`user`
 add column `token` varchar(1000) null default null after `join_date`;
 

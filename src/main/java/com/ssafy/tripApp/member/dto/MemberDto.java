@@ -33,8 +33,9 @@ public class MemberDto {
 	@ApiModelProperty(value = "회원 프로필 이미지 주소")
 	private String profileUrl;
 	
-	private String nickname;
+	private String userNickname;
 	private String birth;
 	private String gender;
-	private String reliablity;
+	private String reliability;
+	private String age;
 }

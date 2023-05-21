@@ -173,11 +173,12 @@ public class MemberApiController {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<?> register(MemberDto memberDto, @RequestParam("file") MultipartFile file){
+	public ResponseEntity<?> register(MemberDto memberDto, @RequestParam(value="file", required=false) MultipartFile file){
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		System.out.println(memberDto);
 		try {
-			if(!file.isEmpty()) {
+			if(file != null) {
 				String realPath = uploadPath;
 				System.out.println(realPath);
 				String saveFolder = realPath;
@@ -214,7 +215,7 @@ public class MemberApiController {
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		System.out.println(memberDto);
 		try {
-			if(!file.isEmpty()) {
+			if(file != null) {
 				String realPath = uploadPath;
 				System.out.println(realPath);
 				String saveFolder = realPath;
