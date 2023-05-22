@@ -1,13 +1,16 @@
 package com.ssafy.tripApp.board.controller.api;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,6 +31,7 @@ import com.ssafy.tripApp.board.hotplace.dto.HotplaceDto;
 import com.ssafy.tripApp.board.hotplace.service.HotplaceService;
 import com.ssafy.tripApp.member.dto.MemberDto;
 
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -35,11 +39,14 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/hotplace")
 @CrossOrigin("*")
 public class HotplaceApiController {
-	@Autowired
-	private HotplaceService hotplaceService;
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
+	
+	@Value("${file.path}")
+	private String uploadPath;
 	
 	@Autowired
-	private ServletContext servletContext;
+	private HotplaceService hotplaceService;
 	
 	@GetMapping("/list")
 	public ResponseEntity<?>list() throws Exception{
@@ -49,7 +56,7 @@ public class HotplaceApiController {
 	}
 	
 	@GetMapping("/view/{articleNo}")
-	public ResponseEntity<?> view(@PathVariable("articleNo") int articleNo){
+	public ResponseEntity<?> view(@PathVariable("articleNo") @ApiParam(value = "얻어올 글의 번호", required = true) int articleNo){
 		try {
 			HotplaceDto viewHotple = hotplaceService.viewHotple(articleNo);
 			if(viewHotple != null) {
@@ -64,13 +71,11 @@ public class HotplaceApiController {
 	}
 	
 	@PostMapping("/write")
-	public ResponseDto<Integer>write(HotplaceDto hotplaceDto, MultipartFile file, HttpSession session){
-		String userId =  ((MemberDto) session.getAttribute("userinfo")).getUserId();
-		System.out.println(userId);
-		hotplaceDto.setUserId(userId);
+	public ResponseEntity<?> write(HotplaceDto hotplaceDto, MultipartFile file){
+		System.out.println(hotplaceDto);
 		try {
-			if(!file.isEmpty()) {
-				String realPath = servletContext.getRealPath("/upload");
+			if(file != null) {
+				String realPath = uploadPath;
 				String saveFolder = realPath;
 				String saveFileName;
 				File folder = new File(saveFolder);
@@ -85,23 +90,25 @@ public class HotplaceApiController {
 				hotplaceDto.setImageUrl(saveFolder);
 				
 			}
+			System.out.println(hotplaceDto);
 			hotplaceService.writeHotple(hotplaceDto);
-			//System.out.println(hotplaceDto.toString());
-			return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 
 		}catch(Exception e){
 			e.printStackTrace();
-			return null;
 		}
 		
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	
 	@PutMapping("/update/{articleNo}")
-	public ResponseEntity<?> update(HotplaceDto hotplaceDto, MultipartFile file, @PathVariable("articleNo") int articleNo){
+	public ResponseEntity<?> update(HotplaceDto hotplaceDto, @RequestParam(value="file", required=false) MultipartFile file, @PathVariable("articleNo") int articleNo){
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		try {
-			hotplaceDto.setArticleNo(articleNo);
-			if(!file.isEmpty()) {
-				String realPath = servletContext.getRealPath("/upload");
+			HotplaceDto updateHotplace = hotplaceService.viewHotple(articleNo);
+			if(file != null) {
+				String realPath = uploadPath;
 				String saveFolder = realPath;
 				String saveFileName;
 				File folder = new File(saveFolder);
@@ -115,8 +122,12 @@ public class HotplaceApiController {
 				}
 				hotplaceDto.setImageUrl(saveFolder);
 				
+			}else {
+				hotplaceDto.setImageName(updateHotplace.getImageName());
+				hotplaceDto.setImageUrl(updateHotplace.getImageUrl());
 			}
 			hotplaceService.updateHotple(hotplaceDto);
+			
 			
 			List<HotplaceDto> hotplaceList = hotplaceService.listHotple();
 			return new ResponseEntity(hotplaceList, HttpStatus.OK);

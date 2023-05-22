@@ -9,7 +9,7 @@
 		<result column="sido_name" property="sido_name"/>
 	</resultMap>
 	
-	<select id="sidoList" parameterType="map" resultMap="sido">
+	<select id="sidoList" resultMap="sido">
 		select *
 		from sido
 		order by sido_code
