@@ -54,7 +54,9 @@
     
     
     <update id="updateMember" parameterType="memberDto">
-        update user set user_name = #{userName}, user_pw = #{userPw}, email_id = #{emailId}, email_domain = #{emailDomain}, profile_image = #{profileImage}, profile_url = #{profileUrl}
+        update user set user_name = #{userName}, user_pw = #{userPw}, nickname = #{userNickname}, 
+        gender = #{gender}, birth = #{birth}, email_id = #{emailId}, email_domain = #{emailDomain}, 
+        profile_image = #{profileImage}, profile_url = #{profileUrl}
         where user_id = #{userId}
     </update>
     

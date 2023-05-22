@@ -210,11 +210,12 @@ public class MemberApiController {
 	}
 	
 	@PutMapping("/modify")
-	public ResponseEntity<?> update(/*@RequestBody*/ MemberDto memberDto, @RequestParam("file") MultipartFile file){
+	public ResponseEntity<?> update(/*@RequestBody*/ MemberDto memberDto, @RequestParam(value="file", required=false) MultipartFile file){
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		System.out.println(memberDto);
 		try {
+			MemberDto updateMember = memberService.viewMember(memberDto.getUserId());
 			if(file != null) {
 				String realPath = uploadPath;
 				System.out.println(realPath);
@@ -232,6 +233,9 @@ public class MemberApiController {
 					memberDto.setProfileImage(saveFileName);
 				}
 				memberDto.setProfileUrl(saveFolder);
+			} else if(updateMember.getProfileImage() != null) {
+				memberDto.setProfileImage(updateMember.getProfileImage());
+				memberDto.setProfileUrl(updateMember.getProfileUrl());
 			}
 			memberService.updateMember(memberDto);
 			resultMap.put("userInfo", memberDto);
