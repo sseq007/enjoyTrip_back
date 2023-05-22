@@ -157,6 +157,27 @@ public class MemberApiController {
 		return new ResponseEntity<Map<String,Object>>(resultMap, status);
 	}
 	
+	@ApiOperation(value = "회원 인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
+	@GetMapping("/detail/{id}")
+	public ResponseEntity<?> detail(
+			@PathVariable @ApiParam(value ="인증할 회원의 아이디", required = true) String id){
+		logger.debug("userId: {}", id);
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		try {
+			// 로그인 사용자 정보
+			MemberDto memberDto = memberService.viewMember(id);
+			resultMap.put("userInfo", memberDto);
+			resultMap.put("message", SUCCESS);
+			status = HttpStatus.ACCEPTED;
+		}catch(Exception e) {
+			logger.error("정보 조회 실패: {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String,Object>>(resultMap, status);
+	}
+	
 	@GetMapping("/list")
 	public ResponseEntity<?> list(){
 		try {
