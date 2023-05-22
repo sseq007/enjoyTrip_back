@@ -138,4 +138,23 @@ public class TripPartnerServiceImpl implements TripPartnerService {
 		return trippartnerMapper.listPartnernewOff(param);
 	}
 
+
+	@Override
+	public void updateKeywordOne(List<KeywordOneDto> keywordoneDto) throws SQLException {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < keywordoneDto.size(); i++) {
+
+			trippartnerMapper.updateKeywordOne(keywordoneDto.get(i));
+		}
+	}
+
+	@Override
+	public void updateKeywordTwo(List<KeywordTwoDto> keywordtwoDto) throws SQLException {
+
+		for (int i = 0; i < keywordtwoDto.size(); i++) {
+
+			trippartnerMapper.updateKeywordTwo(keywordtwoDto.get(i));
+		}
+	}
+
 }

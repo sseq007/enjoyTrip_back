@@ -15,6 +15,8 @@ public interface TripPartnerService {
 		void writePartner(TripPartnerDto trippartnerDto) throws SQLException;
 		// 동행찾기수정
 		void updatePartner(TripPartnerDto trippartnerDto) throws SQLException;
+		void updateKeywordOne(List<KeywordOneDto> keywordoneDto) throws SQLException;
+		void updateKeywordTwo(List<KeywordTwoDto> keywordtwoDto) throws SQLException;
 		// 동행찾기삭제
 		void deletePartner(int aticleNo) throws SQLException;
 		// 조회수업데이트

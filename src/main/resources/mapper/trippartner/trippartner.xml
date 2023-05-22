@@ -161,6 +161,17 @@
 		where articleNo = #{articleNo}
 	</update>
 	
+	<update id="updateKeywordOne" parameterType="keywordoneDto">
+		update keywordone
+		set keywordOne=#{label}
+		where articleNo = #{articleNo}
+	</update>
+	<update id="updateKeywordTwo" parameterType="keywordtwoDto">
+		update keywordtwo
+		set keywordTwo=#{label}
+		where articleNo = #{articleNo}
+	</update>
+	
 	
 	<delete id="deletePartner" parameterType="int">
 		delete from trippartner

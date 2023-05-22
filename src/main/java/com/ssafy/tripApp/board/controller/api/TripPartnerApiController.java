@@ -282,15 +282,54 @@ public ResponseEntity<?>write(@RequestBody KeyWordDto keywordDto){
 		}
 	}
 	@PutMapping("/modify")
-	public ResponseEntity<?> update(@RequestBody  TripPartnerDto trippartnerDto){
+	public ResponseEntity<?> update(TripPartnerDto trippartnerDto, @RequestParam("file") MultipartFile file){
 		try {
+//			System.out.println(trippartnerDto);
+			if(!file.isEmpty()) {
+//				String realPath = "C:/ssafy/vue.js/enjoy_trip_vue/src/assets/img/partnerimg";
+				String realPath = uploadPath;
+				String saveFolder = realPath;
+				String saveFileName;
+				logger.debug("저장 폴더 : {}", saveFolder);
+				File folder = new File(saveFolder);
+				if (!folder.exists()) folder.mkdirs();
+				String origin = file.getOriginalFilename();
+				if(!origin.isEmpty()) {
+					saveFileName = UUID.randomUUID().toString()
+							+ origin;
+					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", origin, saveFileName);
+					file.transferTo(new File(folder, saveFileName));
+					trippartnerDto.setPartnerImage(saveFileName);
+				}
+			}
 			trippartnerService.updatePartner(trippartnerDto);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new ResponseEntity<TripPartnerDto>(trippartnerDto, HttpStatus.OK);
 	}
+	@PutMapping("/modify/keyword")
+	public ResponseEntity<?>updatekeyword(@RequestBody KeyWordDto keywordDto){	
+			try {
+				int articleNo=keywordDto.getArticleNo();
+				for (int i = 0; i < keywordDto.getKeywordOne().size(); i++) {
+					keywordDto.getKeywordOne().get(i).setArticleNo(articleNo);
+				}
+				for (int i = 0; i < keywordDto.getKeywordTwo().size(); i++) {
+					keywordDto.getKeywordTwo().get(i).setArticleNo(articleNo);
+				}
+				
+				trippartnerService.updateKeywordOne(keywordDto.getKeywordOne());
+				trippartnerService.updateKeywordTwo(keywordDto.getKeywordTwo());
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//			System.out.println(keywordDto);
+			return new ResponseEntity<KeyWordDto>(keywordDto, HttpStatus.OK);
+		}
 	
 	@DeleteMapping("/delete/{id}")
 	public  ResponseEntity<?> deleteById(@PathVariable int id){
