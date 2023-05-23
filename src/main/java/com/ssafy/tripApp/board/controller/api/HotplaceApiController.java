@@ -27,7 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.tripApp.board.ResponseDto;
+import com.ssafy.tripApp.board.hotplace.dto.HeartCommentDto;
 import com.ssafy.tripApp.board.hotplace.dto.HotplaceDto;
+import com.ssafy.tripApp.board.hotplace.service.HeartCommentService;
 import com.ssafy.tripApp.board.hotplace.service.HotplaceService;
 import com.ssafy.tripApp.member.dto.MemberDto;
 
@@ -47,6 +49,8 @@ public class HotplaceApiController {
 	
 	@Autowired
 	private HotplaceService hotplaceService;
+	@Autowired
+	private HeartCommentService heartService;
 	
 	@GetMapping("/list")
 	public ResponseEntity<?>list() throws Exception{
@@ -101,12 +105,12 @@ public class HotplaceApiController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	
-	@PutMapping("/update/{articleNo}")
-	public ResponseEntity<?> update(HotplaceDto hotplaceDto, @RequestParam(value="file", required=false) MultipartFile file, @PathVariable("articleNo") int articleNo){
+	@PutMapping("/update")
+	public ResponseEntity<?> update(HotplaceDto hotplaceDto, @RequestParam(value="file", required=false) MultipartFile file){
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		try {
-			HotplaceDto updateHotplace = hotplaceService.viewHotple(articleNo);
+			HotplaceDto updateHotplace = hotplaceService.viewHotple(hotplaceDto.getArticleNo());
 			if(file != null) {
 				String realPath = uploadPath;
 				String saveFolder = realPath;
@@ -130,23 +134,56 @@ public class HotplaceApiController {
 			
 			
 			List<HotplaceDto> hotplaceList = hotplaceService.listHotple();
-			return new ResponseEntity(hotplaceList, HttpStatus.OK);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
+		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@DeleteMapping("/delete/{articleNo}")
 	public ResponseEntity<?> delete(@PathVariable("articleNo") int articleNo){
 		try {
 			hotplaceService.deleteHotple(articleNo);
-			List<HotplaceDto> hotplaceList = hotplaceService.listHotple();
-			return new ResponseEntity(hotplaceList, HttpStatus.OK);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("/like")
+	public ResponseEntity<?> check(HeartCommentDto heartcommentDto){
+		try {
+			int data = heartService.checkHeart(heartcommentDto);
+			return new ResponseEntity<Integer>(data, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PostMapping("/like")
+	public ResponseEntity<?> like(HeartCommentDto heartcommentDto){
+		try {
+			heartService.registHeart(heartcommentDto);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@DeleteMapping("/dislike")
+	public ResponseEntity<?> dislike(HeartCommentDto heartcommentDto){
+		try {
+			heartService.deleteHeart(heartcommentDto);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	

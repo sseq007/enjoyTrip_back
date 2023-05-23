@@ -1,5 +1,6 @@
 package com.ssafy.tripApp.board.hotplace.mapper;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -15,4 +16,6 @@ public interface HotplaceMapper {
 	void writeHotple(HotplaceDto hotplaceDto) throws Exception;
 	void updateHotple(HotplaceDto hotplaceDto) throws Exception;
 	void deleteHotple(int articleNo) throws Exception;
+	void plusHeart() throws SQLException;
+	void minusHeart() throws SQLException;
 }

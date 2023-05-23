@@ -44,4 +44,14 @@
 	where articleNo = #{articleNo}
 </delete>
 
+<update id="plusHeart">
+	update hotplace
+	set heart_count = heart_count + 1
+</update>
+
+<update id="minusHeart">
+	update hotplace
+	set heart_count = heart_count -1
+</update>
+
 </mapper>

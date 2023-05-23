@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.tripApp.board.hotplace.mapper.HeartCommentMapper">
+
+	<resultMap type="heartCommentDto" id="hotplaceHeart">
+		<result column="articleNo" property="articleNo"/>
+		<result column="user_id" property="userId"/>
+		<result column="check" property="check"/>
+	</resultMap>
+
+<select id="checkHeart" resultMap="hotplaceHeart">
+	select count(*)
+	from heartcomment
+	where articleNo = #{articleNo} and user_id = #{userId}
+</select>
+
+<insert id="registHeart" parameterType="heartCommentDto">
+	insert into heartcomment(articleNo, user_id, check)
+	values (#{articleNo}, #{userId}, '1')
+</insert>
+
+
+<delete id="deleteHeart" parameterType="heartCommentDto">
+	delete from heartcomment
+	where articleNo = #{articleNo} and user_id = #{userId}
+</delete>
+
+</mapper>
