@@ -21,6 +21,7 @@ public interface MemberMapper {
 	void deleteMember(String userId) throws SQLException;
 	// 아이디체크
 	int idCheck(String userId) throws SQLException;
+	int nicknameCheck(String userNickname) throws SQLException;
 	// 회원리스트
 	List<MemberDto> listMember() throws SQLException;
 	// 회원정보

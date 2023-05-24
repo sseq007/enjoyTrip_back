@@ -28,6 +28,12 @@
         from user
         where user_id = #{id}
     </select>
+    
+    <select id="nicknameCheck" parameterType="String" resultType="int">
+        select count(nickname)
+        from user
+        where nickname = #{userNickname}
+    </select>
 
     <insert id="registerMember" parameterType="memberDto">
         insert into user (user_id, user_name, user_pw, nickname, gender, birth, email_id, email_domain, profile_image, profile_url)

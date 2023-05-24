@@ -88,4 +88,9 @@ public class MemberServiceImpl implements MemberService{
 		
 	}
 
+	@Override
+	public int nicknameCheck(String userNickname) throws SQLException {
+		return memberMapper.nicknameCheck(userNickname);
+	}
+
 }

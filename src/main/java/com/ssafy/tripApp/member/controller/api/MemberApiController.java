@@ -88,6 +88,28 @@ public class MemberApiController {
 		return new ResponseEntity<Map<String,Object>>(resultMap, status);
 	}
 	
+	@GetMapping("/available/{id}")
+	public ResponseEntity<?> idCheck(@PathVariable String id){
+		try {
+			int cnt = memberService.idCheck(id);
+			return new ResponseEntity<Integer>(cnt, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("/nickavailable/{nickname}")
+	public ResponseEntity<?> nicknameCheck(@PathVariable String nickname){
+		try {
+			int cnt = memberService.nicknameCheck(nickname);
+			return new ResponseEntity<Integer>(cnt, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@ApiOperation(value = "로그아웃", notes = "회원 정보를 담은 Token을 제거한다.", response = Map.class)
 	@GetMapping("/logout/{id}")
 	public ResponseEntity<?> logout(@PathVariable String id){
