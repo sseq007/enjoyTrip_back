@@ -10,6 +10,7 @@ import com.ssafy.tripApp.board.trippartner.dto.KeywordOneDto;
 import com.ssafy.tripApp.board.trippartner.dto.KeywordTwoDto;
 import com.ssafy.tripApp.board.trippartner.dto.NoteDto;
 import com.ssafy.tripApp.board.trippartner.dto.TripPartnerDto;
+import com.ssafy.tripApp.board.trippartner.dto.UserDto;
 
 @Mapper
 public interface TripPartnerMapper {
@@ -34,6 +35,7 @@ public interface TripPartnerMapper {
 	// 동행찾기가져오기
 	TripPartnerDto viewPartner(int articleNo) throws SQLException;
 
+	UserDto viewUser(String userId) throws SQLException;
 	// 동행키워드쓰기
 	void writeKeywordOne(KeywordOneDto keywordoneDto) throws SQLException;
 
@@ -63,5 +65,6 @@ public interface TripPartnerMapper {
 	List<TripPartnerDto> listPartnernewOn(Map<String, String> param) throws SQLException;
 	
 	List<TripPartnerDto> listPartnernewOff(Map<String, String> param) throws SQLException;
+	
 	
 }

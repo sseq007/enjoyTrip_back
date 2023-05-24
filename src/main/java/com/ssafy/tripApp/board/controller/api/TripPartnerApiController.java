@@ -40,6 +40,7 @@ import com.ssafy.tripApp.board.trippartner.dto.KeyWordDto;
 import com.ssafy.tripApp.board.trippartner.dto.KeywordOneDto;
 import com.ssafy.tripApp.board.trippartner.dto.NoteDto;
 import com.ssafy.tripApp.board.trippartner.dto.TripPartnerDto;
+import com.ssafy.tripApp.board.trippartner.dto.UserDto;
 import com.ssafy.tripApp.board.trippartner.service.TripPartnerService;
 import com.ssafy.tripApp.member.controller.MemberController;
 import com.ssafy.tripApp.member.dto.MemberDto;
@@ -226,6 +227,20 @@ public ResponseEntity<?>write(@RequestBody KeyWordDto keywordDto){
 			
 		
 			return new ResponseEntity<List<TripPartnerDto>>(listKeywordOne, HttpStatus.OK);
+		} 
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return exceptionHandling(e);
+		}
+	}
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<?> viewUser(@PathVariable String userId) {
+		try {
+			UserDto viewUser = trippartnerService.viewUser(userId);
+			System.out.println(viewUser.toString());
+		
+			return new ResponseEntity<UserDto>(viewUser, HttpStatus.OK);
 		} 
 		catch (Exception e) {
 			// TODO Auto-generated catch block
