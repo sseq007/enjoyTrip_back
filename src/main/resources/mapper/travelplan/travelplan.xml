@@ -5,46 +5,47 @@
 <mapper namespace="com.ssafy.tripApp.board.travelPlan.mapper.TravelPlanMapper">
 
 	<resultMap type="localDto" id="localDto">
-		<id column="travelplan_id" property="travelplanId"/>
 		<result column="articleNo" property="articleNo"/>
 		<result column="title" property="title"/>
-		<result column="content_id" property="contentId"/>
-		<result column="addr1" property="address"/>
-		<result column="first_image" property="image"/>
+		<result column="content" property="tel"/>
+		<result column="addr1" property="addr1"/>
+		<result column="localimageurl" property="localImage"/>
+		<result column="order" property="order"/>
 	</resultMap>
 	
+	<resultMap id="intResultMap" type="int">
+    <id property="articleNo" column="articleNo"/>
+	</resultMap>
 	
 	<resultMap type="travelplanDto" id="travelplan">
-		<id column="articleNo" property="articleNo"/>
+		<result column="planNo" property="planNo"/>
+		<result column="articleNo" property="articleNo"/>
+		<result column="user_id" property="userId"/>
+		<result column="location" property="location"/>
 		<result column="start_date" property="startDate"/>
 		<result column="end_date" property="endDate"/>
-		<result column="subject" property="subject"/>
-		<result column="user_id" property="userId"/>
 		<result column="register_time" property="registerTime"/>
-		<result column="star_count" property="starCount"/>
-		<collection property="localDto" ofType="localDto"  resultMap="localDto"></collection>
 	</resultMap>
 	
-
-	<select id="areaList" parameterType="string" resultMap="localDto">
-		select title,content_id, addr1, first_image
-		from attraction_info
-		where title
-		like concat('%',#{word},'%')
-	</select>
+<!-- 	<select id="areaList" parameterType="string" resultMap="localDto"> -->
+<!-- 		select title,content_id, addr1, first_image -->
+<!-- 		from attraction_info -->
+<!-- 		where title -->
+<!-- 		like concat('%',#{word},'%') -->
+<!-- 	</select> -->
 	
 	<insert id="writePlan" parameterType="travelPlanDto">
-		insert into travelplan (start_date, end_date, subject,user_id, register_time,star_count)
-		values (#{startDate}, #{endDate},#{subject} ,#{userId}, now(),#{starCount})
-		
+		insert into travelplan (user_id,location,start_date, end_date,register_time)
+		values (#{userId},#{location},#{startDate}, #{endDate}, now())
+		<selectKey resultType="int" keyProperty="articleNo" order="AFTER">
+			select last_insert_id()
+		</selectKey>
 </insert>
 
-	<insert id="writeLocal" parameterType="java.util.List" >
-	    INSERT ignore INTO travelplaninfo (content_id, articleNo, title, addr1, first_image)
+	<insert id="writeLocal" parameterType="map" >
+	    INSERT INTO travelplaninfo (articleNo,title, content, addr1, localimageurl)
     	VALUES 
-   			 <foreach collection="localDto" item="local" separator=",">
-    (#{local.contentId},#{local.articleNo} ,#{local.title}, #{local.address}, #{local.image})
-  </foreach>
+    (#{articleNo},#{title} ,#{content}, #{addr1}, #{firstimage})
     
 </insert>
 
@@ -59,7 +60,12 @@
     where a.articleNo = b.articleNo
 	order by a.articleNo desc
 	</select>
-	
+	 <select id="getarticleNo" resultMap="intResultMap">
+    select articleNo
+    from travelplan
+    order by articleNo desc
+    limit 1;
+</select>
 	
 	<select id="viewPlan" parameterType="int" resultMap="travelplan">
 

@@ -12,14 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class TravelplanDto {
-	int articleNo;
-
-	String userId;
-	String subject;
-	double starCount;
-	Timestamp startDate;
-	Timestamp endDate;
-	Timestamp registerTime;
+	private int planNo;
+	private int articleNo;
+	private String userId;
+	private String location;
+	private String startDate;
+	private String endDate;
+	private String registerTime;
 	List<LocalDto> localDto;
 		
 	

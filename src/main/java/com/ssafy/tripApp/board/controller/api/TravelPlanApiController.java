@@ -42,27 +42,42 @@ public class TravelPlanApiController {
 	
 
 	
-	@GetMapping(value ="/search/{word}")
-	public ResponseEntity<?> searchLocal(@PathVariable("word") String word) {
-		try {
-			List<LocalDto> areaList = travelplanService.areaList(word);
-			return new ResponseEntity<List<LocalDto>>(areaList, HttpStatus.OK);
-			
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
-	}
+//	@GetMapping(value ="/search/{word}")
+//	public ResponseEntity<?> searchLocal(@PathVariable("word") String word) {
+//		try {
+//			List<LocalDto> areaList = travelplanService.areaList(word);
+//			return new ResponseEntity<List<LocalDto>>(areaList, HttpStatus.OK);
+//			
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
+//	}
 	@PostMapping(value = "/write")
 	public ResponseEntity<?> travelplanRegister(@RequestBody TravelplanDto travelplanDto,HttpSession session) {
 		try {
-			MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
-//			System.out.println(travelplanDto.toString());
-//			travelplanDto.setUserId(memberDto.getUserId());
-//			System.out.println(travelplanDto.getLocalDto().toString());
 			travelplanService.writePlan(travelplanDto);
+			
 //			System.out.println(travelplanDto.getArticleNo());
+			for (int i = 0; i < travelplanDto.getLocalDto().size(); i++) {
+				
+				travelplanDto.getLocalDto().get(i).setArticleNo(travelplanDto.getArticleNo());
+			}
+			System.out.println(travelplanDto.toString());
+//			
 			travelplanService.writeLocal(travelplanDto.getLocalDto());
+			
 			return new ResponseEntity<TravelplanDto>(travelplanDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+		
+	}
+	@PostMapping(value = "/write/local")
+	public ResponseEntity<?> travelplanRegisterLocal(@RequestBody List<LocalDto> localDto,HttpSession session) {
+		try {
+			
+			travelplanService.writeLocal(localDto);
+			return new ResponseEntity<List<LocalDto>>(localDto, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -109,25 +124,40 @@ public class TravelPlanApiController {
 			return exceptionHandling(e);
 		}
 	}
-	@PutMapping(value = "/modify/{articleNo}")
-	public ResponseEntity<?> userModify(@RequestBody TravelplanDto travelplanDto,@PathVariable("articleNo") int articleNo) {
+//	@PutMapping(value = "/modify/{articleNo}")
+//	public ResponseEntity<?> userModify(@RequestBody TravelplanDto travelplanDto,@PathVariable("articleNo") int articleNo) {
+//		try {
+//			TravelplanDto viewPlan = travelplanService.viewPlan(articleNo);
+//			travelplanDto.setArticleNo(viewPlan.getArticleNo());
+//			List<LocalDto> localDto = travelplanDto.getLocalDto();
+//			for (int i = 0; i < localDto.size(); i++) {
+//				travelplanDto.setLocalDto(localDto);
+//			}
+//			System.out.println(travelplanDto.toString());
+//			travelplanService.updatePlan(travelplanDto);
+//			travelplanService.updateLocal(travelplanDto.getLocalDto());
+//			List<TravelplanDto> listPlan = travelplanService.listPlan();
+//			return new ResponseEntity<List<TravelplanDto>>(listPlan, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
+//	}
+	@GetMapping("/findarticleno")
+	public ResponseEntity<?> findarticleno() {
 		try {
-			TravelplanDto viewPlan = travelplanService.viewPlan(articleNo);
-			travelplanDto.setArticleNo(viewPlan.getArticleNo());
-			List<LocalDto> localDto = travelplanDto.getLocalDto();
-			for (int i = 0; i < localDto.size(); i++) {
-				travelplanDto.setLocalDto(localDto);
-			}
-			System.out.println(travelplanDto.toString());
-			travelplanService.updatePlan(travelplanDto);
-			travelplanService.updateLocal(travelplanDto.getLocalDto());
-			List<TravelplanDto> listPlan = travelplanService.listPlan();
-			return new ResponseEntity<List<TravelplanDto>>(listPlan, HttpStatus.OK);
-		} catch (Exception e) {
+			
+//			List<ShareReplyDto> listReply = sharereplyService.listReply(articleNo);
+//			System.out.println(listReply.toString());
+
+			int getarticleNo = travelplanService.getarticleNo();
+			return new ResponseEntity<Integer>(getarticleNo, HttpStatus.OK);
+		} 
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return exceptionHandling(e);
 		}
 	}
-	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

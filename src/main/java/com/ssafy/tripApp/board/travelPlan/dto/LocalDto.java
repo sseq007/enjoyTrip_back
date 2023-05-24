@@ -8,11 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class LocalDto {
-
-	private int travelplanId;
 	private int articleNo;
 	private String title;
-	private int contentId;
-	private String address;
-	private String image;
+	private String tel;
+	private String addr1;
+	private String firstimage;
+//	private int order;
 }
