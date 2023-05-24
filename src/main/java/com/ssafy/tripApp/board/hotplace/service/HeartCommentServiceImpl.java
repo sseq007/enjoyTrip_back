@@ -31,13 +31,13 @@ public class HeartCommentServiceImpl implements HeartCommentService {
 	@Override
 	public void registHeart(HeartCommentDto heartcommentDto) throws SQLException {
 		heartMapper.registHeart(heartcommentDto);
-		hotplaceMapper.plusHeart();
+		hotplaceMapper.plusHeart(heartcommentDto.getArticleNo());
 	}
 
 	@Override
 	public void deleteHeart(HeartCommentDto heartcommentDto) throws SQLException {
 		heartMapper.deleteHeart(heartcommentDto);
-		hotplaceMapper.minusHeart();
+		hotplaceMapper.minusHeart(heartcommentDto.getArticleNo());
 	}
 
 }

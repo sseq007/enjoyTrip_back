@@ -11,9 +11,6 @@ public class HeartCommentDto {
 
 	private int articleNo;
 	private String userId;
-	private String check;
-	
-	
 	
 	
 }

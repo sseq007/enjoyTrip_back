@@ -9,14 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 public class HotplaceReplyDto {
 
-	private String replyNo;
-	private String articleNo;
+	private int replyNo;
+	private int articleNo;
 	private String userId;
 	private String content;
 	private String register_time;
-	private int reply_depth;
-
-	
-	
+	private int reply_depth;	
 	
 }

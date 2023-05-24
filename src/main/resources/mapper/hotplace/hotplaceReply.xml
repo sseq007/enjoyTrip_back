@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.tripApp.board.hotplace.mapper.HotplaceReplyMapper">
+
+	<resultMap type="hotplaceReplyDto" id="hotplaceReply">
+		<result column="replyNo" property="replyNo"/>
+		<result column="articleNo" property="articleNo"/>
+		<result column="user_id" property="userId"/>
+		<result column="content" property="content"/>
+		<result column="regiter_time" property="register_time"/>
+		<result column="reply_depth" property="reply_depth"/>
+	</resultMap>
+
+<select id="listReply" parameterType="int" resultMap="hotplaceReply">
+	select replyNo, articleNo, user_id, content, regiter_time, reply_depth
+	from hotplacereply
+	where articleNo = #{articleNo}
+</select>
+
+<insert id="writeReply" parameterType="hotplaceReplyDto">
+	insert into hotplacereply(replyNo, articleNo, user_id, content, reply_depth)
+	values (#{replyNo}, #{articleNo}, #{userId}, #{content}, #{reply_depth})
+</insert>
+
+<update id="updateReply" parameterType="hotplaceReplyDto">
+	update hotplacereply
+	set content = #{content}
+	where articleNo = #{articleNo} and replyNo = #{replyNo} and reply_depth = #{reply_depth}
+</update>
+
+
+<delete id="deleteReply" parameterType="hotplaceReplyDto">
+	delete from hotplacereply
+	where articleNo = #{articleNo} and replyNo = #{replyNo} and reply_depth = #{reply_depth}
+</delete>
+
+<select id="getMax" resultType="int" parameterType="int">
+	select Max(reply_depth)
+	from hotplacereply
+	where articleNo = #{articleNo} and replyNo = #{replyNo}
+</select>
+
+</mapper>

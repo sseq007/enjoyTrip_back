@@ -1,6 +1,7 @@
 package com.ssafy.tripApp.board.controller.api;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.tripApp.board.ResponseDto;
 import com.ssafy.tripApp.board.hotplace.dto.HeartCommentDto;
 import com.ssafy.tripApp.board.hotplace.dto.HotplaceDto;
+import com.ssafy.tripApp.board.hotplace.dto.HotplaceReplyDto;
 import com.ssafy.tripApp.board.hotplace.service.HeartCommentService;
+import com.ssafy.tripApp.board.hotplace.service.HotplaceReplyService;
 import com.ssafy.tripApp.board.hotplace.service.HotplaceService;
 import com.ssafy.tripApp.member.dto.MemberDto;
 
@@ -51,6 +54,8 @@ public class HotplaceApiController {
 	private HotplaceService hotplaceService;
 	@Autowired
 	private HeartCommentService heartService;
+	@Autowired
+	private HotplaceReplyService replyService;
 	
 	@GetMapping("/list")
 	public ResponseEntity<?>list() throws Exception{
@@ -153,10 +158,10 @@ public class HotplaceApiController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@GetMapping("/like")
-	public ResponseEntity<?> check(HeartCommentDto heartcommentDto){
+	@PostMapping("/like/get")
+	public ResponseEntity<?> check(HeartCommentDto heartCommentDto){
 		try {
-			int data = heartService.checkHeart(heartcommentDto);
+			int data = heartService.checkHeart(heartCommentDto);
 			return new ResponseEntity<Integer>(data, HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -165,9 +170,10 @@ public class HotplaceApiController {
 	}
 	
 	@PostMapping("/like")
-	public ResponseEntity<?> like(HeartCommentDto heartcommentDto){
+	public ResponseEntity<?> like(HeartCommentDto heartCommentDto){
+		System.out.println(heartCommentDto);
 		try {
-			heartService.registHeart(heartcommentDto);
+			heartService.registHeart(heartCommentDto);
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -175,15 +181,64 @@ public class HotplaceApiController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@DeleteMapping("/dislike")
-	public ResponseEntity<?> dislike(HeartCommentDto heartcommentDto){
+	@PostMapping("/dislike")
+	public ResponseEntity<?> dislike(HeartCommentDto heartCommentDto){
+		System.out.println(heartCommentDto);
 		try {
-			heartService.deleteHeart(heartcommentDto);
+			heartService.deleteHeart(heartCommentDto);
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("/reply/{articleNo}")
+	public ResponseEntity<?> listReply(@PathVariable("articleNo") int articleNo) throws SQLException{
+		List<HotplaceReplyDto> list = replyService.listReply(articleNo);
+		return new ResponseEntity(list, HttpStatus.OK);
+	}
+	
+	@PostMapping("/write/reply")
+	public ResponseEntity<?> registReply(@RequestBody HotplaceReplyDto hotplaceReplyDto){
+		System.out.println(hotplaceReplyDto);
+		try {
+			replyService.writeReply(hotplaceReplyDto);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PutMapping("/modify/reply")
+	public ResponseEntity<?> updateReply(@RequestBody HotplaceReplyDto hotplaceReplyDto){
+		System.out.println(hotplaceReplyDto);
+		try {
+			replyService.updateReply(hotplaceReplyDto);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PostMapping("/delete/reply")
+	public ResponseEntity<?> deleteReply(@RequestBody HotplaceReplyDto hotplaceReplyDto){
+		System.out.println(hotplaceReplyDto);
+		try {
+			replyService.deleteReply(hotplaceReplyDto);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("/max/{articleNo}/{replyNo}")
+	public ResponseEntity<?> listReply(@PathVariable("articleNo") int articleNo, @PathVariable("replyNo") int replyNo) throws SQLException{
+		int max = replyService.getMax(articleNo, replyNo);
+		return new ResponseEntity(max, HttpStatus.OK);
 	}
 	
 	

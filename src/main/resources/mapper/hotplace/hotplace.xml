@@ -13,17 +13,18 @@
 		<result column="imageName" property="imageName"/>
 		<result column="register_time" property="registerTime"/>
 		<result column="heart_count" property="heart_count"/>
+		<result column="reply_count" property="reply_count"/>
 		<result column="sido_code" property="sido_code"/>
 	</resultMap>
 
 <select id="listHotple" resultMap="hotple">
-	select articleNo, user_id, subject, heart_count, register_time, imageUrl, imageName, sido_code
+	select articleNo, user_id, reply_count, heart_count, register_time, imageUrl, imageName, sido_code
 	from hotplace
 	order by articleNo desc
 </select>
 
 <select id="viewHotple" parameterType="int" resultMap="hotple">
-	select articleNo, user_id, subject, content, register_time, heart_count, imageUrl, imageName, sido_code
+	select articleNo, user_id, subject, content, register_time, heart_count, reply_count, imageUrl, imageName, sido_code
 	from hotplace
 	where articleNo = #{articleNo}
 </select>
@@ -44,14 +45,28 @@
 	where articleNo = #{articleNo}
 </delete>
 
-<update id="plusHeart">
+<update id="plusHeart" parameterType="int">
 	update hotplace
 	set heart_count = heart_count + 1
+	where articleNo = #{articleNo}
 </update>
 
-<update id="minusHeart">
+<update id="minusHeart" parameterType="int">
 	update hotplace
 	set heart_count = heart_count -1
+	where articleNo = #{articleNo}
+</update>
+
+<update id="plusReply" parameterType="int">
+	update hotplace
+	set reply_count = reply_count + 1
+	where articleNo = #{articleNo}
+</update>
+
+<update id="minusReply" parameterType="int">
+	update hotplace
+	set reply_count = reply_count -1
+	where articleNo = #{articleNo}
 </update>
 
 </mapper>

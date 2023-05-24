@@ -16,6 +16,8 @@ public interface HotplaceMapper {
 	void writeHotple(HotplaceDto hotplaceDto) throws Exception;
 	void updateHotple(HotplaceDto hotplaceDto) throws Exception;
 	void deleteHotple(int articleNo) throws Exception;
-	void plusHeart() throws SQLException;
-	void minusHeart() throws SQLException;
+	void plusHeart(int articleNo) throws SQLException;
+	void minusHeart(int articleNo) throws SQLException;
+	void plusReply(int articleNo) throws SQLException;
+	void minusReply(int articleNo) throws SQLException;
 }

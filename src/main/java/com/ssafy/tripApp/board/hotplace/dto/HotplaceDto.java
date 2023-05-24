@@ -17,5 +17,6 @@ public class HotplaceDto {
 	private String imageName;
 	private String registerTime;
 	private int heart_count;
+	private int reply_count;
 	private int sido_code;
 }

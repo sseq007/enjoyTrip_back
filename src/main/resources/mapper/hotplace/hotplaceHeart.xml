@@ -7,18 +7,17 @@
 	<resultMap type="heartCommentDto" id="hotplaceHeart">
 		<result column="articleNo" property="articleNo"/>
 		<result column="user_id" property="userId"/>
-		<result column="check" property="check"/>
 	</resultMap>
 
-<select id="checkHeart" resultMap="hotplaceHeart">
+<select id="checkHeart" resultType="int">
 	select count(*)
 	from heartcomment
 	where articleNo = #{articleNo} and user_id = #{userId}
 </select>
 
 <insert id="registHeart" parameterType="heartCommentDto">
-	insert into heartcomment(articleNo, user_id, check)
-	values (#{articleNo}, #{userId}, '1')
+	insert into heartcomment(articleNo, user_id)
+	values (#{articleNo}, #{userId})
 </insert>
 
 
