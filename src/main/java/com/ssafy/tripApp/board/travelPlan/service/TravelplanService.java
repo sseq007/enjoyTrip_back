@@ -25,4 +25,6 @@ public interface TravelplanService {
 	public void writeLocal(List<LocalDto> localDto)  throws Exception;
 	public void updateLocal(List<LocalDto> localDto)  throws Exception;
 	public void deleteLocal(List<LocalDto> localDto) throws Exception;
+	// 조회수업데이트
+		void updateHit(int articleNo) throws SQLException;
 }

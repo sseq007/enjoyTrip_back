@@ -24,6 +24,21 @@
 <!-- 		<collection property="partnerkeyword" ofType="partnerkeywordDto"  resultMap="partnerkeywordDto"></collection> -->
 	</resultMap>
 	
+	<resultMap type="userDto" id="userAll" >
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_pw" property="userPw"/>
+        <result column="nickname" property="userNickname"/>
+        <result column="email_id" property="emailId"/>
+        <result column="email_domain" property="emailDomain"/>
+        <result column="join_date" property="joinDate"/>
+        <result column="admin" property="admin"/>
+        <result column="profile_image" property="profileImage"/>
+        <result column="profile_url" property="profileUrl"/>
+        <result column="gender" property="gender"/>
+        <result column="birth" property="birth"/>
+        <result column="reliability" property="reliability"/>
+    </resultMap>
 	<resultMap id="intResultMap" type="int">
     <id property="articleNo" column="articleNo"/>
 	</resultMap>
@@ -139,6 +154,12 @@
 		where isend=false
 		order by articleNo desc
 <!-- 		<include refid="search"></include> -->
+	</select>
+	
+	<select id="viewUser" parameterType="string" resultMap="userAll">
+		select *
+		from user
+		where user_id=#{userId}
 	</select>
 	
 	

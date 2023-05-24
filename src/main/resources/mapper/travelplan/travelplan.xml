@@ -9,7 +9,7 @@
 		<result column="title" property="title"/>
 		<result column="content" property="tel"/>
 		<result column="addr1" property="addr1"/>
-		<result column="localimageurl" property="localImage"/>
+		<result column="localimageurl" property="firstimage"/>
 		<result column="order" property="order"/>
 	</resultMap>
 	
@@ -24,6 +24,7 @@
 		<result column="location" property="location"/>
 		<result column="start_date" property="startDate"/>
 		<result column="end_date" property="endDate"/>
+		<result column="hit" property="hit"/>
 		<result column="register_time" property="registerTime"/>
 	</resultMap>
 	
@@ -49,16 +50,16 @@
     
 </insert>
 
-
-
-
-		
+<update id="updateHit" parameterType="int">
+		update travelplan
+		set hit = hit + 1
+		where articleNo = #{articleNo}
+	</update>
 	
 	<select id="listPlan" resultMap="travelplan">
-	select a.articleNo, a.start_date, a.end_date, a.subject,a.user_id,a.register_time,a.star_count,b.travelplan_id,b.articleNo,b.content_id,b.title,b.addr1,b.first_image
-	from travelplan a , travelplaninfo b
-    where a.articleNo = b.articleNo
-	order by a.articleNo desc
+	select *
+	from travelplan
+	order by articleNo desc
 	</select>
 	 <select id="getarticleNo" resultMap="intResultMap">
     select articleNo
@@ -69,16 +70,15 @@
 	
 	<select id="viewPlan" parameterType="int" resultMap="travelplan">
 
-		select a.articleNo,b.articleNo, a.start_date, a.end_date, a.subject,a.user_id, b.travelplan_id,b.content_id,b.title,b.addr1 , b.first_image,a.register_time,a.star_count
-	from travelplan a, travelplaninfo b
-	where b.articleNo= #{articleNo}
-	and a.articleNo = #{articleNo}
+	select *
+	from travelplan
+	where articleNo= #{articleNo}
 	</select>
 	
 	<select id="localList"   parameterType="int"  resultMap="localDto">
-		select m.articleNo,b.title, b.content_id, b.addr1, b.first_image
-		from attraction_info b, travelplan m 
-		where m.articleNo = #{articleNo}
+		select *
+		from travelplaninfo 
+		where articleNo = #{articleNo}
 	</select>
 	
 	

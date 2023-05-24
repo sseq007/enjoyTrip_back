@@ -8,6 +8,7 @@ import com.ssafy.tripApp.board.Sharetravel.dto.ShareTravelDto;
 import com.ssafy.tripApp.board.trippartner.dto.KeywordOneDto;
 import com.ssafy.tripApp.board.trippartner.dto.KeywordTwoDto;
 import com.ssafy.tripApp.board.trippartner.dto.TripPartnerDto;
+import com.ssafy.tripApp.board.trippartner.dto.UserDto;
 
 public interface TripPartnerService {
 
@@ -42,6 +43,6 @@ public interface TripPartnerService {
 		List<TripPartnerDto> listPartnerhitOff(Map<String, String> param) throws SQLException;
 		
 		List<TripPartnerDto> listPartnernewOn(Map<String, String> param) throws SQLException;
-		
+		UserDto viewUser(String userId) throws SQLException;
 		List<TripPartnerDto> listPartnernewOff(Map<String, String> param) throws SQLException;
 }

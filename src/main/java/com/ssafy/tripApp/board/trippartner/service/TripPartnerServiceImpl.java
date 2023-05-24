@@ -12,6 +12,7 @@ import com.ssafy.tripApp.board.Sharetravel.mapper.ShareTravelMapper;
 import com.ssafy.tripApp.board.trippartner.dto.KeywordOneDto;
 import com.ssafy.tripApp.board.trippartner.dto.KeywordTwoDto;
 import com.ssafy.tripApp.board.trippartner.dto.TripPartnerDto;
+import com.ssafy.tripApp.board.trippartner.dto.UserDto;
 import com.ssafy.tripApp.board.trippartner.mapper.TripPartnerMapper;
 
 @Service
@@ -155,6 +156,12 @@ public class TripPartnerServiceImpl implements TripPartnerService {
 
 			trippartnerMapper.updateKeywordTwo(keywordtwoDto.get(i));
 		}
+	}
+
+	@Override
+	public UserDto viewUser(String userId) throws SQLException {
+		// TODO Auto-generated method stub
+		return trippartnerMapper.viewUser(userId);
 	}
 
 }

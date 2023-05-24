@@ -307,6 +307,7 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`travelplan` (
   `end_date` TIMESTAMP NULL DEFAULT NULL,
   `subject` VARCHAR(45) NOT NULL,
   `user_id` VARCHAR(16) NOT NULL,
+  `hit` INT NULL DEFAULT NULL,
   `register_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `star_count` DOUBLE NULL DEFAULT NULL,
   PRIMARY KEY (`articleNo`),

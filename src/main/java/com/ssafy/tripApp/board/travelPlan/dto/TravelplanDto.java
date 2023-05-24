@@ -18,6 +18,7 @@ public class TravelplanDto {
 	private String location;
 	private String startDate;
 	private String endDate;
+	private int hit;
 	private String registerTime;
 	List<LocalDto> localDto;
 		

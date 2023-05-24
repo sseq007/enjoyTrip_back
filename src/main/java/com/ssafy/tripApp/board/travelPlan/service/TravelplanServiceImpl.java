@@ -136,4 +136,10 @@ public class TravelplanServiceImpl implements TravelplanService {
 		return travelplanMapper.getarticleNo();
 	}
 
+	@Override
+	public void updateHit(int articleNo) throws SQLException {
+		travelplanMapper.updateHit(articleNo);
+		
+	}
+
 }

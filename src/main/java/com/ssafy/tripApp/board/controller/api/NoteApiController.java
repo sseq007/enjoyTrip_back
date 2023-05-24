@@ -51,6 +51,7 @@ public class NoteApiController {
 		try {
 //			MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
 //			sharetravelDto.setUserId(memberDto.getUserId());
+			System.out.println(noteDto.toString());
 			noteService.writeNote(noteDto);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

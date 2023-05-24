@@ -27,5 +27,8 @@ public interface TravelPlanMapper {
 	int getarticleNo() throws SQLException;
 	public void updateLocal(LocalDto localDto)  throws Exception;
 	public void deleteLocal(LocalDto localDto) throws Exception;
-	public void writeLocal(Map<String, Object> map) throws Exception;;
+	public void writeLocal(Map<String, Object> map) throws Exception;
+	
+	// 조회수업데이트
+		void updateHit(int articleNo) throws SQLException;
 }

@@ -56,16 +56,14 @@ public class TravelPlanApiController {
 	public ResponseEntity<?> travelplanRegister(@RequestBody TravelplanDto travelplanDto,HttpSession session) {
 		try {
 			travelplanService.writePlan(travelplanDto);
-			
 //			System.out.println(travelplanDto.getArticleNo());
 			for (int i = 0; i < travelplanDto.getLocalDto().size(); i++) {
-				
 				travelplanDto.getLocalDto().get(i).setArticleNo(travelplanDto.getArticleNo());
 			}
 			System.out.println(travelplanDto.toString());
-//			
 			travelplanService.writeLocal(travelplanDto.getLocalDto());
 			
+		
 			return new ResponseEntity<TravelplanDto>(travelplanDto, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
@@ -75,13 +73,11 @@ public class TravelPlanApiController {
 	@PostMapping(value = "/write/local")
 	public ResponseEntity<?> travelplanRegisterLocal(@RequestBody List<LocalDto> localDto,HttpSession session) {
 		try {
-			
 			travelplanService.writeLocal(localDto);
 			return new ResponseEntity<List<LocalDto>>(localDto, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
-		
 	}
 	@GetMapping(value = "/list")
 	public ResponseEntity<?> travelplanList() {
@@ -105,10 +101,24 @@ public class TravelPlanApiController {
 //			List<LocalDto> localList = travelplanService.localList(articleNo);
 			TravelplanDto viewPlan = travelplanService.viewPlan(articleNo);
 //			System.out.println(viewPlan.toString());
-			if(viewPlan != null)
+			if(viewPlan != null) {
+				travelplanService.updateHit(articleNo);
 				return new ResponseEntity<TravelplanDto>(viewPlan, HttpStatus.OK);
+			}
 			else
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@GetMapping(value = "/listinfo/{articleNo}")
+	public ResponseEntity<?> travelplanInfoview(@PathVariable("articleNo") int articleNo) {
+		try {
+			List<LocalDto> localList = travelplanService.localList(articleNo);
+//			System.out.println(viewPlan.toString());
+				travelplanService.updateHit(articleNo);
+				return new ResponseEntity<List<LocalDto>>(localList, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
