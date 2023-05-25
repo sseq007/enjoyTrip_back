@@ -101,12 +101,8 @@ public class TravelPlanApiController {
 //			List<LocalDto> localList = travelplanService.localList(articleNo);
 			TravelplanDto viewPlan = travelplanService.viewPlan(articleNo);
 //			System.out.println(viewPlan.toString());
-			if(viewPlan != null) {
 				travelplanService.updateHit(articleNo);
-				return new ResponseEntity<TravelplanDto>(viewPlan, HttpStatus.OK);
-			}
-			else
-				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<TravelplanDto>(viewPlan,HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -134,24 +130,23 @@ public class TravelPlanApiController {
 			return exceptionHandling(e);
 		}
 	}
-//	@PutMapping(value = "/modify/{articleNo}")
-//	public ResponseEntity<?> userModify(@RequestBody TravelplanDto travelplanDto,@PathVariable("articleNo") int articleNo) {
-//		try {
+	@PutMapping(value = "/modify")
+	public ResponseEntity<?> travelplanModify(@RequestBody TravelplanDto travelplanDto) {
+		try {
 //			TravelplanDto viewPlan = travelplanService.viewPlan(articleNo);
-//			travelplanDto.setArticleNo(viewPlan.getArticleNo());
-//			List<LocalDto> localDto = travelplanDto.getLocalDto();
+			List<LocalDto> localDto = travelplanDto.getLocalDto();
 //			for (int i = 0; i < localDto.size(); i++) {
 //				travelplanDto.setLocalDto(localDto);
 //			}
-//			System.out.println(travelplanDto.toString());
-//			travelplanService.updatePlan(travelplanDto);
-//			travelplanService.updateLocal(travelplanDto.getLocalDto());
-//			List<TravelplanDto> listPlan = travelplanService.listPlan();
-//			return new ResponseEntity<List<TravelplanDto>>(listPlan, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return exceptionHandling(e);
-//		}
-//	}
+			System.out.println(travelplanDto.toString());
+			travelplanService.updatePlan(travelplanDto);
+			travelplanService.updateLocal(travelplanDto.getLocalDto());
+			List<TravelplanDto> listPlan = travelplanService.listPlan();
+			return new ResponseEntity<List<TravelplanDto>>(listPlan, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 	@GetMapping("/findarticleno")
 	public ResponseEntity<?> findarticleno() {
 		try {

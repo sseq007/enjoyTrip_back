@@ -75,6 +75,41 @@ public class TravelplanServiceImpl implements TravelplanService {
 	@Override
 	public void updatePlan(TravelplanDto travelPlanDto) throws Exception {
 		// TODO Auto-generated method stub
+		if(travelPlanDto.getLocation().equals("1")) {
+			travelPlanDto.setLocation("서울");
+		}else if(travelPlanDto.getLocation().equals("2")) {
+			travelPlanDto.setLocation("인천");
+		}else if(travelPlanDto.getLocation().equals("3")) {
+			travelPlanDto.setLocation("대전");
+		}else if(travelPlanDto.getLocation().equals("4")) {
+			travelPlanDto.setLocation("대구");
+		}else if(travelPlanDto.getLocation().equals("5")) {
+			travelPlanDto.setLocation("광주");
+		}else if(travelPlanDto.getLocation().equals("6")) {
+			travelPlanDto.setLocation("부산");
+		}else if(travelPlanDto.getLocation().equals("7")) {
+			travelPlanDto.setLocation("울산");
+		}else if(travelPlanDto.getLocation().equals("8")) {
+			travelPlanDto.setLocation("세종특별자치시");
+		}else if(travelPlanDto.getLocation().equals("31")) {
+			travelPlanDto.setLocation("경기도");
+		}else if(travelPlanDto.getLocation().equals("32")) {
+			travelPlanDto.setLocation("강원도");
+		}else if(travelPlanDto.getLocation().equals("33")) {
+			travelPlanDto.setLocation("충청북도");
+		}else if(travelPlanDto.getLocation().equals("34")) {
+			travelPlanDto.setLocation("충청남도");
+		}else if(travelPlanDto.getLocation().equals("35")) {
+			travelPlanDto.setLocation("경상북도");
+		}else if(travelPlanDto.getLocation().equals("36")) {
+			travelPlanDto.setLocation("경상남도");
+		}else if(travelPlanDto.getLocation().equals("37")) {
+			travelPlanDto.setLocation("전라북도");
+		}else if(travelPlanDto.getLocation().equals("38")) {
+			travelPlanDto.setLocation("전라남도");
+		}else if(travelPlanDto.getLocation().equals("39")) {
+			travelPlanDto.setLocation("제주도");
+		}
 		travelplanMapper.updatePlan(travelPlanDto);
 	}
 
@@ -107,6 +142,8 @@ public class TravelplanServiceImpl implements TravelplanService {
 			map.put("content", localDto.get(i).getTel());
 			map.put("addr1", localDto.get(i).getAddr1());
 			map.put("firstimage", localDto.get(i).getFirstimage());
+			map.put("mapx", localDto.get(i).getMapx());
+			map.put("mapy", localDto.get(i).getMapy());
 			travelplanMapper.writeLocal(map);
 		}
 			
@@ -120,6 +157,7 @@ public class TravelplanServiceImpl implements TravelplanService {
 			System.out.println(localDto.get(i).toString());
 			travelplanMapper.updateLocal(localDto.get(i));
 		}
+		
 	}
 
 	@Override

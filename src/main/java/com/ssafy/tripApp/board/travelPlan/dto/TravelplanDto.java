@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class TravelplanDto {
-	private int planNo;
+	
 	private int articleNo;
 	private String userId;
 	private String location;
