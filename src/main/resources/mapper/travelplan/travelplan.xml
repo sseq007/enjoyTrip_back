@@ -5,12 +5,15 @@
 <mapper namespace="com.ssafy.tripApp.board.travelPlan.mapper.TravelPlanMapper">
 
 	<resultMap type="localDto" id="localDto">
+	<result column="planNo" property="planNo"/>
 		<result column="articleNo" property="articleNo"/>
 		<result column="title" property="title"/>
 		<result column="content" property="tel"/>
 		<result column="addr1" property="addr1"/>
 		<result column="localimageurl" property="firstimage"/>
-		<result column="order" property="order"/>
+		<result column="mapx" property="mapx"/>
+		<result column="mapy" property="mapy"/>
+		
 	</resultMap>
 	
 	<resultMap id="intResultMap" type="int">
@@ -18,7 +21,7 @@
 	</resultMap>
 	
 	<resultMap type="travelplanDto" id="travelplan">
-		<result column="planNo" property="planNo"/>
+		
 		<result column="articleNo" property="articleNo"/>
 		<result column="user_id" property="userId"/>
 		<result column="location" property="location"/>
@@ -36,17 +39,17 @@
 <!-- 	</select> -->
 	
 	<insert id="writePlan" parameterType="travelPlanDto">
-		insert into travelplan (user_id,location,start_date, end_date,register_time)
-		values (#{userId},#{location},#{startDate}, #{endDate}, now())
+		insert into travelplan (user_id,location,start_date, end_date,register_time,hit)
+		values (#{userId},#{location},#{startDate}, #{endDate}, now(),0)
 		<selectKey resultType="int" keyProperty="articleNo" order="AFTER">
 			select last_insert_id()
 		</selectKey>
 </insert>
 
 	<insert id="writeLocal" parameterType="map" >
-	    INSERT INTO travelplaninfo (articleNo,title, content, addr1, localimageurl)
+	    INSERT INTO travelplaninfo (articleNo,title, content, addr1, localimageurl,mapx,mapy)
     	VALUES 
-    (#{articleNo},#{title} ,#{content}, #{addr1}, #{firstimage})
+    (#{articleNo},#{title} ,#{content}, #{addr1}, #{firstimage},#{mapx},#{mapy})
     
 </insert>
 
@@ -90,18 +93,18 @@
 	
 	<update id="updatePlan"  parameterType="travelPlanDto">
 		update travelplan
-		set start_date = #{startDate}, end_date = #{endDate},subject = #{subject},star_count= #{starCount}
+		set location=#{location},start_date = #{startDate}, end_date = #{endDate}
 		where articleNo = #{articleNo}
 	</update>
 	
 	<update id="updateLocal"  parameterType="localDto">
 		update travelplaninfo
-   	 set content_id=#{contentId},title=#{title}, addr1= #{address}, first_image=#{image}
+   	 set title=#{title},content=#{tel}, addr1= #{addr1}, localimageurl=#{firstimage},mapx=#{mapx},mapy=#{mapy}
    	 where articleNo = #{articleNo}
-   	 and travelplan_id= #{travelplanId}
+   	 and planNo = #{planNo}
 		
 	</update>
-	
+
 	
 	<delete id="deletePlan" parameterType="int">
 		delete from travelplan

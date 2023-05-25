@@ -8,10 +8,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class LocalDto {
+	private int planNo;
 	private int articleNo;
 	private String title;
 	private String tel;
 	private String addr1;
 	private String firstimage;
+	private double mapx;
+	private double mapy;
 //	private int order;
 }
