@@ -16,7 +16,7 @@ public class ShareTravelDto {
 	String subject;
 	String content;
 	int hit;
-	Timestamp registerTime;
+	String registerTime;
 		
 	
 	

@@ -26,7 +26,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ssafy.tripApp.board.ResponseDto;
 import com.ssafy.tripApp.board.Sharetravel.dto.ShareTravelDto;
 import com.ssafy.tripApp.board.trippartner.dto.NoteDto;
+import com.ssafy.tripApp.board.trippartner.dto.UserDto;
 import com.ssafy.tripApp.board.trippartner.service.NoteService;
+import com.ssafy.tripApp.board.trippartner.service.TripPartnerService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +40,8 @@ public class NoteApiController {
 
 	@Autowired
 	private NoteService noteService;
-	
+	@Autowired
+	private TripPartnerService trippartnerService;
 	@GetMapping("/list/{userid}")
 	public ResponseEntity<?> listNotes(@RequestParam Map<String, String> map,@PathVariable String userid) throws Exception {
 		List<NoteDto> listNote = noteService.listNote(userid);
@@ -84,6 +87,20 @@ public class NoteApiController {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<NoteDto>(noteDto, HttpStatus.OK);
+	}
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<?> viewUser(@PathVariable String userId) {
+		try {
+			UserDto viewUser = trippartnerService.viewUser(userId);
+			System.out.println(viewUser.toString());
+		
+			return new ResponseEntity<UserDto>(viewUser, HttpStatus.OK);
+		} 
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return exceptionHandling(e);
+		}
 	}
 	@GetMapping("/countisread/{userId}")
 	public ResponseEntity<?> countisRead(@PathVariable String userId,Model model) {
